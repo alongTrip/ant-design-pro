@@ -86,10 +86,10 @@
     <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;">
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
-            <h2 style="float:left;padding-left:25px;font-size:18px;">账户价值量分析</h2>
+            <h2 style="float:left;padding-left:25px;font-size:18px;">市场份额</h2>
             <a-range-picker @change="onChange" style="float:right;padding-top:10px;margin-right:25px;"/>
          </div>
-         <div id="market" style="height:100%;width:100%;"></div>
+         <div id="market" style="height:400px;width:1124px;"></div>
          
       </div>
     </a-card>
@@ -98,7 +98,6 @@
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
             <h2 style="float:left;padding-left:25px;font-size:18px;">账户价值量分析</h2>
-           <!--  <a-range-picker @change="onChange" style="float:right;padding-top:20px;"/> -->
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
@@ -107,29 +106,14 @@
           </div>
           <a-tab-pane loading="true" tab="交易量" key="1">
             <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <div>
-                  <v-chart :forceFit="true" :height="height2" :data="data2">
-                    <v-tooltip />
-                    <v-axis />
-                    <v-legend />
-                    <v-bar position="月份*月均降雨量" color="name" :adjust="adjust" />
-                  </v-chart>
-                </div>
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <ranking-list title="总收入排名" :list="rankList"/>
-              </a-col>
+             <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
+                <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+             <!--  </a-col> -->
             </a-row>
           </a-tab-pane>
           <a-tab-pane tab="净佣金收入" key="2">
             <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar title="总收入变化" />
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <ranking-list title="总收入排名" :list="rankList"/>
-              </a-col>
+              
             </a-row>
           </a-tab-pane>
         </a-tabs>
@@ -141,7 +125,6 @@
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
             <h2 style="float:left;padding-left:25px;font-size:18px;">新业务经营情况</h2>
-           <!--  <a-range-picker @change="onChange" style="float:right;padding-top:20px;"/> -->
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
@@ -149,31 +132,15 @@
                <a-range-picker @change="onChange" />
           </div>
           <a-tab-pane loading="true" tab="交易量" key="1">
-            
             <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <div>
-                  <v-chart :forceFit="true" :height="height2" :data="data2">
-                    <v-tooltip />
-                    <v-axis />
-                    <v-legend />
-                    <v-bar position="月份*月均降雨量" color="name" :adjust="adjust" />
-                  </v-chart>
-                </div>
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <ranking-list title="总收入排名" :list="rankList"/>
-              </a-col>
+             <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
+               <div id="business" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+              <!-- </a-col> -->
             </a-row>
           </a-tab-pane>
           <a-tab-pane tab="净佣金" key="2">
             <a-row>
-              <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar title="总收入变化" />
-              </a-col>
-              <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <ranking-list title="总收入排名" :list="rankList"/>
-              </a-col>
+              
             </a-row>
           </a-tab-pane>
         </a-tabs>
@@ -184,162 +151,409 @@
 </template>
 
 <script>
-import ACol from "ant-design-vue/es/grid/Col";
-import ARow from "ant-design-vue/es/grid/Row";
 import ACard from "ant-design-vue/es/card/Card";
 import ChartCard from "./ChartCard";
-import ATooltip from "ant-design-vue/es/tooltip/Tooltip";
-import AIcon from "ant-design-vue/es/icon/icon";
 import MiniArea from "../chart/MiniArea";
 import MiniBar from "../chart/MiniBar";
-import MiniProgress from "../chart/MiniProgress";
-import ATabs from "ant-design-vue/es/tabs";
-import ADatePicker from "ant-design-vue/es/date-picker";
-import Bar from "../chart/Bar";
-import RankingList from "../chart/RankingList";
-import HotSearch from "../analysis/HotSearch";
-import SalesData from "../analysis/SalesData";
 import Trend from "../chart/Trend";
-const rankList = [];
-for (let i = 0; i < 8; i++) {
-  rankList.push({
-    name: "桃源村" + i + "号店",
-    total: 1234.56 - i * 100
-  });
-}
-const ATabPane = ATabs.TabPane;
-const ARangePicker = ADatePicker.RangePicker;
-
-// 结构三
-const DataSet2 = require("@antv/data-set");
-const sourceData2 = [
-  { name: "第一梯队", "2015": 310, "2016": 180, "2017": 200 },
-  { name: "第二梯队", "2015": 100, "2016": 80, "2017": 90 },
-  { name: "第三梯队", "2015": 80, "2016": 30, "2017": 20 },
-  { name: "长城证券", "2015": 20, "2016": 30, "2017": 20 }
-];
-
-const dv2 = new DataSet2.View().source(sourceData2);
-dv2.transform({
-  type: "fold",
-  fields: ["2015", "2016", "2017"],
-  key: "月份",
-  value: "月均降雨量"
-});
-const data2 = dv2.rows;
-
-// 结构四
-const DataSet = require("@antv/data-set");
-
-const sourceData = [
-  { item: "经纪", count: 12.65 },
-  { item: "自营", count: 0 },
-  { item: "资营", count: 7.58 },
-  { item: "投行", count: 16.95 },
-  { item: "投", count: 0 },
-  { item: "其它", count: 62.8 }
-];
-
-const scale = [
-  {
-    dataKey: "percent",
-    min: 0,
-    formatter: ".0%"
-  }
-];
-
-const dv = new DataSet.View().source(sourceData);
-dv.transform({
-  type: "percent",
-  field: "count",
-  dimension: "item",
-  as: "percent"
-});
-const data = dv.rows;
-
+import echarts from "echarts";
+// import {} from './dashServer.js'
 export default {
   name: "dashboard",
   data() {
     return {
-      rankList,
-      // 结构三
-      data2,
-      height2: 350,
-      adjust: [
-        {
-          type: "dodge",
-          marginRatio: 3 / 32
-        }
-      ],
-      // 结构四
-      data,
-      scale,
-      height: 250,
-      pieStyle: {
-        stroke: "#fff",
-        lineWidth: 1
-      },
-      labelConfig: [
-        "percent",
-        {
-          formatter: (val, item) => {
-            return item.point.item + ": " + val;
-          }
-        }
-      ]
+        data:[],
+
     };
   },
   components: {
     Trend,
-    SalesData,
-    HotSearch,
-    RankingList,
-    Bar,
-    ARangePicker,
-    ATabPane,
-    ATabs,
-    MiniProgress,
     MiniBar,
     MiniArea,
-    AIcon,
-    ATooltip,
     ChartCard,
-    ACard,
-    ARow,
-    ACol
+    ACard
   },
-  mounted(){
-    var mChart = this.$chart.init(document.getElementById('market'))
-     option = {
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-            type: 'line'
-        }]
-    };
-
+  mounted() {
+    this.initChart();
+    this.initBusinessChart();
+    this.initMarketChart();
   },
   methods: {
     onChange(date, dateString) {
       console.log(date, dateString);
     },
+    // 市场份额
+    initMarketChart() {
+      this.myChart = echarts.init(document.getElementById("market"));
+      var aa = [
+        "2015-01-01",
+        "2015-01-02",
+        "2015-01-03",
+        "2015-01-04",
+        "2015-01-05",
+        "2015-01-06",
+        "2015-01-07",
+        "2015-01-08",
+        "2015-01-09"
+      ];
+      var bb = [
+        0.05,
+        0.05,
+        0.06,
+        0.03,
+        0.01,
+        0.04,
+        0.07,
+        0.1,
+        0.03,
+        0.05,
+        0.09,
+        0.07
+      ];
+      var option = {
+        tooltip: {
+          trigger: "axis"
+        },
+        xAxis: {
+          data: aa
+        },
+        yAxis: {
+          splitLine: {
+            show: false
+          },
+          max: function(value) {
+            return (value.max = 0.12);
+          }
+        },
+        grid: {
+          top: "8%",
+          left: "4%",
+          right: "10%",
+          bottom: "10%",
+          containLabel: true
+        },
+        dataZoom: [
+          {
+            startValue: "2015-01-01"
+          },
+          {
+            type: "inside"
+          }
+        ],
+        visualMap: {
+          top: 10,
+          right: 10,
+          pieces: [
+            {
+              gt: 0,
+              lte: 0.02,
+              color: "#096"
+            },
+            {
+              gt: 0.02,
+              lte: 0.04,
+              color: "#ffde33"
+            },
+            {
+              gt: 0.02,
+              lte: 0.06,
+              color: "#ff9933"
+            },
+            {
+              gt: 0.06,
+              lte: 0.08,
+              color: "#cc0033"
+            },
+            {
+              gt: 0.08,
+              lte: 0.1,
+              color: "#660099"
+            },
+            {
+              gt: 0.1,
+              color: "#7e0023"
+            }
+          ],
+          outOfRange: {
+            color: "#999"
+          }
+        },
+        series: {
+          name: "score",
+          type: "line",
+          data: bb,
+          markLine: {
+            silent: true,
+            data: [
+              {
+                yAxis: 0.02
+              },
+              {
+                yAxis: 0.04
+              },
+              {
+                yAxis: 0.06
+              },
+              {
+                yAxis: 0.08
+              },
+              {
+                yAxis: 0.1
+              }
+            ]
+          }
+        }
+      };
+      this.myChart.setOption(option);
+    },
+    initChart() {
+      this.chart = echarts.init(document.getElementById("accoun"));
+      var option = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985"
+            }
+          }
+        },
+        legend: {
+          data: ["信用账户", "普通账户"],
+          left: "center",
+          top: "bottom"
+        },
+        grid: {
+          top: "8%",
+          left: "3%",
+          right: "4%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            data: [
+              "2017年10月",
+              "",
+              "2017年12月",
+              "",
+              "2018年2月",
+              "",
+              "2018年4月",
+              "",
+              "2018年6月",
+              "",
+              "2018年8月"
+            ]
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            max: "120000"
+          }
+        ],
+        series: [
+          {
+            name: "信用账户",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [
+              38000,
+              39000,
+              40000,
+              20000,
+              39000,
+              36000,
+              38000,
+              9000,
+              12000,
+              11000,
+              30000
+            ],
+            itemStyle: {
+              normal: {
+                color: "#1B91FF",
+                lineStyle: {
+                  color: "#1B91FF"
+                }
+              }
+            }
+          },
+          {
+            name: "普通账户",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [
+              50000,
+              20000,
+              50000,
+              18000,
+              50000,
+              30000,
+              21000,
+              20000,
+              50000,
+              10000,
+              40000
+            ],
+            itemStyle: {
+              normal: {
+                color: "#2DBE67",
+                lineStyle: {
+                  color: "#2DBE67"
+                }
+              }
+            }
+          }
+        ]
+      };
+      this.chart.setOption(option);
+    },
+    initBusinessChart() {
+      var businessChart = echarts.init(document.getElementById("business"));
+      var option = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985"
+            }
+          }
+        },
+        legend: {
+          data: ["新三板", "港股通", "个股期权"],
+          left: "center",
+          top: "bottom",
+          padding: [0, 100, 0, 0]
+        },
+        grid: {
+          top: "8%",
+          left: "3%",
+          right: "4%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            data: [
+              "2017年10月",
+              "",
+              "2017年12月",
+              "",
+              "2018年2月",
+              "",
+              "2018年4月",
+              "",
+              "2018年6月",
+              "",
+              "2018年8月"
+            ]
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            max: "120000"
+          }
+        ],
+        series: [
+          {
+            name: "新三板",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [
+              38000,
+              39000,
+              40000,
+              20000,
+              39000,
+              36000,
+              38000,
+              9000,
+              12000,
+              11000,
+              30000
+            ],
+            itemStyle: {
+              normal: {
+                color: "#1B91FF",
+                lineStyle: {
+                  color: "#1B91FF"
+                }
+              }
+            }
+          },
+          {
+            name: "港股通",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [
+              50000,
+              20000,
+              50000,
+              18000,
+              50000,
+              30000,
+              21000,
+              20000,
+              50000,
+              10000,
+              40000
+            ],
+            itemStyle: {
+              normal: {
+                color: "#2DBE67",
+                lineStyle: {
+                  color: "#2DBE67"
+                }
+              }
+            }
+          },
+          {
+            name: "个股期权",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data: [
+              20000,
+              20000,
+              30000,
+              18000,
+              30000,
+              30000,
+              21000,
+              20000,
+              50000,
+              10000,
+              40000
+            ],
+            itemStyle: {
+              normal: {
+                color: "#FBDD60",
+                lineStyle: {
+                  color: "#FBDD60"
+                }
+              }
+            }
+          }
+        ]
+      };
+      businessChart.setOption(option);
+    }
   }
 };
 </script>
 <style lang="less" scoped>
-.extra-item {
-  display: inline-block;
-  margin-right: 24px;
-  a {
-    margin-left: 24px;
-  }
-}
 .footer {
   margin-top: 20px;
 }

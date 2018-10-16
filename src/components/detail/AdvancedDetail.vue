@@ -7,8 +7,9 @@
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
-                  <div class="extra-wrap" slot="tabBarExtraContent" style="padding-left:20px;font-size:13px;font-weight:600;">
-                     选择日期：<a-range-picker  @change="onChange"/>
+                 <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
+                     <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
+                     <a-range-picker style="margin-left:50px;" @change="onChange" />
                   </div>
                   <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 120px 0 120px;">
                       <a-table-column
@@ -49,7 +50,7 @@
           <a-tab-pane loading="true" tab="佣金收入" key="2">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
-                <div>
+               <!--  <div>
                   <div class="extra-wrap" slot="tabBarExtraContent" style="padding-left:20px;font-size:13px;font-weight:600;">
                      选择日期：<a-range-picker />
                   </div>
@@ -110,7 +111,7 @@
                       />
                     </a-table-column-group>
                   </a-table>
-                </div>
+                </div> -->
               </a-col>
             </a-row>
           </a-tab-pane>
@@ -119,25 +120,15 @@
     </a-card>
     </page-layout>
 </template>
-
 <script>
-import ACard from 'ant-design-vue/es/card/Card'
-import ATooltip from 'ant-design-vue/es/tooltip/Tooltip'
-import AAvatar from 'ant-design-vue/es/avatar/Avatar'
-import DetailList from '../tool/DetailList'
-import ADivider from 'ant-design-vue/es/divider/index'
-import ATable from 'ant-design-vue/es/table'
 import PageLayout from '../layout/PageLayout'
-
-// 引入组件
 import ACol from 'ant-design-vue/es/grid/Col'
 import ARow from 'ant-design-vue/es/grid/Row'
 import AIcon from 'ant-design-vue/es/icon/icon'
 import ATabs from 'ant-design-vue/es/tabs'
 import ADatePicker from 'ant-design-vue/es/date-picker'
-
-const ATabPane = ATabs.TabPane
-const DetailListItem = DetailList.Item
+import moment from 'moment'
+// import {gtraditionalData} from './server.js'
 const data = [{
   key: '1',
   currentSort: '2017-8-1',
@@ -177,34 +168,52 @@ const data = [{
 }];
 export default {
   name: 'BasicDetail',
-  components: {PageLayout, ATable, ADivider, DetailListItem, DetailList, AAvatar, ATooltip, ACard},
+  components: {PageLayout},
   data () {
     return {
+      //初始化定义
+      datas: [],
+      pagination: {},
+      loading: false,
+      timer:[],
+
       data,
-      filteredInfo: null,
-      sortedInfo: null,
+      // filteredInfo: null,
+      // sortedInfo: null,
       pagination: {
-        // current: 1,
-        // pageSize: 2,
         total: 12,
         defaultCurrent: 1,
         defaultPageSize: 5,
-        // hideOnSinglePage:false,
         pageSizeOptions: ['2','3','4'],
         showSizeChanger: true,
-        showQuickJumper: true,
+        showQuickJumper: false,
       },
     }
   },
   methods: {
     handleChange (pagination, filters, sorter) {
-      console.log('Various parameters', pagination, filters, sorter);
-      this.filteredInfo = filters;
-      this.sortedInfo = sorter;
+      // console.log('Various parameters', pagination, filters, sorter);
+      // console.log(pagination);
+      const pager = { ...this.pagination };
+      pager.current = pagination.current;
+      this.pagination = pager;
+      var fetch = {
+        results: pagination.pageSize,
+        page: pagination.current,
+      };
+      this.pagination = fetch
+      console.log(this.pagination)
     },
-    onChange(date, dateString) {
-      console.log(date, dateString);
-    }
+    onChange(data,dateString) {
+      console.log(data,dateString);
+      console.log(moment().dateString)
+    },
+    //数据   
+  },
+  mounted(){
+    //  gtraditionalData('haha').then(result=>{
+         
+    //  })
   }
 }
 </script>

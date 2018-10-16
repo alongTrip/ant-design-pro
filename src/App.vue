@@ -84,15 +84,20 @@ export default {
    color:rgba(65, 167, 73, 0.65)
  }
  .ant-input{
-  width:72%;
+  width:90%;
   height:29px;
   float:right;
   margin-top:12px;
+  padding-top:5px;
 }
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td{
   padding:13px 16px;
 }
 .title{
   font-size:17px !important;
+}
+.ant-calendar-picker{
+  padding-right:48px;
+  width:300px;
 }
 </style>

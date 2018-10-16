@@ -7,8 +7,9 @@
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
-                  <div class="extra-wrap" slot="tabBarExtraContent" style="padding-left:20px;font-size:13px;font-weight:600;">
-                     选择日期：<a-range-picker />
+                  <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
+                     <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
+                     <a-range-picker style="margin-left:50px;"/>
                   </div>
                   <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;">
                     <a-table-column-group>
