@@ -11,7 +11,7 @@
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
                      <a-range-picker style="margin-left:50px;" @change="onChange" />
                   </div>
-                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 120px 0 120px;">
+                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 120px 0 120px;" :loading='loading'>
                       <a-table-column
                         title="日期"
                         dataIndex="currentSort"
@@ -50,7 +50,7 @@
           <a-tab-pane loading="true" tab="佣金收入" key="2">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
-               <!--  <div>
+                <div>
                   <div class="extra-wrap" slot="tabBarExtraContent" style="padding-left:20px;font-size:13px;font-weight:600;">
                      选择日期：<a-range-picker />
                   </div>
@@ -63,7 +63,6 @@
                         key="currentSort"
                         :sorter="(a, b) => a.currentSort - b.currentSort"
                       />
-                    </a-table-column-group>
                     </a-table-column-group>
                     <a-table-column-group>
                       <span slot="title">个股期权</span>
@@ -111,7 +110,7 @@
                       />
                     </a-table-column-group>
                   </a-table>
-                </div> -->
+                </div>
               </a-col>
             </a-row>
           </a-tab-pane>
@@ -122,13 +121,8 @@
 </template>
 <script>
 import PageLayout from '../layout/PageLayout'
-import ACol from 'ant-design-vue/es/grid/Col'
-import ARow from 'ant-design-vue/es/grid/Row'
-import AIcon from 'ant-design-vue/es/icon/icon'
-import ATabs from 'ant-design-vue/es/tabs'
-import ADatePicker from 'ant-design-vue/es/date-picker'
 import moment from 'moment'
-// import {gtraditionalData} from './server.js'
+import {traditionalDetailData} from '@/servers/businessDetails.js'
 const data = [{
   key: '1',
   currentSort: '2017-8-1',
@@ -172,14 +166,18 @@ export default {
   data () {
     return {
       //初始化定义
-      datas: [],
-      pagination: {},
-      loading: false,
-      timer:[],
-
+      traditionalParams:{},
+      pagination:{},
+      // pagination: {
+      //   defaultCurrent: 1,
+      //   defaultPageSize: 5,
+      // },
+      loading:false,
+      // startTime:'',
+      // endTime:'',
       data,
-      // filteredInfo: null,
-      // sortedInfo: null,
+      filteredInfo: null,
+      sortedInfo: null,
       pagination: {
         total: 12,
         defaultCurrent: 1,
@@ -192,8 +190,6 @@ export default {
   },
   methods: {
     handleChange (pagination, filters, sorter) {
-      // console.log('Various parameters', pagination, filters, sorter);
-      // console.log(pagination);
       const pager = { ...this.pagination };
       pager.current = pagination.current;
       this.pagination = pager;
@@ -205,16 +201,24 @@ export default {
       console.log(this.pagination)
     },
     onChange(data,dateString) {
-      console.log(data,dateString);
-      console.log(moment().dateString)
+      this.startTime = dateString[0]
+      this.endTime = dateString[1]
+      console.log(this.startTime)
+      console.log(this.endTime)
     },
     //数据   
   },
   mounted(){
-    //  gtraditionalData('haha').then(result=>{
-         
-    //  })
-  }
+      console.log(1)
+      traditionalDetailData({
+         start:this.startTime,
+         end:this.endTime,
+         results: this.pagination.pageSize,
+         page: this.pagination.current,
+      }).then(result=>{
+		        console.log(result)
+		   })
+    }
 }
 </script>
 <style lang="less" scoped>

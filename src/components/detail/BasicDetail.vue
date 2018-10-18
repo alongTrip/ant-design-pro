@@ -11,7 +11,7 @@
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
                      <a-range-picker style="margin-left:50px;"/>
                   </div>
-                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;">
+                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;" >
                     <a-table-column-group>
                       <span slot="title" ></span>
                       <a-table-column
@@ -20,7 +20,6 @@
                         key="currentSort"
                         :sorter="(a, b) => a.currentSort - b.currentSort"
                       />
-                    </a-table-column-group>
                     </a-table-column-group>
                     <a-table-column-group>
                       <span slot="title">个股期权</span>
@@ -79,23 +78,10 @@
 </template>
 
 <script>
-import ACard from 'ant-design-vue/es/card/Card'
-import ATooltip from 'ant-design-vue/es/tooltip/Tooltip'
-import AAvatar from 'ant-design-vue/es/avatar/Avatar'
-import DetailList from '../tool/DetailList'
-import ADivider from 'ant-design-vue/es/divider/index'
-import ATable from 'ant-design-vue/es/table'
 import PageLayout from '../layout/PageLayout'
-
-// 引入组件
-import ACol from 'ant-design-vue/es/grid/Col'
-import ARow from 'ant-design-vue/es/grid/Row'
 import AIcon from 'ant-design-vue/es/icon/icon'
 import ATabs from 'ant-design-vue/es/tabs'
-import ADatePicker from 'ant-design-vue/es/date-picker'
-
-const ATabPane = ATabs.TabPane
-const DetailListItem = DetailList.Item
+import {newBusinessDetailData} from '@/servers/businessDetails.js'
 const data = [{
   key: '1',
   currentSort: '2017-8-1',
@@ -135,7 +121,7 @@ const data = [{
 }];
 export default {
   name: 'BasicDetail',
-  components: {PageLayout, ATable, ADivider, DetailListItem, DetailList, AAvatar, ATooltip, ACard},
+  components: {PageLayout},
   data () {
     return {
       data,
@@ -160,8 +146,13 @@ export default {
       this.filteredInfo = filters;
       this.sortedInfo = sorter;
     },
-  }
-}
+  },
+  mounted(){
+    newBusinessDetailData().then(result=>{
+		       
+		   })
+    }
+ }
 </script>
 <style lang="less" scoped>
   .title {

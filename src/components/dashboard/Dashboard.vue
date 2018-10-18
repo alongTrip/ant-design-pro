@@ -2,18 +2,20 @@
   <div>
     <a-row style="margin: 0 -12px">
     <!-- 结构一 -->
+
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日股基交易量" total="126,560">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="较上日变化" :percent="19" :is-increase="true" :scale="0" />
+            <trend style="margin-right: 16px" term="较上日变化" :percent="19" :is-increase="false" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
           <div slot="footer">年同比<span> ￥12,423</span></div>
         </chart-card>
       </a-col>
+
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日信用账户交易量" total="87,587">
           <a-tooltip title="指标说明" slot="action">
@@ -127,24 +129,24 @@
             <h2 style="float:left;padding-left:25px;font-size:18px;">新业务经营情况</h2>
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
-         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
-          <div class="extra-wrap" slot="tabBarExtraContent">
-               <a-range-picker @change="onChange" />
+            <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
+              <div class="extra-wrap" slot="tabBarExtraContent">
+                  <a-range-picker @change="onChange" />
+              </div>
+              <a-tab-pane loading="true" tab="交易量" key="1">
+                <a-row>
+                <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
+                  <div id="business" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+                  <!-- </a-col> -->
+                </a-row>
+              </a-tab-pane>
+              <a-tab-pane tab="净佣金" key="2">
+                <a-row>
+                  
+                </a-row>
+              </a-tab-pane>
+            </a-tabs>
           </div>
-          <a-tab-pane loading="true" tab="交易量" key="1">
-            <a-row>
-             <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
-               <div id="business" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
-              <!-- </a-col> -->
-            </a-row>
-          </a-tab-pane>
-          <a-tab-pane tab="净佣金" key="2">
-            <a-row>
-              
-            </a-row>
-          </a-tab-pane>
-        </a-tabs>
-        </div>
       </div>
     </a-card>
   </div>
@@ -157,13 +159,13 @@ import MiniArea from "../chart/MiniArea";
 import MiniBar from "../chart/MiniBar";
 import Trend from "../chart/Trend";
 import echarts from "echarts";
-// import {} from './dashServer.js'
+import {chartCardData,marketSharesData,accountValueData,businessOperationData} from '@/servers/channelBusiness.js'
+
 export default {
   name: "dashboard",
   data() {
     return {
-        data:[],
-
+        
     };
   },
   components: {
@@ -173,10 +175,22 @@ export default {
     ChartCard,
     ACard
   },
-  mounted() {
+  mounted(){
     this.initChart();
     this.initBusinessChart();
     this.initMarketChart();
+    chartCardData().then(result=>{
+		      console.log(result)
+      });
+    marketSharesData().then(result=>{
+          console.log(result)
+     });
+    accountValueData().then(result=>{
+          console.log(result)
+     });
+    businessOperationData().then(result=>{
+		      console.log(result)
+		 })
   },
   methods: {
     onChange(date, dateString) {

@@ -1,229 +1,155 @@
 <template>
   <page-layout :avatar="currUser.avatar">
     <div>
-      <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:30px;">
-      <div class="salesCard">
-        <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
-          <div class="extra-wrap" slot="tabBarExtraContent">
-              <a-date-picker  placeholder="请选择日期" />
+      <a-row style="margin: 0 -12px">
+    <!-- 结构一 -->
+        <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
+          <chart-card title="当前总客户数" total="417,130">
+            <a-tooltip title="指标说明" slot="action">
+              <a-icon type="info-circle-o" />
+            </a-tooltip>
+            <div>
+              <trend style="margin-right: 16px" term="较上日变化" :percent="19" :is-increase="false" :scale="0" />
+              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            </div>
+            <div slot="footer">年同比<span> ￥12,423</span></div>
+          </chart-card>
+        </a-col>
+        <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
+          <chart-card title="当前总有效户数" total="87,587">
+            <a-tooltip title="指标说明" slot="action">
+              <a-icon type="info-circle-o" />
+            </a-tooltip>
+            <div>
+              <trend style="margin-right: 16px" term="较上日变化" :percent="3.45" :is-increase="true" :scale="0" />
+              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            </div>
+            <div slot="footer">年同比<span> ￥12,423</span></div>
+          </chart-card>
+        </a-col>
+        <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
+          <chart-card title="当年有效户增加数" total="1,123">
+            <a-tooltip title="指标说明" slot="action">
+              <a-icon type="info-circle-o" />
+            </a-tooltip>
+            <div>
+              <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
+              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            </div>
+            <div slot="footer">年同比<span> ￥12,423</span></div>
+          </chart-card>
+        </a-col>
+        <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
+          <chart-card title="当年有效户流失数" total="715">
+            <a-tooltip title="指标说明" slot="action">
+              <a-icon type="info-circle-o" />
+            </a-tooltip>
+            <div>
+              <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
+              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            </div>
+            <div slot="footer">年同比<span> ￥12,423</span></div>
+          </chart-card>
+        </a-col>
+    <!-- 结构二 -->
+        <a-col :sm="24" :md="12"  style="padding: 12px 12px 24px;width:50%;position:relative;">
+          <chart-card title="当年客户资产总额(亿元)" total="83,128">
+            <a-tooltip title="指标说明" slot="action">
+              <a-icon type="info-circle-o" />
+            </a-tooltip>
+            <div>
+              <trend style="margin-right: 16px" term="年同比" :percent="2" :is-increase="true" :scale="0" />
+              <trend term="日环比" :target="100" :value="89" :scale="0" />
+            </div>
+            <div slot="footer">日均销售额<span>￥234.56</span></div>
+          </chart-card>
+          <div>
+              <mini-bar style="position: absolute;left:53%;top:138px;width:40%;"/>
+            </div>
+        </a-col>
+        <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;width:50%;position:relative;">
+          <chart-card title="有效户率" total="16.89%">
+            <a-tooltip title="指标说明" slot="action">
+              <a-icon type="info-circle-o" />
+            </a-tooltip>
+            <div>
+              <trend style="margin-right: 16px" term="年同比" :percent="2" :is-increase="true" :scale="0" />
+              <trend term="日环比" :target="100" :value="89" :scale="0" />
+            </div>
+            <div slot="footer">日均销售额<span> ￥234.56</span></div>
+          </chart-card>
+          <div>
+              <mini-area style="position: absolute;left:53%;top:138px;width:40%;"/>
           </div>
-          <a-tab-pane loading="true" tab="收入结构占比" key="1">
-              <a-row style="margin: 0 -12px">
-                <!-- <a-col style="padding: 0 12px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24" >
-                  <a-card title="" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
-                    <div style="min-height: 400px;">
-                      <radar />
-                    </div>
-                  </a-card>
-                </a-col> -->
-                <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24" style="margin-left: 292px;width: 531px;">
-                    <a-table :dataSource="data" :columns="columns" :pagination="pagination">
-                    <div slot="filterDropdown" slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters }" class='custom-filter-dropdown'>
-                    <a-input
-                      ref="searchInput"
-                      placeholder='Search name'
-                      :value="selectedKeys[0]"
-                      @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                      @pressEnter="() => handleSearch(selectedKeys, confirm)"
-                    />
-                    </div>
-                    <a-icon slot="filterIcon" slot-scope="filtered" type='smile-o' :style="{ color: filtered ? '#108ee9' : '#aaa' }" />
-                    <template slot="customRender" slot-scope="text">
-                      <span v-if="searchText">
-                        <template v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))">
-                          <span v-if="fragment.toLowerCase() === searchText.toLowerCase()" :key="i" class="highlight">{{fragment}}</span>
-                          <template v-else>{{fragment}}</template>
-                        </template>
-                      </span>
-                      <template v-else>{{text}}</template>
-                    </template>
-                  </a-table>
-                </a-col>
-              </a-row>
-          </a-tab-pane>
-        </a-tabs>
+        </a-col>       
+      </a-row>
+     <!-- 结构三 -->
+    <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;">
+      <div class="salesCard" style="height:320px;">
+         <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;line-height:60px;">
+            <h2 style="float:left;padding-left:25px;font-size:18px;">新增和流失客户分析</h2>
+            <!-- <a-date-picker /> -->
+         </div>
+         <div id="market" style="display:flex">
+             <div id="first" style="width:535px;height:230px;"></div>
+             <div id="main" style="width:535px;height:230px;"></div>
+         </div>
+         
       </div>
     </a-card>
-     <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:30px;">
-      <div class="salesCard">
-        <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
+    <!-- 结构四 -->
+    <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:20px;">
+      <div class="salesCard" style="height:500px;">
+         <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
+            <h2 style="float:left;padding-left:25px;font-size:18px;">新增客户情况</h2>
+         </div>
+         <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
+         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
           <div class="extra-wrap" slot="tabBarExtraContent">
-              <a-date-picker  placeholder="请选择日期" />
+               <a-range-picker />
           </div>
-          <a-tab-pane loading="true" tab="收入结构占比" key="1">
-              <a-row style="margin: 0 -12px">
-                 <div>
-                   <a-col style="padding: 0 12px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
-                     <div style="width:700px;">
-                        <v-chart :force-fit="true" :height="height" :data="data2" :scale="scale">
-                          <v-tooltip />
-                            <v-axis />    
-                          <v-legend custom="true" :items="items"/>
-                          <v-line position="month*temperature" color="city" />
-                          <v-point position="month*temperature" color="city" :size="4" :v-style="style" :shape="'circle'" />
-                        </v-chart>
-                     </div>
-                   </a-col>
-                </div>
-              </a-row>
+          <a-tab-pane loading="true" tab="客户数" key="1">
+            <a-row>
+             <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
+                <!-- <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div> -->
+                <div id="three" style="width:1100px;height:300px;float:left"></div>
+             <!--  </a-col> -->
+            </a-row>
+          </a-tab-pane>
+          <a-tab-pane tab="客户资产" key="2">
+            <a-row>
+              
+            </a-row>
           </a-tab-pane>
         </a-tabs>
+        </div>
       </div>
-    </a-card>
-  </div>
-</page-layout>
+     </a-card>
+    </div>
+  </page-layout>
 </template>
 
 <script>
-import PageHeader from '../page/PageHeader'
+import ACard from "ant-design-vue/es/card/Card";
+import ChartCard from "./ChartCard";
+import MiniArea from "../chart/MiniArea";
+import MiniBar from "../chart/MiniBar";
+import Trend from "../chart/Trend";
+import echarts from "echarts";
 import PageLayout from '../layout/PageLayout'
-import AAvatar from 'ant-design-vue/es/avatar/Avatar'
-import HeadInfo from '../tool/HeadInfo'
-import ARow from 'ant-design-vue/es/grid/Row'
-import ACol from 'ant-design-vue/es/grid/Col'
-import ACard from 'ant-design-vue/es/card/Card'
-import ACardGrid from 'ant-design-vue/es/card/Grid'
-import ACardMeta from 'ant-design-vue/es/card/Meta'
-import AList from 'ant-design-vue/es/list/index'
-import AListItem from 'ant-design-vue/es/list/Item'
-import AButton from 'ant-design-vue/es/button/button'
-import AIcon from 'ant-design-vue/es/icon/icon'
-import Radar from '../chart/Radar'
-
-const AListItemMeta = AListItem.Meta
-
-// tableList
-const data = [{
-  key: '1',
-  '排名': '1',
-  '搜索关键字': '新款连衣裙',
-  '用户数': '2,234',
-  '周涨幅':'128%',
-}, {
-  key: '2',
- '排名': '2',
-  '搜索关键字': '四件套',
-  '用户数': '2,234',
-  '周涨幅':'3%',
-}, {
-  key: '3',
-  '排名': '3',
-  '搜索关键字': '男士手表',
-  '用户数': '2,234',
-  '周涨幅':'58%',
-}, {
-  key: '4',
-  '排名': '4',
-  '搜索关键字': '耳机',
-  '用户数': '2,234',
-  '周涨幅':'58%',
-},{
-  key: '5',
-  '排名': '5',
-  '搜索关键字': '短裤',
-  '用户数': '2,234',
-  '周涨幅':'58%',
-}]
-
-
-// 结构二
-const DataSet = require('@antv/data-set');
-
-const sourceData = [
-  { month: '2015', '经纪': 25, '自营': 0, '资管': 5, '投行': 17, '其它': 55,},
-  { month: '2016', '经纪': 15, '自营': 0, '资管': 9, '投行': 30, '其它': 45, },
-  { month: '2017', '经纪': 12, '自营': 0, '资管': 9, '投行': 18, '其它': 65, },
-];
-
-const dv = new DataSet.View().source(sourceData);
-dv.transform({
-  type: 'fold',
-  fields: ['经纪', '自营','资管', '投行','其它',],
-  key: 'city',
-  value: 'temperature',
-});
-const data2 = dv.rows;
-
-const scale = [{
-  dataKey: 'month',
-  min: 0,
-  max: 1,
-}];
-
-var items=[{
-   value: '经纪',fill:"#ccc", marker:{fill: 'rgb(133, 67, 224)'}
-},{
-   value: '自营', marker:{fill: 'rgb(34, 50, 115)'}
-},{
-   value: '资管', marker:{fill: 'rgb(34, 149, 255)'}
-},{
-   value: '投行', marker:{fill: 'rgb(250, 204, 20)'}
-},{
-   value: '其它', marker:{fill: 'rgb(47, 194, 91)'}
-}]
-
 export default {
   name: 'WorkPlace',
   components: {
-    Radar,
-    AIcon,
-    AButton,
-    AListItemMeta,
-    AListItem,
-    AList,
-    ACardMeta,
-    ACardGrid,
-    ACard,
-    ACol,
-    ARow,
-    HeadInfo,
-    AAvatar,
     PageLayout,
-    PageHeader},
+    Trend,
+    MiniBar,
+    MiniArea,
+    ChartCard,
+    ACard
+    },
   data () {
     return {
-      projects: [],
-      loading: true,
-      activities: [],
-      teams: [],
-      // tableList
-      data,
-      searchText: '',
-      columns: [{
-        title: '排名',
-        dataIndex: '排名',
-        key: '排名',
-      }, {
-        title: '搜索关键字',
-        dataIndex: '搜索关键字',
-        key: '搜索关键字',
-      }, {
-        title: '用户数',
-        dataIndex: '用户数',
-        key: '用户数',
-      },{
-        title: '周涨幅',
-        dataIndex: '周涨幅',
-        key: '周涨幅',
-      }],
-      pagination: {
-        // current: 1,
-        // pageSize: 2,
-        total: 12,
-        defaultCurrent: 1,
-        defaultPageSize: 4,
-        // hideOnSinglePage:false,
-        pageSizeOptions: ['4', '5', '6'],
-        showSizeChanger: true,
-        showQuickJumper: true,
-      },
-      // 结构二
-     data2,
-     scale,
-     height: 300,
-     style: { stroke: '#fff', lineWidth: 1 },
-     items,
-
+    
     }
   },
   computed: {
@@ -232,147 +158,286 @@ export default {
     }
   },
   mounted () {
-    this.getProjectList()
-    this.getActivites()
-    this.getTeams()
+    this.aa();
+    this.bb();
+    this.cc()
   },
   methods: {
-    getProjectList () {
-      this.$axios({
-        method: 'get',
-        url: '/project'
-      }).then(res => {
-        this.projects = res.data
-        this.loading = false
-      })
+     aa(){
+       var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
     },
-    getActivites () {
-      this.$axios({
-        method: 'get',
-        url: '/work/activity'
-      }).then(res => {
-        this.activities = res.data
-      })
+    legend: {
+        data: ['当年隐性流失客户', '当年显性流失客户'],
+        x:'left',
+        y:'bottom',
+        itemWidth:12,
+        itemHeight:12
     },
-    getTeams () {
-      this.$axios({
-        method: 'get',
-        url: '/work/team'
-      }).then(res => {
-        this.teams = res.data
-      })
+    grid: {
+        left: '1%',
+        top:'10%',
+        right: '4%',
+        bottom: '12%',
+        containLabel: true
     },
-    // tableList
-     handleSearch (selectedKeys, confirm) {
-      confirm()
-      this.searchText = selectedKeys[0]
+    xAxis:  {
+        type: 'value',
+        min:0,
+        max:4000,
+        axisLine:{
+            lineStyle:{
+                color:'#D9D9D9',
+                width:0.5
+            }
+        },
+        axisLabel:{
+           color:'#333',
+        },
+        splitLine: {
+            show: true,
+            lineStyle:{
+                width:0.5,
+                type: 'dashed'
+            }
+        },
     },
+    yAxis: {
+        type: 'category',
+        data: ['2016年','2017年','2018年'],
+         axisLine:{
+            lineStyle:{
+                color:'#D9D9D9',
+                width:0.5
+            }
+        },
+        axisLabel:{
+           color:'#333',
+        },
+    },
+    series: [
+        {
+            name: '当年隐性流失客户',
+            type: 'bar',
+            stack: '总量',
+            itemStyle:{
+              normal:{
+                color:'#2FC25B',
+              },
+            },
+            barWidth: 25,
+            data: [1200, 1500, 1200]
+        },
+        {
+            name: '当年显性流失客户',
+            type: 'bar',
+            stack: '总量',
+            itemStyle:{
+              normal:{
+                color:'#C2EFCB',
+              },
+            },
+            barWidth: 25,
+            data: [2000, 1000, 1200]
+          }
+        ]
+      }; 
+      myChart.setOption(option);  
+     },
+     bb(){
+       var aChart = echarts.init(document.getElementById('first'));  
+        var option = {
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data: ['当年隐性流失客户', '当年显性流失客户'],
+                x:'right',
+                y:'bottom',
+                itemWidth:12,
+                itemHeight:12
+            },
+            grid: {
+                left: '3%',
+                top:'10%',
+                right: '0.8%',
+                bottom: '12%',
+                containLabel: true
+            },
+            xAxis:  {
+                type: 'value',
+                min:0,
+                max:4000,
+                inverse:true,
+                axisLine:{
+                    lineStyle:{
+                        color:'#D9D9D9',
+                        width:0.5
+                    }
+                },
+                axisLabel:{
+                  color:'#333',
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle:{
+                        width:0.5,
+                        type: 'dashed'
+                    }
+                },
+            },
+            yAxis: {
+                type: 'category',
+                data: ['2016年','2016年','2016年'],
+                axisLine:{
+                    lineStyle:{
+                        color:'#D9D9D9',
+                        width:0.5
+                    }
+                },
+                axisLabel:{
+                  color:'#333',
+                },
+                position:'right',
+                axisLabel : {
+                        show:false
+                    },
+            },
+            series: [
+                {
+                    name: '当年隐性流失客户',
+                    type: 'bar',
+                    stack: '总量',
+                    itemStyle:{
+                      normal:{
+                        color:'#3BA1FF',
+                      },
+                    },
+                    barWidth: 25,
+                    data: [2000, 3300, 2500]
+                }
+            ]
+        }; 
+        aChart.setOption(option);
+        },
+        cc(){
+          var cyChart = echarts.init(document.getElementById('three'));
+var option = {
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            crossStyle: {
+                color: '#999'
+            }
+        }
+    },
+    legend: {
+        data:['新增有效户','新增总客户数'],
+        x:'center',
+        y:'bottom',
+        itemWidth:12,
+        itemHeight:12
+    },
+     grid: {
+        left: '1%',
+        top:'5%',
+        right: '0.8%',
+        bottom: '12%',
+        containLabel: true
+    },
+    xAxis: [
+        {
+            type: 'category',
+            data: ['2017年10月','2017年11月','2017年12月','2018年1月','2018年2月','2018年3月','2018年4月','2018年5月','2018年6月','2018年7月','2018年8月'],
+            axisPointer: {
+                type: 'shadow'
+            },
+            axisLine:{
+            lineStyle:{
+                color:'#D9D9D9',
+                width:0.5
+            }
+            },
+            axisLabel:{
+               color:'#333',
+            },
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            max: 150,
+            interval: 50,
+            splitLine: {
+            show: true,
+            lineStyle:{
+                    width:0.5,
+                    type: 'dashed'
+                }
+            },
+            axisLine:{
+            lineStyle:{
+                color:'#D9D9D9',
+                width:0.5
+            }
+            },
+            axisLabel:{
+               color:'#333',
+            },
+        }
+        
+    ],
+    series: [
+         {
+            name:'新增总客户数',
+            type:'bar',
+            data:[53, 60, 75, 30, 45, 28, 44, 58, 70, 40, 55],
+            itemStyle:{
+              normal:{
+                color:'#91D5FF',
+              },
+            },
+             barWidth: 28,
+             barGap:-0.4
+        },
+        {
+            name:'新增有效户',
+            type:'bar',
+            data:[20, 40, 45, 20, 35, 18, 30, 38, 40, 30, 33],
+            itemStyle:{
+              normal:{
+                color:'#40A9FF',
+              },
+            },
+            barWidth: 28,
+            barGap:-0.4
+        }
+     
+        
+        
 
-    handleReset (clearFilters) {
-      clearFilters()
-      this.searchText = ''
-    },
-  }
+    ]
+};
+cyChart.setOption(option);
+        }
+    }
 }
 </script>
 
 <style lang="less" scoped>
-  .project-list {
-    .card-title {
-      font-size: 0;
-      a {
-        color: rgba(0, 0, 0, 0.85);
-        margin-left: 12px;
-        line-height: 24px;
-        height: 24px;
-        display: inline-block;
-        vertical-align: top;
-        font-size: 14px;
-        &:hover {
-          color: #1890ff;
-        }
-      }
-    }
-    .project-item {
-      display: flex;
-      margin-top: 8px;
-      overflow: hidden;
-      font-size: 12px;
-      height: 20px;
-      line-height: 20px;
-      a {
-        color: rgba(0, 0, 0, 0.45);
-        display: inline-block;
-        flex: 1 1 0;
-        &:hover {
-          color: #1890ff;
-        }
-      }
-      .datetime {
-        color: rgba(0, 0, 0, 0.25);
-        flex: 0 0 auto;
-        float: right;
-      }
-    }
-      .ant-card-meta-description {
-        color: rgba(0, 0, 0, 0.45);
-        height: 44px;
-        line-height: 22px;
-        overflow: hidden;
-      }
-  }
-  .item-group{
-    padding: 20px 0 8px 24px;
-    font-size: 0;
-    a{
-      color: rgba(0, 0, 0, 0.65);
-      display: inline-block;
-      font-size: 14px;
-      margin-bottom: 13px;
-      width: 25%;
-    }
-  }
-  .members {
-    a {
-      display: block;
-      margin: 12px 0;
-      line-height: 24px;
-      height: 24px;
-      .member {
-        font-size: 14px;
-        color: rgba(0,0,0,.65);
-        line-height: 24px;
-        max-width: 100px;
-        vertical-align: top;
-        margin-left: 12px;
-        transition: all 0.3s;
-        display: inline-block;
-      }
-      &:hover {
-        span {
-          color: #1890ff;
-        }
-      }
-    }
-  }
-  // tableList
-    .custom-filter-dropdown {
-    padding: 8px;
-    border-radius: 6px;
-    background: #fff;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
-    }
-
-    .custom-filter-dropdown input {
-    width: 130px;
-    margin-right: 8px;
-    }
-
-    .custom-filter-dropdown button {
-    margin-right: 8px;
-    }
-
-    .highlight {
-    color: #f50;
-    }
+#market{
+  content: '';
+  display: block;
+  clear: both;
+  padding-left:30px;
+}
 </style>
