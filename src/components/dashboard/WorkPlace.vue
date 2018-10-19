@@ -99,7 +99,7 @@
     </a-card>
     <!-- 结构四 -->
     <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:20px;">
-      <div class="salesCard" style="height:500px;">
+      <div class="salesCard" style="height:460px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
             <h2 style="float:left;padding-left:25px;font-size:18px;">新增客户情况</h2>
          </div>
@@ -112,7 +112,7 @@
             <a-row>
              <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
                 <!-- <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div> -->
-                <div id="three" style="width:1100px;height:300px;float:left"></div>
+                <div id="three" style="width:1100px;height:280px;float:left"></div>
              <!--  </a-col> -->
             </a-row>
           </a-tab-pane>
@@ -406,8 +406,8 @@ var option = {
                 color:'#91D5FF',
               },
             },
-             barWidth: 28,
-             barGap:-0.4
+             barWidth: 25,
+             barGap:-0.5
         },
         {
             name:'新增有效户',
@@ -418,13 +418,9 @@ var option = {
                 color:'#40A9FF',
               },
             },
-            barWidth: 28,
-            barGap:-0.4
+            barWidth: 25,
+            barGap:-0.5
         }
-     
-        
-        
-
     ]
 };
 cyChart.setOption(option);
