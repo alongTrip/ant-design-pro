@@ -11,10 +11,10 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api':{
-      //     target: 'http://10.100.115.120:9090',
-      //     changeOrigin: true
-      //  }
+      '/api':{
+          target: 'http://10.100.115.120:9090',
+          changeOrigin: true
+       }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

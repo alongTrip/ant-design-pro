@@ -11,59 +11,59 @@
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
                      <a-range-picker style="margin-left:50px;"/>
                   </div>
-                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;" >
+                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;" :loading="loading" >
                     <a-table-column-group>
                       <span slot="title" ></span>
                       <a-table-column
                         title="日期"
-                        dataIndex="currentSort"
-                        key="currentSort"
-                        :sorter="(a, b) => a.currentSort - b.currentSort"
+                        dataIndex="date"
+                        key="key"
+                        :sorter="(a, b) => a.date - b.date"
                       />
                     </a-table-column-group>
                     <a-table-column-group>
                       <span slot="title">个股期权</span>
                       <a-table-column
                         title="交易量"
-                        dataIndex="number"
-                        key="number"
-                        :sorter="(a, b) => a.number - b.number"
+                        dataIndex="value1"
+                        key="value1"
+                        :sorter="(a, b) => a.value1 - b.value1"
                       />
                       <a-table-column
                         title="净佣金"
-                        dataIndex="yoyb"
-                        :sorter="(a, b) => a.yoyb - b.yoyb"
-                        key="yoyb"
+                        dataIndex="v1"
+                        :sorter="(a, b) => a.v1 - b.v1"
+                        key="v1"
                         />
                     </a-table-column-group>
                     <a-table-column-group>
                       <span slot="title" >港股通</span>
                       <a-table-column
                         title="交易量"
-                        dataIndex="number2"
-                        key="number2"
-                        :sorter="(a, b) => a.number2 - b.number2"
+                        dataIndex="value2"
+                        key="value2"
+                        :sorter="(a, b) => a.value2 - b.value2"
                       />
                       <a-table-column
                         title="净佣金"
-                        dataIndex="yoyb2"
-                        key="yoyb2"
-                        :sorter="(a, b) => a.yoyb2 - b.yoyb2"
+                        dataIndex="v2"
+                        key="v2"
+                        :sorter="(a, b) => a.v2 - b.v2"
                       />
                     </a-table-column-group>
                     <a-table-column-group>
                       <span slot="title" >新三板</span>
                       <a-table-column
                         title="交易量"
-                        dataIndex="number3"
-                        key="number3"
-                        :sorter="(a, b) => a.number3 - b.number3"
+                        dataIndex="value3"
+                        key="value3"
+                        :sorter="(a, b) => a.value3 - b.value3"
                       />
                       <a-table-column
                         title="净佣金"
-                        dataIndex="yoyb3"
-                        key="yoyb3"
-                        :sorter="(a, b) => a.yoyb3 - b.yoyb3"
+                        dataIndex="v3"
+                        key="v3"
+                        :sorter="(a, b) => a.v3 - b.v3"
                       />
                     </a-table-column-group>
                   </a-table>
@@ -74,7 +74,7 @@
         </a-tabs>
       </div>
     </a-card>
-    </page-layout>
+  </page-layout>
 </template>
 
 <script>
@@ -82,58 +82,19 @@ import PageLayout from '../layout/PageLayout'
 import AIcon from 'ant-design-vue/es/icon/icon'
 import ATabs from 'ant-design-vue/es/tabs'
 import {newBusinessDetailData} from '@/servers/businessDetails.js'
-const data = [{
-  key: '1',
-  currentSort: '2017-8-1',
-  number:  419203,
-  yoyb: 124,
-  number2: 19203,
-  yoyb2: 23555,  
-  number3: 18330,
-  yoyb3: 23555,
-}, {
-  key: '2',
-  currentSort: '2017-8-2',
-  number: 41920,
-  yoyb: 124,
-  number2: 41950,
-  yoyb2: 1655,
-  number3: 18330,
-  yoyb3: 1655,
-}, {
-  key: '3',
-  currentSort: '2017-8-3',
-  number: 4192,
-  yoyb: 444,
-  number2: 4192,
-  yoyb2: 35555,
-  number3: 18330,
-  yoyb3: 35555,
-}, {
- key: '4',
-  currentSort: '2017-8-4',
-  number: 419,
-  yoyb: 124,
-  number2: 419,
-  yoyb2: 23555,
-  number3: 18330,
-  yoyb3: 25555,
-}];
 export default {
   name: 'BasicDetail',
   components: {PageLayout},
   data () {
     return {
-      data,
-      filteredInfo: null,
-      sortedInfo: null,
+      data:[],
+      loading:true,
+      startTime:'2017-01-01',
+      endTime:'2018-10-08',
       pagination: {
-        // current: 1,
-        // pageSize: 2,
         total: 12,
         defaultCurrent: 1,
         defaultPageSize: 5,
-        // hideOnSinglePage:false,
         pageSizeOptions: ['2','3','4'],
         showSizeChanger: true,
         showQuickJumper: true,
@@ -142,14 +103,37 @@ export default {
   },
   methods: {
     handleChange (pagination, filters, sorter) {
-      console.log('Various parameters', pagination, filters, sorter);
       this.filteredInfo = filters;
       this.sortedInfo = sorter;
     },
+    onChange(data,dateString) {
+      this.startTime = dateString[0]
+      this.endTime = dateString[1]
+    },
+  },
+  watch:{
+     startTime(){
+         this.loading = true
+         newBusinessDetailData({
+           start:'2017-01-01',
+           end:'2018-10-08'
+        }).then(result=>{
+              this.loading = false
+              var datas = result.data.info
+              this.data = Object.values(datas)
+              this.pagination.total = this.data.length
+         })
+      }
   },
   mounted(){
-    newBusinessDetailData().then(result=>{
-		       
+    newBusinessDetailData({
+         start:'2017-01-01',
+         end:'2018-10-08'
+      }).then(result=>{
+            this.loading = false
+            var datas = result.data.info
+            this.data = Object.values(datas)
+            this.pagination.total = this.data.length
 		   })
     }
  }

@@ -31,13 +31,13 @@ export default new Router({
           children: [
             {
               path: '/dashboard/workplace',
-              name: '工作台',
+              name: '客户现状',
               component: () => import('@/components/dashboard/WorkPlace'),
               icon: 'none'
             },
             {
               path: '/dashboard/analysis',
-              name: '分析页',
+              name: '业务通道',
               component: () => import('@/components/dashboard/Dashboard'),
               icon: 'none'
             }
@@ -123,19 +123,19 @@ export default new Router({
         },
         {
           path: '/detail',
-          name: '详情页',
+          name: '业务通道详情页',
           icon: 'profile',
           component: RouteView,
           children: [
             {
               path: '/detail/basic',
-              name: '基础详情页',
+              name: '新业务详情页',
               icon: 'none',
               component: () => import('@/components/detail/BasicDetail')
             },
             {
               path: '/detail/advanced',
-              name: '高级详情页',
+              name: '传统详情页',
               icon: 'none',
               component: () => import('@/components/detail/AdvancedDetail')
             }
@@ -149,7 +149,7 @@ export default new Router({
           children: [
             {
               path: '/result/success',
-              name: '成功',
+              name: '客户分布',
               icon: 'none',
               component: () => import('@/components/result/Success')
             },

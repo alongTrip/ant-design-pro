@@ -59,12 +59,16 @@
             <div id="center-map" style="width: 750px;height:390px;"></div>
           </div>
         </a-card>
-        <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:362px;">
+        <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:362px;position:relative;">
           <div class="salesCard" style="height:450px;float:left;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:362px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">性别年龄分布</h2>
             </div>
             <div id="sexPie" style="height:390px;width:362px;top:-89px;"></div>
+            <div style="width:117px;height:112px;position:absolute;top:158px;left:123px;background:url('./static/img/sex.jpg') no-repeat;background-size:100% 88%;display: flex;align-items: end;">
+               <span style="padding-top: 98px;margin-left:13px;display:block;font-size:13px;">45.00%</span>
+               <span style="padding-top: 98px;margin-left:13px;display: block;font-size:13px;">55.00%</span>
+            </div>
           </div>
         </a-card>
       </div>
@@ -145,7 +149,7 @@ export default {
             series: [{
                 type: 'wordCloud',
                 gridSize: 20,
-                sizeRange: [12, 50],
+                sizeRange: [20, 70],
                 rotationRange: [0, 0],
                 shape: 'circle',
                 textStyle: {
@@ -175,31 +179,31 @@ export default {
                         }
                     }
                 }, {
-                    name: 'Macys',
+                    name: '公务员',
                     value: 6181
                 }, {
-                    name: 'Amy Schumer',
+                    name: '司机',
                     value: 4386
                 }, {
-                    name: 'Jurassic World',
+                    name: '学生',
                     value: 4055
                 }, {
-                    name: 'Charter Communications',
+                    name: '金融行业',
                     value: 2467
                 }, {
-                    name: 'Chick Fil A',
+                    name: '退休人员',
                     value: 2244
                 }, {
-                    name: 'Planet Fitness',
+                    name: '农民',
                     value: 1898
                 }, {
-                    name: 'Pitch Perfect',
+                    name: '工人',
                     value: 1484
                 }, {
-                    name: 'Express',
+                    name: '教师',
                     value: 1112
                 }, {
-                    name: 'Home',
+                    name: '军人',
                     value: 965
                 }, {
                     name: 'Johnny Depp',
@@ -211,26 +215,17 @@ export default {
                     name: 'Lewis Hamilton',
                     value: 555
                 }, {
-                    name: 'KXAN',
-                    value: 550
-                }, {
                     name: 'Mary Ellen Mark',
                     value: 462
                 }, {
                     name: 'Farrah Abraham',
                     value: 366
                 }, {
-                    name: 'Rita Ora',
-                    value: 360
-                }, {
                     name: 'Serena Williams',
                     value: 282
                 }, {
                     name: 'NCAA baseball tournament',
                     value: 273
-                }, {
-                    name: 'Point Break',
-                    value: 265
                 }]
             }]
         };
@@ -249,13 +244,12 @@ export default {
             },
             dataRange: {
                   splitList: [
-                    {start: 1500,end:1500},
-                    {start: 900, end: 1500},
-                    {start: 310, end: 1000},
-                    {start: 200, end: 300},
-                    {start: 10, end: 200,color: 'rgb(182, 187, 106)'},
-                    {start: 0, end: 10}
-                  ],
+                        {start: 4000, color: '#C75A4A'},
+                        {start: 3000, end: 4000,color: '#C99653'},
+                        {start: 2000, end: 3000,color: '#AEB369'},
+                        {start: 1000, end: 2000,color: '#73B691'},
+                        {start: 0, end: 1000,color: '#53C6D3'},
+                    ],
                   inRange: {
                     color: ['rgb(208, 106, 77)','rgb(53, 189, 208)']
                   },
@@ -350,40 +344,39 @@ export default {
                         },
                     },
                     data:[
-                        {name: '北京', value: randomValue()},
-                        {name: '天津', value: randomValue()},
-                        {name: '上海', value: randomValue()},
-                        {name: '重庆', value: randomValue()},
-                        {name: '河北', value: randomValue()},
-                        {name: '河南', value: randomValue()},
-                        {name: '云南', value: randomValue()},
-                        {name: '辽宁', value: randomValue()},
-                        {name: '黑龙江', value: randomValue()},
-                        {name: '湖南', value: randomValue()},
-                        {name: '安徽', value: randomValue()},
-                        {name: '山东', value: randomValue()},
-                        {name: '新疆', value: randomValue()},
-                        {name: '江苏', value: randomValue()},
-                        {name: '浙江', value: randomValue()},
-                        {name: '江西', value: randomValue()},
-                        {name: '湖北', value: randomValue()},
-                        {name: '广西', value: randomValue()},
-                        {name: '甘肃', value: randomValue()},
-                        {name: '山西', value: randomValue()},
-                        {name: '内蒙古', value: randomValue()},
-                        {name: '陕西', value: randomValue()},
-                        {name: '吉林', value: randomValue()},
-                        {name: '福建', value: randomValue()},
-                        {name: '贵州', value: randomValue()},
-                        {name: '广东', value: randomValue()},
-                        {name: '青海', value: randomValue()},
-                        {name: '西藏', value: randomValue()},
-                        {name: '四川', value: randomValue()},
-                        {name: '宁夏', value: randomValue()},
-                        {name: '海南', value: randomValue()},
-                        {name: '台湾', value: randomValue()},
-                        {name: '香港', value: randomValue()},
-                        {name: '澳门', value: randomValue()},
+                        {name: '北京', value: 4594.730784 },
+                        {name: '天津', value: 35.770926},
+                        {name: '上海', value: 1570.620579},
+                        {name: '重庆', value: 1474.953973},
+                        {name: '河北', value: 433.444297},
+                        {name: '河南', value: 646.6282483},
+                        {name: '云南', value: 1046.380364},
+                        {name: '辽宁', value: 1936.106962},
+                        {name: '黑龙江', value: 73.354688},
+                        {name: '湖南', value: 1026.959545},
+                        {name: '安徽', value: 360.2924968},
+                        {name: '山东', value: 1343.395963},
+                        {name: '江苏', value: 2752.23661},
+                        {name: '浙江', value: 3630.057804},
+                        {name: '江西', value: 963.1307133},
+                        {name: '湖北', value: 2614.312957},
+                        {name: '广西', value: 1009.028248},
+                        {name: '甘肃', value: 42.816101},
+                        {name: '山西', value: 146.3208133},
+                        {name: '内蒙古', value: 173.3565988},
+                        {name: '陕西', value: 873.5180778},
+                        {name: '吉林', value: 96.61214},
+                        {name: '福建', value: 895.6569768},
+                        {name: '贵州', value: 199.765794},
+                        {name: '广东', value: 7401.97582},
+                        {name: '四川', value: 1060.069675},
+                        {name: '海南', value: 614.3891579},
+                        // {name: '台湾', value: },
+                        // {name: '香港', value: },
+                        // {name: '澳门', value: },
+                        // {name: '西藏', value: },
+                        // {name: '新疆', value: },
+                        // {name: '青海', value: }
                     ]
                 }
             ]

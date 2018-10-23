@@ -4,15 +4,13 @@ import API from '@/api/index.js';
 // 通道业务卡片的数据
 export function chartCardData(){
     return new Promise((resolve,reject) => {
-        axios.get(API.CHART_CARD_API,{
-            params : {
-                type:'0',
-                freq:'1',
-                caliber:'0',
-            }
+        axios.post(API.CHART_CARD_API,{
+            // params:{
+
+            // }
         })
         .then(response=>{
-            console.log('成功',response)
+            // console.log('通道业务卡片',response)
             resolve(response);
         })
         .catch(error => {
@@ -22,17 +20,15 @@ export function chartCardData(){
 }
 
 // 通道业务市场份额图表的数据
-export function marketSharesData(){
+export function marketSharesData(parameters = {}){
     return new Promise((resolve,reject) => {
-        axios.get(API.CHART_CARD_API,{
-            params : {
-                type:'0',
-                freq:'1',
-                caliber:'0',
-            }
+        axios.post(API.MARKET_SHARES_API,{
+            // params:{
+                ...parameters
+            // }
         })
         .then(response=>{
-            console.log('成功',response)
+            // console.log('市场份额',response)
             resolve(response);
         })
         .catch(error => {
@@ -42,17 +38,15 @@ export function marketSharesData(){
 }
 
 // 通道业务账户价值量分析的数据
-export function accountValueData(){
+export function accountValueData(parameters = {}){
     return new Promise((resolve,reject) => {
-        axios.get(API. ACCOUNT_VALUE_API,{
-            params : {
-                type:'0',
-                freq:'1',
-                caliber:'0',
-            }
+        axios.post(API.ACCOUNT_VALUE_API,{
+            // params:{
+             ...parameters
+            // }
         })
         .then(response=>{
-            console.log('成功',response)
+            console.log('账户价值量',response)
             resolve(response);
         })
         .catch(error => {
@@ -62,17 +56,15 @@ export function accountValueData(){
 }
 
 // 通道业务新业务经营的图表数据
-export function businessOperationData(){
+export function businessOperationData(parameters = {}){
     return new Promise((resolve,reject) => {
-        axios.get(API. ACCOUNT_VALUE_API,{
-            params : {
-                type:'0',
-                freq:'1',
-                caliber:'0',
-            }
+        axios.post(API.BUSINESS_OPERATION_API,{
+            // params:{
+                ...parameters
+            // }
         })
         .then(response=>{
-            console.log('成功',response)
+            // console.log('新业务经营',response)
             resolve(response);
         })
         .catch(error => {

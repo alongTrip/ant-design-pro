@@ -10,7 +10,7 @@
 import enquireScreen from './utils/device'
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
 import ALocaleProvider from 'ant-design-vue/es/locale-provider'
-
+import axios from 'axios';
 export default {
   name: 'App',
   components: {

@@ -7,40 +7,40 @@
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
-                 <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
+                  <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
                      <a-range-picker style="margin-left:50px;" @change="onChange" />
                   </div>
                   <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 120px 0 120px;" :loading='loading'>
                       <a-table-column
                         title="日期"
-                        dataIndex="currentSort"
-                        key="currentSort"
-                        :sorter="(a, b) => a.currentSort - b.currentSort"
+                        dataIndex="date"
+                        key="id"
+                        :sorter="(a, b) => a.date - b.date"
                       />
                       <a-table-column
-                        title="交易量"
-                        dataIndex="number"
-                        key="number"
-                        :sorter="(a, b) => a.number - b.number"
+                        title="股基交易量"
+                        dataIndex="value1"
+                        key="value1"
+                        :sorter="(a, b) => a.value1 - b.value1"
                       />
                       <a-table-column
-                        title="净佣金"
-                        dataIndex="yoyb"
-                        :sorter="(a, b) => a.yoyb - b.yoyb"
-                        key="yoyb"
+                        title="市场份额"
+                        dataIndex="value2"
+                        :sorter="(a, b) => a.value2 - b.value2"
+                        key="value2"
                         />
                       <a-table-column
-                        title="交易量"
-                        dataIndex="number2"
-                        key="number2"
-                        :sorter="(a, b) => a.number2 - b.number2"
+                        title="普通账户交易量"
+                        dataIndex="value3"
+                        key="value3"
+                        :sorter="(a, b) => a.value3 - b.value3"
                       />
                       <a-table-column
-                        title="净佣金"
-                        dataIndex="yoyb2"
-                        key="yoyb2"
-                        :sorter="(a, b) => a.yoyb2 - b.yoyb2"
+                        title="信用账户交易量"
+                        dataIndex="value4"
+                        key="value4"
+                        :sorter="(a, b) => a.value4 - b.value4"
                       />
                   </a-table>
                 </div>
@@ -51,64 +51,41 @@
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
-                  <div class="extra-wrap" slot="tabBarExtraContent" style="padding-left:20px;font-size:13px;font-weight:600;">
-                     选择日期：<a-range-picker />
+                  <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
+                     <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
+                     <a-range-picker style="margin-left:50px;" @change="onChange" />
                   </div>
-                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;">
-                    <a-table-column-group>
-                      <span slot="title" ></span>
-                      <a-table-column
+                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 120px 0 120px;" :loading='loading'>
+                    <a-table-column
                         title="日期"
-                        dataIndex="currentSort"
-                        key="currentSort"
-                        :sorter="(a, b) => a.currentSort - b.currentSort"
-                      />
-                    </a-table-column-group>
-                    <a-table-column-group>
-                      <span slot="title">个股期权</span>
-                      <a-table-column
-                        title="交易量"
-                        dataIndex="number"
-                        key="number"
-                        :sorter="(a, b) => a.number - b.number"
+                        dataIndex="date"
+                        key="id"
+                        :sorter="(a, b) => a.date - b.date"
                       />
                       <a-table-column
-                        title="净佣金"
-                        dataIndex="yoyb"
-                        :sorter="(a, b) => a.yoyb - b.yoyb"
-                        key="yoyb"
+                        title="股基交易量"
+                        dataIndex="value1"
+                        key="value1"
+                        :sorter="(a, b) => a.value1 - b.value1"
+                      />
+                      <a-table-column
+                        title="市场份额"
+                        dataIndex="value2"
+                        :sorter="(a, b) => a.value2 - b.value2"
+                        key="value2"
                         />
-                    </a-table-column-group>
-                    <a-table-column-group>
-                      <span slot="title" >港股通</span>
                       <a-table-column
-                        title="交易量"
-                        dataIndex="number2"
-                        key="number2"
-                        :sorter="(a, b) => a.number2 - b.number2"
+                        title="普通账户交易量"
+                        dataIndex="value3"
+                        key="value3"
+                        :sorter="(a, b) => a.value3 - b.value3"
                       />
                       <a-table-column
-                        title="净佣金"
-                        dataIndex="yoyb2"
-                        key="yoyb2"
-                        :sorter="(a, b) => a.yoyb2 - b.yoyb2"
+                        title="信用账户交易量"
+                        dataIndex="value4"
+                        key="value4"
+                        :sorter="(a, b) => a.value4 - b.value4"
                       />
-                    </a-table-column-group>
-                    <a-table-column-group>
-                      <span slot="title" >新三板</span>
-                      <a-table-column
-                        title="交易量"
-                        dataIndex="number3"
-                        key="number3"
-                        :sorter="(a, b) => a.number3 - b.number3"
-                      />
-                      <a-table-column
-                        title="净佣金"
-                        dataIndex="yoyb3"
-                        key="yoyb3"
-                        :sorter="(a, b) => a.yoyb3 - b.yoyb3"
-                      />
-                    </a-table-column-group>
                   </a-table>
                 </div>
               </a-col>
@@ -123,68 +100,22 @@
 import PageLayout from '../layout/PageLayout'
 import moment from 'moment'
 import {traditionalDetailData} from '@/servers/businessDetails.js'
-const data = [{
-  key: '1',
-  currentSort: '2017-8-1',
-  number:  419203,
-  yoyb: 124,
-  number2: 19203,
-  yoyb2: 23555,  
-  number3: 18330,
-  yoyb3: 23555,
-}, {
-  key: '2',
-  currentSort: '2017-8-2',
-  number: 41920,
-  yoyb: 124,
-  number2: 41950,
-  yoyb2: 1655,
-  number3: 18330,
-  yoyb3: 1655,
-}, {
-  key: '3',
-  currentSort: '2017-8-3',
-  number: 4192,
-  yoyb: 444,
-  number2: 4192,
-  yoyb2: 35555,
-  number3: 18330,
-  yoyb3: 35555,
-}, {
- key: '4',
-  currentSort: '2017-8-4',
-  number: 419,
-  yoyb: 124,
-  number2: 419,
-  yoyb2: 23555,
-  number3: 18330,
-  yoyb3: 25555,
-}];
 export default {
-  name: 'BasicDetail',
+  name: 'AdvancedDetail',
   components: {PageLayout},
   data () {
     return {
-      //初始化定义
-      traditionalParams:{},
-      pagination:{},
-      // pagination: {
-      //   defaultCurrent: 1,
-      //   defaultPageSize: 5,
-      // },
-      loading:false,
-      // startTime:'',
-      // endTime:'',
-      data,
-      filteredInfo: null,
-      sortedInfo: null,
+      loading:true,
+      data:[],
+      startTime:'2018-10-01',
+      endTime:'2018-10-08',
       pagination: {
         total: 12,
         defaultCurrent: 1,
         defaultPageSize: 5,
         pageSizeOptions: ['2','3','4'],
         showSizeChanger: true,
-        showQuickJumper: false,
+        showQuickJumper: true,
       },
     }
   },
@@ -198,25 +129,35 @@ export default {
         page: pagination.current,
       };
       this.pagination = fetch
-      console.log(this.pagination)
     },
     onChange(data,dateString) {
       this.startTime = dateString[0]
       this.endTime = dateString[1]
-      console.log(this.startTime)
-      console.log(this.endTime)
     },
-    //数据   
+  },
+  watch:{
+      startTime(){
+           this.loading = true
+           traditionalDetailData({
+             start:this.startTime,
+             end:this.endTime,
+          }).then(result=>{
+                this.loading = false
+                var datas = result.data.info
+                this.data = Object.values(datas)
+                this.pagination.total = this.data.length
+           })
+          }
   },
   mounted(){
-      console.log(1)
       traditionalDetailData({
          start:this.startTime,
          end:this.endTime,
-         results: this.pagination.pageSize,
-         page: this.pagination.current,
       }).then(result=>{
-		        console.log(result)
+            this.loading = false
+            var datas = result.data.info
+            this.data = Object.values(datas)
+            this.pagination.total = this.data.length
 		   })
     }
 }

@@ -2,79 +2,83 @@
   <div>
     <a-row style="margin: 0 -12px">
     <!-- 结构一 -->
-
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-        <chart-card title="前日股基交易量" total="126,560">
+        <chart-card title="前日股基交易量" :total="stockData">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="较上日变化" :percent="19" :is-increase="false" :scale="0" />
-            <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            <trend style="margin-right: 16px" term="较上日变化" :percent="stockChange" :is-increase="stockIcon" :scale="0" />
           </div>
-          <div slot="footer">年同比<span> ￥12,423</span></div>
         </chart-card>
       </a-col>
 
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-        <chart-card title="前日信用账户交易量" total="87,587">
+        <chart-card title="前日信用账户交易量" :total="creditData">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="较上日变化" :percent="3.45" :is-increase="true" :scale="0" />
+            <trend style="margin-right: 16px" term="较上日变化" :percent="creditChange" :is-increase="creditIcon" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
-          <div slot="footer">年同比<span> ￥12,423</span></div>
+          <!-- <div slot="footer">年同比<span> ￥12,423</span></div> -->
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-        <chart-card title="前日市场份额" total="7.03%">
+        <chart-card title="前日市场份额" :total="marketData">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="较上日变化" :percent="3" :is-increase="true" :scale="0" />
+            <trend style="margin-right: 16px" term="较上日变化" :percent="marketChange" :is-increase="marketIcon" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
-          <div slot="footer">年同比<span> ￥12,423</span></div>
+          <!-- <div slot="footer">年同比<span> ￥12,423</span></div> -->
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-        <chart-card title="前日股基净佣金率" total="7.03%">
+        <chart-card title="前日股基净佣金率" :total="fundData">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="排名" :percent="3" :is-increase="true" :scale="0" />
+            <trend style="margin-right: 16px" term="排名" :percent="fundChange" :is-increase="fundIcon" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
-          <div slot="footer">年同比<span> ￥12,423</span></div>
+          <!-- <div slot="footer">年同比<span> ￥12,423</span></div> -->
         </chart-card>
       </a-col>
+
+
+
+
+
       <!-- 结构二 -->
        <a-col :sm="24" :md="12"  style="padding: 12px 12px 24px;width:50%;position:relative;">
-        <chart-card title="前日股基净佣金收入(万元)" total="62,475">
+        <chart-card title="前日股基净佣金收入(万元)" :total="stockFundData">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="年同比" :percent="12" :is-increase="true" :scale="0" />
+            <trend style="margin-right: 16px" term="年同比" :percent="yearChange" :is-increase="stockFundIcon" :scale="0" />
             <trend term="日环比" :target="100" :value="89" :scale="0" />
           </div>
           <div slot="footer">日均销售额<span>￥234.56</span></div>
         </chart-card>
         <div>
             <mini-bar style="position: absolute;left:53%;top:138px;width:40%;"/>
-          </div>
+        </div>
       </a-col>
+
+
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;width:50%;position:relative;">
-        <chart-card title="前日两融息费收入" total="62,475">
+        <chart-card title="前日两融息费收入" :total="meltData">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
-            <trend style="margin-right: 16px" term="年同比" :percent="12" :is-increase="true" :scale="0" />
+            <trend style="margin-right: 16px" term="年同比" :percent="meltYearChange" :is-increase="meltIcon" :scale="0" />
             <trend term="日环比" :target="100" :value="89" :scale="0" />
           </div>
           <div slot="footer">日均销售额<span> ￥234.56</span></div>
@@ -104,7 +108,7 @@
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
           <div class="extra-wrap" slot="tabBarExtraContent">
-               <a-range-picker @change="onChange" />
+               <a-range-picker @change="onChange('哈哈哈')" />
           </div>
           <a-tab-pane loading="true" tab="交易量" key="1">
             <a-row>
@@ -165,7 +169,39 @@ export default {
   name: "dashboard",
   data() {
     return {
-        
+       // 结构一
+       stockData:null,
+       stockChange:8,
+       stockIcon:null,
+       creditData:null,
+       creditChange:9,
+       creditIcon:null,
+       marketData:null,
+       marketChange:11,
+       marketIcon:null,
+       fundData:null,
+       fundChange:15,
+       fundIcon:null,
+       // 结构二
+       stockFundData:null,
+       yearChange:13,
+       stockFundIcon:null,
+       meltData:null,
+       meltYearChange:16,
+       meltIcon:null,
+       // 账户价值量分析
+       accountStartTime:'',
+       accountEndTime:'',
+       yearArr:[],
+       creditArr:[],
+       commonArr:[],
+       // 新业务经营情况
+       newStartTime:'',
+       newEndTime:'',
+       newYearArr:[],
+       neeqValue:[],
+       hkwolunValue:[],
+       individualValue:[],
     };
   },
   components: {
@@ -179,22 +215,126 @@ export default {
     this.initChart();
     this.initBusinessChart();
     this.initMarketChart();
+    // 卡片的数据
     chartCardData().then(result=>{
-		      console.log(result)
+        var datas = result.data.data.info
+		      console.log(datas)
+          for(var i = 0 ; i < datas.length ; i++){
+              if(datas[i].type == 1){
+                 this.stockData = datas[i].value
+                 this.stockChange = datas[i].value_updown
+                 if(datas[i].value_updown > 0){
+                     this.stockIcon = true
+                     // this.stockChange = datas[i].value_updown
+                 }else if(datas[i].value_updown < 0){
+                     this.stockIcon = false 
+                     // this.stockChange = Math.abs(datas[i].value_updown)
+                 }
+              }else if(datas[i].type == 2){
+                   this.creditData = datas[i].value
+                   this.creditChange = datas[i].value_updown
+                   if(datas[i].value_updown > 0){
+                       this.creditIcon = true
+                       // this.creditChange = datas[i].value_updown
+                   }else if(datas[i].value_updown < 0){
+                       this.creditIcon = false
+                       // this.creditChange = Math.abs(datas[i].value_updown) 
+                   }
+              }else if(datas[i].type == 3){
+                   this.marketData = datas[i].value
+                   this.marketChange = datas[i].value_updown
+                   if(datas[i].value_updown > 0){
+                       this.marketIcon = true
+                       // this.marketChange = datas[i].value_updown
+                   }else if(datas[i].value_updown < 0){
+                       this.marketIcon = false
+                       // this.marketChange = Math.abs(datas[i].value_updown) 
+                   }
+              }else if(datas[i].type == 4){
+                   this.fundData = datas[i].value
+                   this.fundChange = datas[i].value_updown
+                   if(datas[i].value_updown > 0){
+                       this.fundIcon = true
+                       // this.fundChange = datas[i].value_updown
+                   }else if(datas[i].value_updown < 0){
+                       this.fundIcon = false
+                       // this.fundChange = Math.abs(datas[i].value_updown) 
+                   }
+              }else if(datas[i].type == 5){
+                   this.stockFundData = datas[i].value
+                   this.yearChange = datas[i].value_updown
+                   if(datas[i].value_updown > 0){
+                       this.stockFundIcon = true
+                       // this.yearChange = datas[i].value_updown
+                   }else if(datas[i].value_updown < 0){
+                       this.stockFundIcon = false
+                       // this.yearChange = Math.abs(datas[i].value_updown) 
+                   }
+              }else if(datas[i].type == 6){
+                   this.meltData = datas[i].value
+                   this.meltYearChange = datas[i].value_updown
+                   if(datas[i].value_updown > 0){
+                       this.meltIcon = true
+                       // this.meltYearChange = datas[i].value_updown
+                   }else if(datas[i].value_updown < 0){
+                       this.meltIcon = false
+                       // this.meltYearChange = Math.abs(datas[i].value_updown) 
+                   }
+              }
+          }
+
       });
-    marketSharesData().then(result=>{
-          console.log(result)
+    //市场份额
+    marketSharesData({
+         start:'2017-01-01',
+         end:'2018-10-20',
+      }).then(result=>{
+          console.log('市场份额',result)
      });
-    accountValueData().then(result=>{
-          console.log(result)
+    //账户价值量分析 
+    accountValueData({
+         start:'2017-01-01',
+         end:'2018-10-20',
+    }).then(result=>{
+          // console.log(result.data.data.info)
+          var accountData = Object.values(result.data.data.info)
+          // console.log(accountData)
+          var yearArr = []
+          var creditArr = []
+          var commonArr = []
+          for(var i = 0 ; i < accountData[0].length ; i++){
+              this.yearArr.push(accountData[0][i].date)
+              this.creditArr.push(accountData[0][i].value)
+              this.commonArr.push(accountData[1][i].value)
+          }
+          // console.log(this.yearArr)
+          // console.log(this.creditArr)
+          // console.log(this.commonArr)
      });
-    businessOperationData().then(result=>{
+    // 新业务经营情况
+    businessOperationData({
+        start:'2017-01-01',
+        end:'2018-10-20',
+    }).then(result=>{
 		      console.log(result)
+         var newBusiness = Object.values(result.data.data.info) 
+         console.log(newBusiness)
+         for(var i = 0 ; i < newBusiness.length ; i++){
+              this.newYearArr.push(newBusiness[i].date)
+              this.neeqValue.push(newBusiness[i].value1)
+              this.hkwolunValue.push(newBusiness[i].value2)
+              this.individualValue.push(newBusiness[i].value3)
+         }
+         console.log(this.newYearArr)
+          console.log(this.neeqValue)
+           console.log(this.hkwolunValue)
+           console.log(this.individualValue)
 		 })
   },
   methods: {
     onChange(date, dateString) {
-      console.log(date, dateString);
+      console.log(date)
+      console.log(dateString);
     },
     // 市场份额
     initMarketChart() {
@@ -320,6 +460,7 @@ export default {
       };
       this.myChart.setOption(option);
     },
+    // 账户价值量
     initChart() {
       this.chart = echarts.init(document.getElementById("accoun"));
       var option = {
@@ -428,6 +569,7 @@ export default {
       };
       this.chart.setOption(option);
     },
+    // 新业务经营情况
     initBusinessChart() {
       var businessChart = echarts.init(document.getElementById("business"));
       var option = {
