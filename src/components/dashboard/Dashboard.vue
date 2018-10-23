@@ -189,6 +189,9 @@ export default {
        meltData:null,
        meltYearChange:16,
        meltIcon:null,
+       // 市场份额
+       marketYearArr:[],
+       marketValue:[],
        // 账户价值量分析
        accountStartTime:'',
        accountEndTime:'',
@@ -290,6 +293,16 @@ export default {
          end:'2018-10-20',
       }).then(result=>{
           console.log('市场份额',result)
+          var marketData = result.data.data.info
+          console.log(marketData)
+          var marketYearArr = []
+          var marketValue = []
+          for(var i = 0 ; i < marketData.length ; i++){
+              this.marketYearArr.push(marketData[i].date)
+              this.marketValue.push(marketData[i].value)
+          }
+        // console.log(this.marketYearArr)
+        // console.log(this.marketValue)
      });
     //账户价值量分析 
     accountValueData({
@@ -299,9 +312,6 @@ export default {
           // console.log(result.data.data.info)
           var accountData = Object.values(result.data.data.info)
           // console.log(accountData)
-          var yearArr = []
-          var creditArr = []
-          var commonArr = []
           for(var i = 0 ; i < accountData[0].length ; i++){
               this.yearArr.push(accountData[0][i].date)
               this.creditArr.push(accountData[0][i].value)
@@ -316,19 +326,17 @@ export default {
         start:'2017-01-01',
         end:'2018-10-20',
     }).then(result=>{
-		      console.log(result)
          var newBusiness = Object.values(result.data.data.info) 
-         console.log(newBusiness)
          for(var i = 0 ; i < newBusiness.length ; i++){
               this.newYearArr.push(newBusiness[i].date)
               this.neeqValue.push(newBusiness[i].value1)
               this.hkwolunValue.push(newBusiness[i].value2)
               this.individualValue.push(newBusiness[i].value3)
          }
-         console.log(this.newYearArr)
-          console.log(this.neeqValue)
-           console.log(this.hkwolunValue)
-           console.log(this.individualValue)
+         // console.log(this.newYearArr)
+         // console.log(this.neeqValue)
+         // console.log(this.hkwolunValue)
+         // console.log(this.individualValue)
 		 })
   },
   methods: {

@@ -46,7 +46,7 @@ export function accountValueData(parameters = {}){
             // }
         })
         .then(response=>{
-            console.log('账户价值量',response)
+            // console.log('账户价值量',response)
             resolve(response);
         })
         .catch(error => {
