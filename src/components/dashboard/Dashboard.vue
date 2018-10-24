@@ -12,7 +12,6 @@
           </div>
         </chart-card>
       </a-col>
-
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日信用账户交易量" :total="creditData">
           <a-tooltip title="指标说明" slot="action">
@@ -22,7 +21,6 @@
             <trend style="margin-right: 16px" term="较上日变化" :percent="creditChange" :is-increase="creditIcon" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
-          <!-- <div slot="footer">年同比<span> ￥12,423</span></div> -->
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
@@ -34,7 +32,6 @@
             <trend style="margin-right: 16px" term="较上日变化" :percent="marketChange" :is-increase="marketIcon" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
-          <!-- <div slot="footer">年同比<span> ￥12,423</span></div> -->
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
@@ -46,12 +43,8 @@
             <trend style="margin-right: 16px" term="排名" :percent="fundChange" :is-increase="fundIcon" :scale="0" />
             <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
           </div>
-          <!-- <div slot="footer">年同比<span> ￥12,423</span></div> -->
         </chart-card>
       </a-col>
-
-
-
 
 
       <!-- 结构二 -->
@@ -93,10 +86,9 @@
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
             <h2 style="float:left;padding-left:25px;font-size:18px;">市场份额</h2>
-            <a-range-picker @change="onChange" style="float:right;padding-top:10px;margin-right:25px;"/>
+            <a-range-picker @change="onChange" style="float:right;padding-top:20px;margin-right:40px;width:280px"/>
          </div>
          <div id="market" style="height:400px;width:1124px;"></div>
-         
       </div>
     </a-card>
     <!-- 结构四 -->
@@ -108,7 +100,7 @@
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
           <div class="extra-wrap" slot="tabBarExtraContent">
-               <a-range-picker @change="onChange('哈哈哈')" />
+               <a-range-picker style="float:right;padding-top:12px;margin-right:40px;width:280px"  @change="onChange"  />
           </div>
           <a-tab-pane loading="true" tab="交易量" key="1">
             <a-row>
@@ -135,7 +127,7 @@
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
             <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
               <div class="extra-wrap" slot="tabBarExtraContent">
-                  <a-range-picker @change="onChange" />
+                  <a-range-picker style="float:right;padding-top:12px;margin-right:40px;width:280px" @change="onChange" />
               </div>
               <a-tab-pane loading="true" tab="交易量" key="1">
                 <a-row>
@@ -221,7 +213,7 @@ export default {
     // 卡片的数据
     chartCardData().then(result=>{
         var datas = result.data.data.info
-		      console.log(datas)
+		      console.log(result)
           for(var i = 0 ; i < datas.length ; i++){
               if(datas[i].type == 1){
                  this.stockData = datas[i].value
@@ -292,9 +284,9 @@ export default {
          start:'2017-01-01',
          end:'2018-10-20',
       }).then(result=>{
-          console.log('市场份额',result)
+          // console.log('市场份额',result)
           var marketData = result.data.data.info
-          console.log(marketData)
+          // console.log(marketData)
           var marketYearArr = []
           var marketValue = []
           for(var i = 0 ; i < marketData.length ; i++){

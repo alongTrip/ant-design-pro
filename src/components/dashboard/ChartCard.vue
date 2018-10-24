@@ -17,9 +17,9 @@
         <slot></slot>
       </div>
     </div>
-    <!-- <div class="chart-card-footer">
+    <div class="chart-card-footer">
       <slot name="footer"></slot>
-    </div> -->
+    </div>
   </a-card>
 </template>
 

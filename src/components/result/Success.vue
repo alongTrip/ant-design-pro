@@ -10,7 +10,7 @@
                 <trend style="margin-right: 16px" term="同周比" :percent="12" :is-increase="true" :scale="0" />
                 <trend term="日环比" :target="100" :value="89" :scale="0" />
               </div>
-              <div slot="footer">日均销售额<span> ￥234.56</span></div>
+              <div slot="footer" class="card-footer">日均销售额<span> ￥234.56</span></div>
             </chart-card>
           </a-col>
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
@@ -22,7 +22,7 @@
                 <trend style="margin-right: 16px" term="较上日变化" :percent="3.45" :is-increase="true" :scale="0" />
                 <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
               </div>
-              <div slot="footer">年同比<span> ￥12,423</span></div>
+              <div slot="footer" class="card-footer">年同比<span> ￥12,423</span></div>
             </chart-card>
           </a-col>
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
@@ -34,7 +34,7 @@
                 <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
                 <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
               </div>
-              <div slot="footer">年同比<span> ￥12,423</span></div>
+              <div slot="footer" class="card-footer">年同比<span> ￥12,423</span></div>
             </chart-card>
           </a-col>
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
@@ -46,7 +46,7 @@
                 <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
                 <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
               </div>
-              <div slot="footer">年同比<span> ￥12,423</span></div>
+              <div slot="footer" class="card-footer">年同比<span> ￥12,423</span></div>
             </chart-card>
           </a-col>
       </a-row>
@@ -56,7 +56,7 @@
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:750px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">地域分布</h2>
             </div>
-            <div id="center-map" style="width: 750px;height:390px;"></div>
+            <div id="center-map" style="width: 750px;height:390px;top:-9px;"></div>
           </div>
         </a-card>
         <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:362px;position:relative;">
@@ -90,7 +90,7 @@
             <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
                 <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
                   <div class="extra-wrap" slot="tabBarExtraContent">
-                      <a-range-picker/>
+                      <a-range-picker style="margin-top:11px;margin-right:10px;width:280px;"/>
                   </div>
                   <a-tab-pane loading="true" tab="交易量" key="1">
                     <a-row>
@@ -524,4 +524,9 @@ export default {
 </script>
 
 <style scoped>
+.card-footer{
+    border-top: 1px solid #e8e8e8;
+    padding-top: 9px;
+    margin-top: 8px;
+}
 </style>

@@ -34,11 +34,32 @@ const ACCOUNT_VALUE_API = '/api/passageway/account';
 */
 const BUSINESS_OPERATION_API = '/api/passageway/newoperate';
 
+/*
+  接口功能：客户现状首页卡片的图表数据
+  接口参数：
+*/
+const ACTUALITY_CARD_API = '/api/status/info';
+
+/*
+  接口功能：客户现状首页新增和流失客户的图表数据
+  接口参数：
+*/
+const ADD_LOST_API = '/api/status/analysis';
+
+/*
+  接口功能：客户现状首页新增客户的图表数据
+  接口参数：
+*/
+const ADD_CUSTOMER_API = '/api/status/addcus';
+
 export default {
   TRADITIONAL_DETAIL_API,
   NEW_BUSINESS_DETAIL_API,
   CHART_CARD_API,
   MARKET_SHARES_API,
   ACCOUNT_VALUE_API,
-  BUSINESS_OPERATION_API
+  BUSINESS_OPERATION_API,
+  ACTUALITY_CARD_API,
+  ADD_LOST_API,
+  ADD_CUSTOMER_API
 }

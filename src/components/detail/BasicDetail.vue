@@ -9,7 +9,7 @@
                 <div>
                   <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
-                     <a-range-picker style="margin-left:50px;"/>
+                     <a-range-picker style="margin-left:70px;margin-top:12px;width:280px;"/>
                   </div>
                   <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;" :loading="loading" >
                     <a-table-column-group>
