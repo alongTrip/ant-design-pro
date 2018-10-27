@@ -9,7 +9,10 @@
                 <div>
                   <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
-                     <a-range-picker style="margin-left:70px;margin-top:12px;width:280px;"/>
+                     <a-range-picker style="margin-left:70px;margin-top:12px;width:280px;" @change="onChange" 
+                        :defaultValue="[moment('2017-10-11', dateFormat), moment('2018-10-10', dateFormat)]"
+                        :format="dateFormat"
+                     />
                   </div>
                   <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 40px 0 40px;" :loading="loading" >
                     <a-table-column-group>
@@ -82,26 +85,34 @@ import PageLayout from '../layout/PageLayout'
 import AIcon from 'ant-design-vue/es/icon/icon'
 import ATabs from 'ant-design-vue/es/tabs'
 import {newBusinessDetailData} from '@/servers/businessDetails.js'
+import moment from 'moment'
 export default {
   name: 'BasicDetail',
   components: {PageLayout},
   data () {
     return {
+      // 定义默认日期
+      dateFormat: 'YYYY-MM-DD',
       data:[],
       loading:true,
-      startTime:'2017-01-01',
-      endTime:'2018-10-08',
+      startTime:'2017-10-10',
+      endTime:'2018-10-11',
       pagination: {
-        total: 12,
+        total: 20,
         defaultCurrent: 1,
-        defaultPageSize: 5,
-        pageSizeOptions: ['2','3','4'],
+        defaultPageSize: 10,
+        pageSizeOptions: ['8','9','10'],
         showSizeChanger: true,
         showQuickJumper: true,
       },
     }
   },
   methods: {
+     moment,
+    // 转化数字格式
+    toThousands(num) {
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    },
     handleChange (pagination, filters, sorter) {
       this.filteredInfo = filters;
       this.sortedInfo = sorter;
@@ -113,18 +124,35 @@ export default {
   },
   watch:{
      startTime(){
-         this.loading = true
-         newBusinessDetailData({
-           start:'2017-01-01',
-           end:'2018-10-08'
-        }).then(result=>{
+      if(this.startTime != ''){
+          this.loading = true
+          newBusinessDetailData({
+             start:this.startTime,
+             end:this.endTime
+          }).then(result=>{
               this.loading = false
               var datas = result.data.info
-              this.data = Object.values(datas)
+              var dat = Object.values(datas)
+              for(var i = 0; i < dat.length; i++){
+                    var aa = dat[i].date
+                    var arr = aa.split('')
+                    arr.splice(4,0,'-')
+                    arr.splice(7,0,'-')
+                    var str = arr.join('')
+                    dat[i].date = str
+                    dat[i].value1 = this.toThousands(Math.round(dat[i].value1))
+                    dat[i].value2 = this.toThousands(Math.round(dat[i].value2)) 
+                    dat[i].value3 = this.toThousands(Math.round(dat[i].value3))
+                    dat[i].v1 =  Math.round(dat[i].v1*10000)/10000
+                    dat[i].v2 =  Math.round(dat[i].v2*10000)/10000
+                    dat[i].v3 =  Math.round(dat[i].v3*10000)/10000
+              }
+              this.data = dat
               this.pagination.total = this.data.length
-         })
+           })
+        }
       }
-  },
+   },
   mounted(){
     newBusinessDetailData({
          start:'2017-01-01',
@@ -132,7 +160,22 @@ export default {
       }).then(result=>{
             this.loading = false
             var datas = result.data.info
-            this.data = Object.values(datas)
+            var dat = Object.values(datas)
+            for(var i = 0; i < dat.length; i++){
+                  var aa = dat[i].date
+                  var arr = aa.split('')
+                  arr.splice(4,0,'-')
+                  arr.splice(7,0,'-')
+                  var str = arr.join('')
+                  dat[i].date = str
+                  dat[i].value1 = this.toThousands(Math.round(dat[i].value1))
+                  dat[i].value2 = this.toThousands(Math.round(dat[i].value2)) 
+                  dat[i].value3 = this.toThousands(Math.round(dat[i].value3))
+                  dat[i].v1 =  Math.round(dat[i].v1*10000)/10000
+                  dat[i].v2 =  Math.round(dat[i].v2*10000)/10000
+                  dat[i].v3 =  Math.round(dat[i].v3*10000)/10000
+            }
+            this.data = dat
             this.pagination.total = this.data.length
 		   })
     }

@@ -2,7 +2,7 @@
   <div class="chart-trend">
     {{term}}
     <span :class="['chart-trend-icon', trend]" style="padding-left:20px;"><a-icon :type="'caret-' + trend"/></span>
-    <span>{{rate}}</span>
+    <span>{{Math.abs(percent/100) + '%'}}</span>
   </div>
 </template>
 
@@ -44,8 +44,9 @@ export default {
   },
   data () {
     return {
+      //
       trend: this.isIncrease ? 'up' : 'down',
-      rate: this.percent
+      // rate: this.percent
     }
   },
   created () {
@@ -54,7 +55,8 @@ export default {
   },
   methods: {
     caulateRate () {
-      return (this.percent === null ? Math.abs(this.value - this.target) * 100 / this.target : this.percent).toFixed(this.scale)
+      // return (this.percent === null ? Math.abs(this.value - this.target) * 100 / this.target : this.percent).toFixed(this.scale)
+      // return this.percent =  this.percent/100 + '%' 
       // return this.percent
     },
     caulateTrend () {

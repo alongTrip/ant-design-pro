@@ -119,6 +119,7 @@ import echarts from "echarts";
 import 'echarts-wordcloud'
 import  'echarts/lib/chart/map';
 import 'echarts/map/js/china.js';
+import {customerDetailsCardData,customerDetailsMapData,customerDetailsPieData,customerDetailsCloundData,customerDetailsBarData,customerDetailsDetailData} from '@/servers/distribution.js'
 export default {
   name: "Success",
    components: {

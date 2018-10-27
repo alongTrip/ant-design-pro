@@ -23,6 +23,8 @@ import WorkPlace from '@/components/dashboard/WorkPlace'
 import Login from '@/components/login/Login'
 import BasicDetail from '@/components/detail/BasicDetail'
 import AdvancedDetail from '@/components/detail/AdvancedDetail'
+import CusDistribution from '@/components/detail/cusDistribution'
+import CustomerStatus from '@/components/detail/customerStatus'
 import TaskCard from '@/components/task/Index'
 import ColorBox from '@/components/check/Index'
 
@@ -144,7 +146,7 @@ export default new Router({
         },
         {
           path: '/detail',
-          name: '业务通道详情页',
+          name: '详情页',
           icon: 'profile',
           component: RouteView,
           children: [
@@ -159,6 +161,18 @@ export default new Router({
               name: '传统详情页',
               icon: 'none',
               component: AdvancedDetail
+            },
+            {
+              path: '/detail/cusDistribution',
+              name: '客户分布详情',
+              icon: 'none',
+              component: CusDistribution
+            },
+            {
+              path: '/detail/customerStatus',
+              name: '客户现状详情',
+              icon: 'none',
+              component: CustomerStatus
             }
           ]
         },
@@ -174,12 +188,12 @@ export default new Router({
               icon: 'none',
               component: Success
             },
-            {
-              path: '/result/error',
-              name: '失败',
-              icon: 'none',
-              component: Error
-            }
+            // {
+            //   path: '/result/error',
+            //   name: '失败',
+            //   icon: 'none',
+            //   component: Error
+            // }
           ]
         },
         {

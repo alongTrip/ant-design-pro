@@ -58,7 +58,6 @@
               <trend style="margin-right: 16px" term="年同比" :percent="2" :is-increase="true" :scale="0" />
               <trend term="日环比" :target="100" :value="89" :scale="0" />
             </div>
-            <div slot="footer">日均销售额<span>￥234.56</span></div>
           </chart-card>
           <div>
               <mini-bar style="position: absolute;left:53%;top:138px;width:40%;"/>
@@ -73,7 +72,6 @@
               <trend style="margin-right: 16px" term="年同比" :percent="2" :is-increase="true" :scale="0" />
               <trend term="日环比" :target="100" :value="89" :scale="0" />
             </div>
-            <div slot="footer">日均销售额<span> ￥234.56</span></div>
           </chart-card>
           <div>
               <mini-area style="position: absolute;left:53%;top:138px;width:40%;"/>
@@ -144,7 +142,7 @@ import MiniBar from "../chart/MiniBar";
 import Trend from "../chart/Trend";
 import echarts from "echarts";
 import PageLayout from '../layout/PageLayout'
-import {distributionlCardData,distributionlAddLostData,distributionlAddData} from '@/servers/distribution.js'
+import {distributionlCardData,distributionlAddLostData,distributionlAddData} from '@/servers/customerDetails.js'
 import moment from 'moment'
 
 export default {
@@ -164,11 +162,11 @@ export default {
       mode2: ['month', 'month'],
       value: [],
       // 新增和流失客户情况
-      inquireYears:['2016年','2017年','2018年'],
-      activateCus:[1000, 600, 800],
-      newOpenCus:[2000, 3300, 2500],
-      recessiveLoss:[1200, 1500, 1200],
-      dominantLoss:[2000, 1000, 1200],
+      inquireYears:[],
+      activateCus:[],
+      newOpenCus:[],
+      recessiveLoss:[],
+      dominantLoss:[],
       // 新增客户情况
       addStartTime:'2017-01-01',
       addEndTime:'2018-10-21',
@@ -180,47 +178,97 @@ export default {
   computed: {
     currUser () {
       return this.$store.state.account.user
-    }
+     }
   },
   mounted(){
-    this.statusCard();
-    // 客户分布卡片数据
+    // 转化日期格式 2018年1月
+    var aa = '20180102'
+    var arr = aa.split('')
+    // arr.push('日')
+    // arr[4] = '年'
+    // arr[7] = '月'
+    // if(arr[5] == '0'){
+    //     arr[5] = ''
+    // }
+    // if(arr[8] == '0'){
+    //     arr[8] = ''
+    // }
+    arr.splice(4,0,'-')
+    arr.splice(7,0,'-')
+    var str = arr.join('')
+    // console.log(str)
+    // 数字每隔3位加上一个逗号
+    function toThousands(num) {
+     return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    }
+    // console.log(toThousands(1887561))
+
+
+    // this.statusCard();
+    this.addLostCustomer();
+    this.addCustomer();
+    // 客户现状卡片数据
     distributionlCardData().then(result=>{
-          console.log('客户分布卡片数据',result)
+          // console.log('客户分布卡片数据',result)
       })
-    // 新增和流失客户数据 
+
+    // 客户现状新增和流失客户数据 
     distributionlAddLostData({
-              time:'2018-08-15'
+              time:'2018-05-15'
           }).then(result=>{
-            var addLostData = result.data.info 
-            this.inquireYears = Object.keys(addLostData)
-            var datas = Object.values(addLostData)
-            // for(var i = 0; i < datas.length; i++){
-            //     for(var j = 0; j < datas[i].length ; j++){
-            //         if(datas[i][j].category_id == 50){
-            //            this.activateCus.push(datas[i][j].value)
-            //         }else if(datas[i][j].category_id == 51){
-            //            this.newOpenCus.push(datas[i][j].value)
-            //         }else if(datas[i][j].category_id == 52){
-            //            this.recessiveLoss.push(datas[i][j].value)
-            //         }else if(datas[i][j].category_id == 53){
-            //            this.dominantLoss.push(datas[i][j].value)
-            //         }
-            //     } 
-            // }
-          this.addLostCustomer();
+            var addLostData = Object.values(result.data.info) 
+            let arr = []
+            for(var i = 0; i < addLostData.length; i++){
+               for(var j = 0; j < addLostData[i].length; j++){
+                  arr.push(addLostData[i][j].date.substr(0,4))
+                  if(addLostData[i][j].type == 'ACTIVE_CUST_NUM_YEAR'){
+                      this.newOpenCus.push(addLostData[i][j].value)
+                  }else if(addLostData[i][j].type == 'REVALUED_DAY'){
+                      this.activateCus.push(addLostData[i][j].value)
+                  }else if(addLostData[i][j].type == 'LOST_CUST_YEAR'){
+                      this.recessiveLoss.push(addLostData[i][j].value)
+                  }else if(addLostData[i][j].type == 'LOSS_CUST_NUM_YEAR'){
+                      this.dominantLoss.push(addLostData[i][j].value)
+                  }
+               }
+            }
+            var filterArr = arr.filter(function(element,index,self){
+                  return self.indexOf(element) === index;
+             })
+            let yearArr = filterArr.map(item=>{
+                return item + '年'
+            })
+            this.inquireYears = yearArr      
+            this.addLostCustomer();
+            this.statusCard()
        })
+
+
+
+//NEW_CUST_MONTH当月新开客户数，NEW_ACTIVE_CUST_MONTH当月新开有效户
+
       // 新增客户数据
     distributionlAddData({
-         start:this.addStartTime,
-         end:this.addEndTime
+         start:'2017-01',
+         end:'2018-01'
       }).then(result=>{
+          console.log('新增客户数据',result)
           var addArr = Object.values(result.data.info)
-          for(var i = 0 ; i < addArr.length ; i++){
-              this.addYearArr.push(addArr[i].date)
-              this.validCusArr.push(addArr[i].v1)
-              this.customerArr.push(addArr[i].v2)
-          }
+          console.log(addArr)
+          // for(var i = 0 ; i < addArr.length ; i++){
+          //     // 转化日期的格式
+          //     var aa = '2018-01'
+          //     var arr = aa.split()
+          //     if(arr[5] == '0'){
+          //          arr[5] = ''
+          //     }
+          //     var str = arr.jion('')
+          //     str.replace('-','年')
+          //     console.log(str)
+          //     this.addYearArr.push(str)
+          //     this.validCusArr.push(addArr[i].v1)
+          //     this.customerArr.push(addArr[i].v2)
+          // }
           this.addCustomer();
       })
   },
@@ -249,7 +297,6 @@ export default {
           this.mode1 = 'time'
         }
       },
-
       handlePanelChange1(value, mode) {
         this.mode1 = mode
       },
@@ -261,12 +308,13 @@ export default {
         ]
         // console.log(this.value.moment('YYYY-MM-DD'))
       },
-    //  onChange(data,dateString) {
-    //     this.addStartTime = dateString[0]
-    //     this.addEndTime = dateString[1]
-    //     console.log(dateString)
-    //     console.log(1)
-    // },
+      //  onChange(data,dateString) {
+      //     this.addStartTime = dateString[0]
+      //     this.addEndTime = dateString[1]
+      //     console.log(dateString)
+      //     console.log(1)
+      // },
+  // 增加和流失left
   addLostCustomer(){
      var aChart = echarts.init(document.getElementById('first'));  
         var option = {
@@ -294,7 +342,9 @@ export default {
             xAxis:  {
                 type: 'value',
                 min:0,
-                max:4000,
+                max: function(value) {
+                  return value.max*2;
+                },
                 inverse:true,
                 axisLine:{
                     lineStyle:{
@@ -315,7 +365,6 @@ export default {
             },
             yAxis: {
                 type: 'category',
-                // data: ['2016年','2016年','2016年'],
                 axisLine:{
                     lineStyle:{
                         color:'#D9D9D9',
@@ -361,6 +410,7 @@ export default {
         }; 
         aChart.setOption(option);
       },
+      // 新增和流失 right
      statusCard(){
        var myChart = echarts.init(document.getElementById('main'));
         var option = {
@@ -388,7 +438,9 @@ export default {
           xAxis:  {
               type: 'value',
               min:0,
-              max:4000,
+              max: function(value) {
+                  return value.max*2;
+              },
               axisLine:{
                   lineStyle:{
                       color:'#D9D9D9',

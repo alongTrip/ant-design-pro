@@ -5,12 +5,12 @@ import API from '@/api/index.js';
 export function chartCardData(){
     return new Promise((resolve,reject) => {
         axios.post(API.CHART_CARD_API,{
-            // params:{
-
-            // }
+            
         })
         .then(response=>{
             // console.log('通道业务卡片',response)
+            // var datas = response.data.data.info
+            // console.log(datas)
             resolve(response);
         })
         .catch(error => {
@@ -20,7 +20,7 @@ export function chartCardData(){
 }
 
 // 通道业务市场份额图表的数据
-export function marketSharesData(parameters = {}){
+export function marketSharesData(parameters = {start:'2017-10-11',end:'2018-10-10'}){
     return new Promise((resolve,reject) => {
         axios.post(API.MARKET_SHARES_API,{
             // params:{

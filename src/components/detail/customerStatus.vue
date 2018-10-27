@@ -1,20 +1,17 @@
 <template>
-    <page-layout title="传统业务详情页" >
+    <page-layout title="客户现状详情" >
       <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:20px;">
       <div class="salesCard">
         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
-          <a-tab-pane loading="true" tab="交易量" key="1">
+          <a-tab-pane loading="true" tab="客户数" key="1">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
                   <div class="extra-wrap" slot="tabBarExtraContent" style="font-size:13px;font-weight:600;position:relative;">
                      <span style="position:absolute;top:18px;display:inline-block;">选择日期：</span>
-                     <a-range-picker style="margin-left:70px;margin-top:12px;width:280px;" @change="onChange"
-                        :defaultValue="[moment('2017-10-11', dateFormat), moment('2018-10-10', dateFormat)]"
-                        :format="dateFormat"
-                      />
+                     <a-range-picker style="margin-left:70px;margin-top:12px;width:280px;" @change="onChange" />
                   </div>
-                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:30px 120px 0 120px;" :loading='loading'>
+                  <a-table :dataSource="data" :pagination="pagination" bordered @change="handleChange" style="margin:20px 10px 0 10px;" :loading='loading'>
                       <a-table-column
                         title="日期"
                         dataIndex="date"
@@ -22,25 +19,43 @@
                         :sorter="(a, b) => a.date - b.date"
                       />
                       <a-table-column
-                        title="股基交易量"
+                        title="5000以下"
                         dataIndex="value1"
                         key="value1"
                         :sorter="(a, b) => a.value1 - b.value1"
                       />
                       <a-table-column
-                        title="市场份额"
+                        title="5千至10万"
                         dataIndex="value2"
                         :sorter="(a, b) => a.value2 - b.value2"
                         key="value2"
                         />
                       <a-table-column
-                        title="普通账户交易量"
+                        title="10万至100万"
                         dataIndex="value3"
                         key="value3"
                         :sorter="(a, b) => a.value3 - b.value3"
                       />
                       <a-table-column
-                        title="信用账户交易量"
+                        title="100万至1千万"
+                        dataIndex="value4"
+                        key="value4"
+                        :sorter="(a, b) => a.value4 - b.value4"
+                      />
+                      <a-table-column
+                        title="1千万至2千万"
+                        dataIndex="value2"
+                        :sorter="(a, b) => a.value2 - b.value2"
+                        key="value2"
+                        />
+                      <a-table-column
+                        title="2千万至1亿"
+                        dataIndex="value3"
+                        key="value3"
+                        :sorter="(a, b) => a.value3 - b.value3"
+                      />
+                      <a-table-column
+                        title="1亿以上"
                         dataIndex="value4"
                         key="value4"
                         :sorter="(a, b) => a.value4 - b.value4"
@@ -50,7 +65,7 @@
               </a-col>
             </a-row>
           </a-tab-pane>
-          <a-tab-pane loading="true" tab="佣金收入" key="2">
+          <a-tab-pane loading="true" tab="客户资产" key="2">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
@@ -108,27 +123,21 @@ export default {
   components: {PageLayout},
   data () {
     return {
-      dateFormat: 'YYYY-MM-DD',
       loading:true,
       data:[],
-      startTime:'2017-10-11',
-      endTime:'2018-10-10',
+      startTime:'2018-10-01',
+      endTime:'2018-10-08',
       pagination: {
         total: 12,
         defaultCurrent: 1,
-        defaultPageSize: 10,
-        pageSizeOptions: ['8','9','10'],
+        defaultPageSize: 5,
+        pageSizeOptions: ['2','3','4'],
         showSizeChanger: true,
         showQuickJumper: true,
       },
     }
   },
   methods: {
-    moment,
-    // 转化数字格式
-    toThousands(num) {
-      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-    },
     handleChange (pagination, filters, sorter) {
       const pager = { ...this.pagination };
       pager.current = pagination.current;
@@ -146,54 +155,27 @@ export default {
   },
   watch:{
       startTime(){
-        if(this.startTime != ''){
-          this.loading = true
+           this.loading = true
            traditionalDetailData({
              start:this.startTime,
              end:this.endTime,
           }).then(result=>{
-            this.loading = false
-            var datas = result.data.info
-            var dat = Object.values(datas)
-            for(var i = 0; i < dat.length; i++){
-                var aa = dat[i].date
-                  var arr = aa.split('')
-                  arr.splice(4,0,'-')
-                  arr.splice(7,0,'-')
-                  var str = arr.join('')
-                  dat[i].date = str
-                  dat[i].value1 = Math.round(dat[i].value1*100)/100
-                  dat[i].value2 = Math.round(dat[i].value2*100000)/100 + '‰'
-                  dat[i].value3 = Math.round(dat[i].value3*100)/100
-                  dat[i].value4 = Math.round(dat[i].value4*100)/100     
-            }
-            this.data = dat
-            this.pagination.total = this.data.length
-       })
+                this.loading = false
+                var datas = result.data.info
+                this.data = Object.values(datas)
+                this.pagination.total = this.data.length
+           })
           }
-        }
-    },
+  },
   mounted(){
       traditionalDetailData({
-         start:'2017-10-11',
-         end:'2018-10-10',
+         start:this.startTime,
+         end:this.endTime,
       }).then(result=>{
+           console.log('客户现状详情',result)
             this.loading = false
             var datas = result.data.info
-            var dat = Object.values(datas)
-            for(var i = 0; i < dat.length; i++){
-                var aa = dat[i].date
-                  var arr = aa.split('')
-                  arr.splice(4,0,'-')
-                  arr.splice(7,0,'-')
-                  var str = arr.join('')
-                  dat[i].date = str
-                  dat[i].value1 = Math.round(dat[i].value1*100)/100
-                  dat[i].value2 = Math.round(dat[i].value2*100000)/100 + '‰'
-                  dat[i].value3 = Math.round(dat[i].value3*100)/100
-                  dat[i].value4 = Math.round(dat[i].value4*100)/100     
-            }
-            this.data = dat
+            this.data = Object.values(datas)
             this.pagination.total = this.data.length
 		   })
     }
