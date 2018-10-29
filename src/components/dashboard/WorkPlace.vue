@@ -84,10 +84,9 @@
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;line-height:60px;">
             <h2 style="float:left;padding-left:25px;font-size:18px;">新增和流失客户分析</h2>
             <a-date-picker style="float:right;margin-top:15px;margin-right:55px;width:220px;"
-              :mode="mode1"
-              showTime
-              @openChange="handleOpenChange1"
-              @panelChange="handlePanelChange1"
+              :defaultValue="moment('2018-10-10', dateFormat)" 
+              :format="dateFormat"
+              @change="onChangeRadio"
             />
          </div>
          <div id="market" style="display:flex">
@@ -106,7 +105,9 @@
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
           <div class="extra-wrap" slot="tabBarExtraContent">
-               <a-range-picker style="float:right;margin-top:12px;margin-right:26px;width:280px;"
+               <a-range-picker style="float:right;margin-top:12px;margin-right:26px;width:230px;"
+               :defaultValue="[moment('2017-10', monthFormat), moment('2018-09', monthFormat)]"
+               :format="monthFormat"
                 format="YYYY-MM"
                 :value="value"
                 :mode="mode2"
@@ -158,10 +159,14 @@ export default {
   data () {
     return {
       // 日期选择框
+      dateFormat: 'YYYY-MM-DD',
+      monthFormat: 'YYYY-MM',
+      // 日期选择框
       mode1: 'time',
       mode2: ['month', 'month'],
       value: [],
       // 新增和流失客户情况
+      radioTime:'',
       inquireYears:[],
       activateCus:[],
       newOpenCus:[],
@@ -170,9 +175,9 @@ export default {
       // 新增客户情况
       addStartTime:'2017-01-01',
       addEndTime:'2018-10-21',
-      addYearArr:['2017-10','2017-11','2017-12','2018-1','2018-2','2018-3','2018-4','2018-5','2018-6'],
-      validCusArr:[53, 60, 75, 30, 45, 28, 44, 58, 70, 40, 55],
-      customerArr:[20, 40, 45, 20, 35, 18, 30, 38, 40, 30, 33],
+      addYearArr:[],
+      validCusArr:[],
+      customerArr:[],
     }
   },
   computed: {
@@ -199,7 +204,7 @@ export default {
     // console.log(str)
     // 数字每隔3位加上一个逗号
     function toThousands(num) {
-     return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
     }
     // console.log(toThousands(1887561))
 
@@ -212,7 +217,7 @@ export default {
           // console.log('客户分布卡片数据',result)
       })
 
-    // 客户现状新增和流失客户数据 
+// 客户现状新增和流失客户数据 
     distributionlAddLostData({
               time:'2018-05-15'
           }).then(result=>{
@@ -243,32 +248,26 @@ export default {
             this.statusCard()
        })
 
-
-
 //NEW_CUST_MONTH当月新开客户数，NEW_ACTIVE_CUST_MONTH当月新开有效户
-
       // 新增客户数据
     distributionlAddData({
          start:'2017-01',
          end:'2018-01'
       }).then(result=>{
-          console.log('新增客户数据',result)
-          var addArr = Object.values(result.data.info)
-          console.log(addArr)
-          // for(var i = 0 ; i < addArr.length ; i++){
-          //     // 转化日期的格式
-          //     var aa = '2018-01'
-          //     var arr = aa.split()
-          //     if(arr[5] == '0'){
-          //          arr[5] = ''
-          //     }
-          //     var str = arr.jion('')
-          //     str.replace('-','年')
-          //     console.log(str)
-          //     this.addYearArr.push(str)
-          //     this.validCusArr.push(addArr[i].v1)
-          //     this.customerArr.push(addArr[i].v2)
-          // }
+          console.log('新增客户情况',result)
+          var newcusArr = Object.values(result.data.info.NEW_CUST_MONTH)
+          console.log('新增有效户',newcusArr)
+          var newActiveCus = Object.values(result.data.info.NEW_ACTIVE_CUST_MONTH)
+          console.log('新增总客户数',newActiveCus)
+          for(var i = 0; i<newcusArr.length ;i++){
+               let yearsArr = newcusArr[i].day
+               var arr = yearsArr.split('')
+               arr.splice(4,0,'-')
+               var str = arr.join('')
+               this.addYearArr.push(str)
+               this.validCusArr.push(newcusArr[i].value)
+               this.customerArr.push(newActiveCus[i].value)
+          }
           this.addCustomer();
       })
   },
@@ -288,10 +287,15 @@ export default {
               }
               this.addCustomer();
           })
-        } 
+        }
       }
     },
   methods: {
+    onChangeRadio(date, dateString){
+       this.radioTime = dateString
+    },
+      // 日期选择框
+      moment,
       handleOpenChange1(open) {
         if (open) {
           this.mode1 = 'time'
@@ -299,6 +303,7 @@ export default {
       },
       handlePanelChange1(value, mode) {
         this.mode1 = mode
+        console.log(this.mode1)
       },
       handlePanelChange2 (value, mode) {
         this.value = value
@@ -306,7 +311,8 @@ export default {
           mode[0] === 'date' ? 'month' : mode[0],
           mode[1] === 'date' ? 'month' : mode[1],
         ]
-        // console.log(this.value.moment('YYYY-MM-DD'))
+        // console.log(moment[moment(mode[0],format('YYYY-MM')),moment(mode[1],format('YYYY-MM'))])
+        // console.log(moment.format('YYYY-MM'))
       },
       //  onChange(data,dateString) {
       //     this.addStartTime = dateString[0]
@@ -503,6 +509,7 @@ export default {
             }; 
             myChart.setOption(option);  
         },
+      // 新增客户情况
       addCustomer(){
           var cyChart = echarts.init(document.getElementById('three'));
             var option = {
@@ -533,7 +540,6 @@ export default {
                 xAxis: [
                     {
                         type: 'category',
-                        // data: ['2017年10月','2017年11月','2017年12月','2018年1月','2018年2月','2018年3月','2018年4月','2018年5月','2018年6月','2018年7月','2018年8月'],
                         data:this.addYearArr,
                         axisPointer: {
                             type: 'shadow'
@@ -552,8 +558,9 @@ export default {
                 yAxis: [
                     {
                         type: 'value',
-                        max: 150,
-                        interval: 50,
+                        max: function(value) {
+                          return value.max;
+                        },
                         splitLine: {
                         show: true,
                         lineStyle:{
@@ -577,7 +584,6 @@ export default {
                      {
                         name:'新增总客户数',
                         type:'bar',
-                        // data:[53, 60, 75, 30, 45, 28, 44, 58, 70, 40, 55],
                         data:this.customerArr,
                         itemStyle:{
                           normal:{
@@ -590,7 +596,6 @@ export default {
                     {
                         name:'新增有效户',
                         type:'bar',
-                        // data:[20, 40, 45, 20, 35, 18, 30, 38, 40, 30, 33],
                         data:this.validCusArr,
                         itemStyle:{
                           normal:{

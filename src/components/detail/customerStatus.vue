@@ -1,5 +1,5 @@
 <template>
-    <page-layout title="客户现状详情" >
+    <page-layout title="客户分布详情" >
       <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:20px;">
       <div class="salesCard">
         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
@@ -125,7 +125,7 @@ export default {
     return {
       loading:true,
       data:[],
-      startTime:'2018-10-01',
+      startTime:'2017-10-01',
       endTime:'2018-10-08',
       pagination: {
         total: 12,
@@ -160,6 +160,7 @@ export default {
              start:this.startTime,
              end:this.endTime,
           }).then(result=>{
+                console.log(result)
                 this.loading = false
                 var datas = result.data.info
                 this.data = Object.values(datas)
@@ -172,10 +173,11 @@ export default {
          start:this.startTime,
          end:this.endTime,
       }).then(result=>{
-           console.log('客户现状详情',result)
+           console.log('客户分布详情',result)
             this.loading = false
             var datas = result.data.info
             this.data = Object.values(datas)
+            console.log(this.data)
             this.pagination.total = this.data.length
 		   })
     }

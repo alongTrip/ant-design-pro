@@ -2,63 +2,101 @@
     <div class="customer">
       <a-row style="margin: 0 -12px">
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-            <chart-card title="总销售额" total="￥ 189,345">
+            <chart-card title="前日总客户数(按身份证)" :total="totalCus">
               <a-tooltip title="指标说明" slot="action">
                 <a-icon type="info-circle-o" />
               </a-tooltip>
-              <div>
-                <trend style="margin-right: 16px" term="同周比" :percent="12" :is-increase="true" :scale="0" />
-                <trend term="日环比" :target="100" :value="89" :scale="0" />
+              <div class="chart-trend">
+                  日环比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_a == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_a == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(daysFrom_a/100) + '%'}}</span>
               </div>
-              <div slot="footer" class="card-footer">日均销售额<span> ￥234.56</span></div>
+              <div slot="footer" class="card-footer">
+                较上一年底变化
+                <a-icon v-if="index_a == 0" style="color: #f5222d;" type="caret-up"/>
+                <a-icon v-if="index_a == 1" style="color: #52c41a;" type="caret-down"/>
+                <span>{{totalCusChange}}</span>
+              </div>
             </chart-card>
           </a-col>
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-            <chart-card title="当前总有效户数" total="87,587">
+            <chart-card title="前日客户资产总额(亿元)" :total="TotalAssets">
               <a-tooltip title="指标说明" slot="action">
                 <a-icon type="info-circle-o" />
               </a-tooltip>
-              <div>
-                <trend style="margin-right: 16px" term="较上日变化" :percent="3.45" :is-increase="true" :scale="0" />
-                <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+              <div class="chart-trend">
+                  日环比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_b == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_b == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(daysFrom_b/100) + '%'}}</span>
               </div>
-              <div slot="footer" class="card-footer">年同比<span> ￥12,423</span></div>
+              <div slot="footer" class="card-footer">
+                较上一年底变化
+                <a-icon v-if="index_b == 0" style="color: #f5222d;" type="caret-up"/>
+                <a-icon v-if="index_b == 1" style="color: #52c41a;" type="caret-down"/>
+                <span>{{TotalAssetsChange}}</span>
+              </div>
             </chart-card>
           </a-col>
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-            <chart-card title="当年有效户增加数" total="1,123">
+            <chart-card title="前日信用账户数(户)" :total="creditAccounts">
               <a-tooltip title="指标说明" slot="action">
                 <a-icon type="info-circle-o" />
               </a-tooltip>
-              <div>
-                <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
-                <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+              <div class="chart-trend">
+                  日环比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_c == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_c == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(daysFrom_c/100) + '%'}}</span>
               </div>
-              <div slot="footer" class="card-footer">年同比<span> ￥12,423</span></div>
+              <div slot="footer" class="card-footer">
+                较上一年底变化
+                <a-icon v-if="index_c == 0" style="color: #f5222d;" type="caret-up"/>
+                <a-icon v-if="index_c == 1" style="color: #52c41a;" type="caret-down"/>
+                <span>{{creditAccountsChange}}</span>
+              </div>
             </chart-card>
           </a-col>
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-            <chart-card title="当年有效户流失数" total="715">
+            <chart-card title="前日信用账户资产总额(亿元)" :total="creditTotal">
               <a-tooltip title="指标说明" slot="action">
                 <a-icon type="info-circle-o" />
               </a-tooltip>
-              <div>
-                <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
-                <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+              <div class="chart-trend">
+                  日环比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_d == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_d == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(daysFrom_d/100) + '%'}}</span>
               </div>
-              <div slot="footer" class="card-footer">年同比<span> ￥12,423</span></div>
+              <div slot="footer" class="card-footer">
+                较上一年底变化
+                <a-icon v-if="index_d == 0" style="color: #f5222d;" type="caret-up"/>
+                <a-icon v-if="index_d == 1" style="color: #52c41a;" type="caret-down"/>
+                <span>{{creditTotalChange}}</span>
+              </div>
             </chart-card>
           </a-col>
       </a-row>
+      <!-- 地图的结构 -->
       <div style="display:flex">
         <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:750px;margin-right:25px;">
           <div class="salesCard" style="height:450px;float:left;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:750px;line-height:60px;">
-                <h2 style="float:left;padding-left:25px;font-size:18px;">地域分布</h2>
+                <h2 style="float:left;padding-left:25px;font-size:18px;">地域分布(不含前海分公司)</h2>
             </div>
             <div id="center-map" style="width: 750px;height:390px;top:-9px;"></div>
           </div>
         </a-card>
+        <!-- 年龄性别 -->
         <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:362px;position:relative;">
           <div class="salesCard" style="height:450px;float:left;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:362px;line-height:60px;">
@@ -66,13 +104,13 @@
             </div>
             <div id="sexPie" style="height:390px;width:362px;top:-89px;"></div>
             <div style="width:117px;height:112px;position:absolute;top:158px;left:123px;background:url('./static/img/sex.jpg') no-repeat;background-size:100% 88%;display: flex;align-items: end;">
-               <span style="padding-top: 98px;margin-left:13px;display:block;font-size:13px;">45.00%</span>
-               <span style="padding-top: 98px;margin-left:13px;display: block;font-size:13px;">55.00%</span>
+               <span style="padding-top: 98px;margin-left:17px;display:block;font-size:15px;">{{boyValue}}</span>
+               <span style="padding-top: 98px;margin-left:32px;display: block;font-size:15px;">{{grilValue}}</span>
             </div>
           </div>
         </a-card>
       </div>
-
+    <!-- 职业分布 -->
       <div style="display:flex;margin-top:25px">
          <a-card :bordered="false" :body-style="{padding: '0'}" style="width:362px;margin-right:25px;">
           <div class="salesCard" style="height:430px;float:left;">
@@ -82,24 +120,29 @@
              <div id="distribution" style="width:362px;height:370px;top:-16px;"></div>
           </div>
         </a-card>
+    <!-- 资产分布 -->
         <a-card :bordered="false" :body-style="{padding: '0'}" style="width:750px;">
           <div class="salesCard" style="height:430px;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;line-height:60px;">
-                <h2 style="float:left;padding-left:25px;font-size:18px;">新业务经营情况</h2>
+                <h2 style="float:left;padding-left:25px;font-size:18px;">资产分布</h2>
             </div>
             <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
-                <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
+                <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%" @change="changeAction">
                   <div class="extra-wrap" slot="tabBarExtraContent">
-                      <a-range-picker style="margin-top:11px;margin-right:10px;width:280px;"/>
+                    <a-date-picker style="margin-top:11px;margin-right:10px;width:220px;"
+                      :defaultValue="moment('2018-10-10', dateFormat)" 
+                      :format="dateFormat"
+                      @change="onChangeRadio"
+                    />
                   </div>
-                  <a-tab-pane loading="true" tab="交易量" key="1">
+                  <a-tab-pane loading="true" tab="客户数" key="1">
                     <a-row>
-                        <div id="three" style="width:710px;height:280px;float:left"></div>
+                        <div id="three"  style="width:710px;height:280px;float:left"></div>
                     </a-row>
                   </a-tab-pane>
-                  <a-tab-pane tab="净佣金" key="2">
+                  <a-tab-pane tab="客户资产" key="2">
                     <a-row>
-                      
+                        <div id="customerEquity"  style="width:710px;height:280px;float:left;left:-10px;"></div>
                     </a-row>
                   </a-tab-pane>
                 </a-tabs>
@@ -111,11 +154,13 @@
 </template>
 <script>
 import ACard from "ant-design-vue/es/card/Card";
+import AIcon from 'ant-design-vue/es/icon/icon'
 import ChartCard from "../dashboard/ChartCard";
 import MiniArea from "../chart/MiniArea";
 import MiniBar from "../chart/MiniBar";
 import Trend from "../chart/Trend";
 import echarts from "echarts";
+import moment from 'moment'
 import 'echarts-wordcloud'
 import  'echarts/lib/chart/map';
 import 'echarts/map/js/china.js';
@@ -130,15 +175,281 @@ export default {
     ACard
     },
   data() {
-    return {};
+    return {
+       // 日期选择框
+       dateFormat: 'YYYY-MM-DD',
+      // 前日总客户数
+        totalCus:null,
+        daysFrom_a:null,
+        icon_a:null,
+        index_a:null,
+        totalCusChange:null,
+      // 前日客户资产总额，
+        TotalAssets:null,
+        daysFrom_b:null,
+        icon_b:null,
+        index_b:null,
+        TotalAssetsChange:null,
+      // 前日信用账户数，
+        creditAccounts:null,
+        daysFrom_c:null,
+        icon_c:null,
+        index_c:null,
+        creditAccountsChange:null,
+      // 前日信用账户资产总额
+        creditTotal:null,
+        daysFrom_d:null,
+        icon_d:null,
+        index_d:null,
+        creditTotalChange:null,
+      //性别年龄
+        ageArr:[],
+        boyValue:null,
+        grilValue:null,
+      // 职业分布
+        professionArr:[],
+      //资产分布客户数
+        startTime:'2018-01-10',
+        type:0,
+        sectionArr:[],
+        numericalValue:[],
+      // 资产分布客户资产
+        equityArr:[],
+        equityValue:[]
+
+    };
   },
   mounted(){
-    this.distribution();
-    this.property();
-    this.sexPieAction()
-    this.mapAction()
+    
+    this.mapAction();
+    customerDetailsCardData().then(result=>{
+        let dat = result.data.info
+        //前日总客户数，
+        this.totalCus = this.toThousands_a(dat.CAP_ACCT_NUM.value)
+        var value_down_a = dat.CAP_ACCT_NUM.value_updown
+        var value_up_a = dat.CAP_ACCT_NUM.value_offset
+        if(value_up_a > 0){
+            this.icon_a = true
+        }else if(value_up_a < 0){
+            this.icon_a = false
+        }
+        this.daysFrom_a = Math.round(value_up_a*100)
+        if(value_down_a > 0){
+            this.index_a = 0
+        }else if(value_down_a < 0){
+            this.index_a = 1
+        }
+        this.totalCusChange = Math.round(value_down_a*100)/100 + '%'
+        //前日客户资产总额， 
+        this.TotalAssets = this.toThousands_b(Math.round(dat.CUST_ASSET_DAY.value*100)/100)
+        var value_up_b = dat.CUST_ASSET_DAY.value_offset
+        if(value_up_b > 0){
+            this.icon_b = true
+        }else if(value_up_b < 0){
+            this.icon_b = false
+        }
+        this.daysFrom_b = Math.round(value_up_b*100)
+        var value_down_b = dat.CUST_ASSET_DAY.value_updown 
+        if(value_down_b > 0){
+            this.index_b = 0
+        }else if(value_down_b < 0){
+            this.index_b = 1
+            value_down_b = Math.abs(value_down_b)
+        }
+        this.TotalAssetsChange = Math.round(value_down_b*100)/100 + '%'
+        //前日信用账户数，
+        this.creditAccounts = this.toThousands_a(dat.FI_ACCOUNT_NUM.value)
+        var value_up_c = dat.FI_ACCOUNT_NUM.value_offset
+        if(value_up_c > 0){
+            this.icon_c = true
+        }else if(value_up_c < 0){
+            this.icon_c = false
+        }
+        this.daysFrom_c = Math.round(value_up_c*100)
+        var value_down_c = dat.FI_ACCOUNT_NUM.value_updown 
+        if(value_down_c > 0){
+            this.index_c = 0
+        }else if(value_down_c < 0){
+            this.index_c = 1
+            value_down_c = Math.abs(value_down_c)
+        }
+        this.creditAccountsChange = Math.round(value_down_c*100)/100 + '%'
+        //前日信用账户资产总额 
+        this.creditTotal = this.toThousands_b(Math.round(dat.FI_ASSET.value*100)/100)
+        var value_up_d = dat.FI_ASSET.value_offset
+        if(value_up_d > 0){
+            this.icon_d = true
+        }else if(value_up_d < 0){
+            this.icon_d = false
+        }
+        this.daysFrom_d = Math.round(value_up_d*100)
+        var value_down_d = dat.FI_ASSET.value_updown 
+        if(value_down_d > 0){
+            this.index_d = 0
+        }else if(value_down_d < 0){
+            this.index_d = 1
+            value_down_d = Math.abs(value_down_d)
+        }
+        this.creditTotalChange = Math.round(value_down_d*100)/100 + '%'
+    })
+
+    // 客户分布地图
+    customerDetailsMapData({
+        type:0
+    }).then(result=>{
+       let data = Object.values(result.data.info)
+           // console.log(data)
+       for(var i = 0; i < data.length;i++){
+              
+       }
+    })
+    // 性别年龄分布
+    customerDetailsPieData().then(result=>{
+        let datas = result.data.info
+        var age_value = Object.values(result.data.info.age)
+        for(var i = 0 ; i < age_value.length ; i++){
+             this.ageArr.push(age_value[i].value)
+        }
+        var sex_value = Object.values(result.data.info.gender)
+        for(var i = 0 ;i < sex_value.length;i++){
+            if(sex_value[i].category_name == "女"){
+                this.grilValue = Math.round(sex_value[i].value*100) + '%'
+            }else if(sex_value[i].category_name == "男"){
+                this.boyValue = Math.round(sex_value[i].value*100) + '%'
+            }
+        }
+        this.sexPieAction()
+    })
+    // 客户分布的职业分布
+    customerDetailsCloundData().then(result=>{
+         let profession = Object.keys(result.data.info)
+         let professionValus = Object.values(result.data.info)
+         for(var i = 0; i < profession.length; i++){
+              var obj = {
+                  name:profession[i],
+                  value:professionValus[i]
+              }
+             this.professionArr.push(obj)
+         }
+         this.distribution();
+    })
+    // 客户的资产分布
+    customerDetailsBarData({
+        time:'2018-01-10',
+        type:0
+    }).then(result=>{
+        console.log(result.data.info)
+        let valueArr = Object.values(result.data.info)
+        for(var i = 0; i < valueArr.length; i++){
+             if(this.type == 0){
+                 this.numericalValue.push(valueArr[i].value)
+                 this.sectionArr.push(valueArr[i].category_name)
+             }else if(this.type == 1){
+                 this.equityValue.push(valueArr[i].value)
+                 this.equityArr.push(valueArr[i].category_name)
+             }            
+        }
+        console.log(this.sectionArr)
+        console.log(this.numericalValue)
+        console.log(this.equityArr)
+        console.log(this.equityValue)
+        if(this.type == 0){
+           this.property();
+        }else if(this.type == 1){
+          this.customerEquity()
+        }
+        
+    })
+  },
+  watch:{
+    startTime(){
+      if(this.startTime != ''){
+        customerDetailsBarData({
+        time:this.startTime,
+        type:this.type
+        }).then(result=>{
+            console.log(result)
+            this.numericalValue = []
+            this.sectionArr = []
+            this.equityArr = []
+            this.equityValue = []
+            let valueArr = Object.values(result.data.info)
+            for(var i = 0; i < valueArr.length; i++){
+                 if(this.type == 0){
+                 this.numericalValue.push(valueArr[i].value)
+                 this.sectionArr.push(valueArr[i].category_name)
+                 }else if(this.type == 1){
+                     this.equityValue.push(valueArr[i].value)
+                 this.equityArr.push(valueArr[i].category_name)
+                 }       
+            }
+            console.log(this.sectionArr)
+            console.log(this.numericalValue)
+            console.log(this.equityArr)
+            console.log(this.equityValue)
+            if(this.type == 0){
+              this.property();
+            }else if(this.type == 1){
+              this.customerEquity()
+            }
+        })
+      }
+    },
+    type(){
+        customerDetailsBarData({
+        time:this.startTime,
+        type:this.type
+        }).then(result=>{
+            console.log(result)
+            this.numericalValue = []
+            this.sectionArr = []
+            this.equityArr = []
+            this.equityValue = []
+            let valueArr = Object.values(result.data.info)
+            for(var i = 0; i < valueArr.length; i++){
+                 if(this.type == 0){
+                 this.numericalValue.push(valueArr[i].value)
+                 this.sectionArr.push(valueArr[i].category_name)
+                 }else if(this.type == 1){
+                    this.equityValue.push(valueArr[i].value)
+                    this.equityArr.push(valueArr[i].category_name)
+                 }    
+            }
+            console.log(this.sectionArr)
+            console.log(this.numericalValue)
+             console.log(this.equityArr)
+            console.log(this.equityValue)
+            if(this.type == 0){
+               this.property();
+            }else if(this.type == 1){
+              this.customerEquity()
+            }
+        })
+    }
   },
   methods: {
+    moment,
+    // 转化数字格式
+    toThousands_a(num) {
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    },
+    // 转化数字格式
+    toThousands_b(num) {
+      return (num || 0).toString().replace(/(\d{1,3})(?=(?:\d{3})+\.)/g,'$1,')
+    },
+    // 获取时间区间
+    onChangeRadio(date, dateString){
+       this.startTime = dateString
+       console.log(this.startTime)
+    },
+    changeAction(activeKey){
+       if(activeKey == 1){
+           this.type = 0
+       }else{
+          this.type = 1
+       }
+    },
+    // 客户分布的职业分布
     distribution(){
         var disChart = echarts.init(document.getElementById('distribution'));
         var option = {
@@ -149,8 +460,8 @@ export default {
           },
             series: [{
                 type: 'wordCloud',
-                gridSize: 20,
-                sizeRange: [20, 70],
+                gridSize: 5,
+                sizeRange: [20, 60],
                 rotationRange: [0, 0],
                 shape: 'circle',
                 textStyle: {
@@ -168,70 +479,12 @@ export default {
                         shadowColor: '#333'
                     }
                 },
-                data: [{
-                    name: 'Sam S Club',
-                    value: 10000,
-                    textStyle: {
-                        normal: {
-                            color: 'black'
-                        },
-                        emphasis: {
-                            color: 'red'
-                        }
-                    }
-                }, {
-                    name: '公务员',
-                    value: 6181
-                }, {
-                    name: '司机',
-                    value: 4386
-                }, {
-                    name: '学生',
-                    value: 4055
-                }, {
-                    name: '金融行业',
-                    value: 2467
-                }, {
-                    name: '退休人员',
-                    value: 2244
-                }, {
-                    name: '农民',
-                    value: 1898
-                }, {
-                    name: '工人',
-                    value: 1484
-                }, {
-                    name: '教师',
-                    value: 1112
-                }, {
-                    name: '军人',
-                    value: 965
-                }, {
-                    name: 'Johnny Depp',
-                    value: 847
-                }, {
-                    name: 'Lena Dunham',
-                    value: 582
-                }, {
-                    name: 'Lewis Hamilton',
-                    value: 555
-                }, {
-                    name: 'Mary Ellen Mark',
-                    value: 462
-                }, {
-                    name: 'Farrah Abraham',
-                    value: 366
-                }, {
-                    name: 'Serena Williams',
-                    value: 282
-                }, {
-                    name: 'NCAA baseball tournament',
-                    value: 273
-                }]
+                data:this.professionArr,
             }]
         };
       disChart.setOption(option)
     },
+    // 客户分布的区域地图分布
     mapAction(){
       var mapChart= echarts.init(document.getElementById("center-map"))
        function randomValue() {
@@ -252,7 +505,7 @@ export default {
                         {start: 0, end: 1000,color: '#53C6D3'},
                     ],
                   inRange: {
-                    color: ['rgb(208, 106, 77)','rgb(53, 189, 208)']
+                     color: ['rgb(208, 106, 77)','rgb(53, 189, 208)']
                   },
                   right:'20px',
                   bottom:'20px',
@@ -396,6 +649,7 @@ export default {
         //   },1500)
         // }) 
     },
+    // 客户的资产分布客户数
     property(){
       var cyChart = echarts.init(document.getElementById('three'));
       var option = {
@@ -418,26 +672,28 @@ export default {
           xAxis: [
               {
                   type: 'category',
-                  data: ['(0.5千)','(0.5千,2万)','(2万,10万)','(10万,100万)','(100万,10000万)','(10000万,20000万)','(20000万,1亿)'],
+                  data:this.sectionArr,
                   axisPointer: {
                       type: 'shadow'
                   },
                   axisLine:{
-                  lineStyle:{
-                      color:'#D9D9D9',
-                      width:0.5
-                  }
+                    lineStyle:{
+                        color:'#D9D9D9',
+                        width:0.5
+                    }
                   },
                   axisLabel:{
                     color:'#333',
+                    fontStyle:10
                   },
               }
           ],
           yAxis: [
               {
                   type: 'value',
-                  max: 180000,
-                  interval: 30000,
+                  max:function(value){
+                    return value.max
+                  },
                   splitLine: {
                   show: true,
                   lineStyle:{
@@ -461,7 +717,7 @@ export default {
               {
                   name:'新增总客户数',
                   type:'bar',
-                  data:[160000, 55000, 10000, 800, 600, 400, 200],
+                  data:this.numericalValue,
                   itemStyle:{
                     normal:{
                       color:'#1890FF',
@@ -473,6 +729,87 @@ export default {
       };
       cyChart.setOption(option);
     },
+    // 客户资产
+    customerEquity(){
+       var eqChart = echarts.init(document.getElementById('customerEquity'));
+       var option = {
+          tooltip: {
+              trigger: 'axis',
+              axisPointer: {
+                  type: 'cross',
+                  crossStyle: {
+                      color: '#999'
+                  }
+              }
+          },
+          grid: {
+              left: '0%',
+              top: '2%',
+              right: '0.8%',
+              bottom: '10%',
+              containLabel: true
+          },
+          xAxis: [
+              {
+                  type: 'category',
+                  data:this.equityArr,
+                  axisPointer: {
+                      type: 'shadow'
+                  },
+                  axisLine:{
+                    lineStyle:{
+                        color:'#D9D9D9',
+                        width:0.5
+                    }
+                  },
+                  axisLabel:{
+                    color:'#333',
+                    fontStyle:10
+                  },
+              }
+          ],
+          yAxis: [
+              {
+                  type: 'value',
+                  max:function(value){
+                    return value.max
+                  },
+                  splitLine: {
+                  show: true,
+                  lineStyle:{
+                          width:0.5,
+                          type: 'dashed'
+                      }
+                  },
+                  axisLine:{
+                  lineStyle:{
+                      color:'#D9D9D9',
+                      width:0.5
+                  }
+                  },
+                  axisLabel:{
+                    color:'#333',
+                  },
+              }
+              
+          ],
+          series: [
+              {
+                  name:'客户资产',
+                  type:'bar',
+                  data:this.equityValue,
+                  itemStyle:{
+                    normal:{
+                      color:'#1890FF',
+                    },
+                  },
+                  barWidth: 28,
+              }
+          ]
+      };
+      eqChart.setOption(option);
+    },
+    // 性别年龄分布
     sexPieAction(){
         var pieChart = echarts.init(document.getElementById('sexPie'));
         var option = {
@@ -493,7 +830,9 @@ export default {
               legend:{
                   data:['>50岁','25-50岁','<25岁'],
                   x: 'center',
-                  y: 'bottom'
+                  y: 'bottom',
+                  itemWidth:20,
+                  itemHeight:14 
               },
               color:['#3AA1FF','#4ECB73','#FBD437'],
               series : [
@@ -503,9 +842,9 @@ export default {
                       radius: ['45%', '60%'],
                       center: ['50%', '60%'],
                       data:[
-                          {value:225, name:'>50岁'},
-                          {value:200, name:'25-50岁'},
-                          {value:80, name:'<25岁'},
+                          {value:this.ageArr[0], name:'>50岁'},
+                          {value:this.ageArr[1], name:'25-50岁'},
+                          {value:this.ageArr[2], name:'<25岁'},
                       ],
                       itemStyle: {
                           emphasis: {
@@ -529,5 +868,25 @@ export default {
     border-top: 1px solid #e8e8e8;
     padding-top: 9px;
     margin-top: 8px;
+}
+.icon-up{
+   color: #f5222d;
+}
+.icon-down{
+   color: #52c41a;
+}
+.chart-trend{
+  display: inline-block;
+  font-size: 14px;
+  line-height: 22px;
+  .chart-trend-icon{
+    font-size: 12px;
+    &.up{
+      color: #f5222d;
+    }
+    &.down{
+      color: #52c41a;
+    }
+  }
 }
 </style>

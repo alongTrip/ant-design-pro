@@ -148,13 +148,13 @@ export default new Router({
             },
             {
               path: '/detail/cusDistribution',
-              name: '客户分布详情',
+              name: '客户现状详情',
               icon: 'none',
               component: () => import('@/components/detail/cusDistribution')
             },
             {
               path: '/detail/customerStatus',
-              name: '客户现状详情',
+              name: '客户分布详情',
               icon: 'none',
               component: () => import('@/components/detail/customerStatus')
             }

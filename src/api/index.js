@@ -59,40 +59,40 @@ const ADD_CUSTOMER_API = '/api/status/addcus';
 const CUSTOMER_DETAIL_API = '/api/status/detail';
 
 /*
-  接口功能：客户分布首页卡片的数据
+  接口功能：客户分布首页卡片的数据(完成)
   接口参数：
 */
-const DISTRIBUTION_CARD_API = '';
+const DISTRIBUTION_CARD_API = '/api/distribute/info';
 
 /*
   接口功能：客户分布地域分布地图的数据
   接口参数：
 */
-const DISTRIBUTION_MAP_API = '';
+const DISTRIBUTION_MAP_API = '/api/distribute/regdis';
 
 /*
-  接口功能：客户分布性别年龄分布的数据
+  接口功能：客户分布性别年龄分布的数据(完成)
   接口参数：
 */
-const DISTRIBUTION_PIE_API = '';
+const DISTRIBUTION_PIE_API = '/api/distribute/sexdis';
 
 /*
-  接口功能：客户分布职业分布的数据
+  接口功能：客户分布职业分布的数据(完成)
   接口参数：
 */
-const DISTRIBUTION_CLOUD_API = '';
+const DISTRIBUTION_CLOUD_API = '/api/distribute/occdis';
 
 /*
-  接口功能：客户分布资产分布的数据
+  接口功能：客户分布资产分布的数据(完成)
   接口参数：
 */
-const DISTRIBUTION_BAR_API = '';
+const DISTRIBUTION_BAR_API = '/api/distribute/asset';
 
 /*
   接口功能：客户分布详情页的数据
   接口参数：
 */
-const DISTRIBUTION_DETAIL_API = '';
+const DISTRIBUTION_DETAIL_API = '/api/distribute/detail';
 
 export default {
   TRADITIONAL_DETAIL_API,

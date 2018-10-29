@@ -133,16 +133,16 @@
                     :format="dateFormat"
                   />
               </div>
-              <a-tab-pane loading="true" tab="交易量" key="2">
+              <a-tab-pane loading="true" tab="交易量" key="1">
                 <a-row>
                 <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
                   <div id="business" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
                   <!-- </a-col> -->
                 </a-row>
               </a-tab-pane>
-              <a-tab-pane tab="净佣金" key="1">
+              <a-tab-pane tab="净佣金" key="2">
                 <a-row>
-                   <div id="brokerage" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+                  <!--  <div id="brokerage" style="height:350px;width:1124px;left:-22px;top:-18px;"></div> -->
                 </a-row>
               </a-tab-pane>
             </a-tabs>
@@ -354,7 +354,7 @@ export default {
        // console.log(this.hkwolunValue)
        // console.log(this.individualValue)
       this.initBusinessChart();
-      this.brokerageAction()
+      // this.brokerageAction()
 		 })
   },
   watch: {
@@ -679,105 +679,105 @@ export default {
       };
       businessChart.setOption(option);
     },
-    brokerageAction() {
-      var brokerageChart = echarts.init(document.getElementById("brokerage"));
-      var option = {
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#6a7985"
-            }
-          }
-        },
-        legend: {
-          data: ["新三板", "港股通", "个股期权"],
-          left: "center",
-          top: "bottom",
-          padding: [0, 100, 0, 0],
-          itemGap:30,
-          selected:{
-             "新三板":true,
-             "港股通":true,
-             "个股期权":false,
-          }
-        },
-        grid: {
-          top: "8%",
-          left: "3%",
-          right: "4%",
-          bottom: "10%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            boundaryGap: false,
-            data:this.newYearArr,
-             axisLabel:{
-                 interval:Math.floor(this.yearArr.length/6),
-            },
-          }
-        ],
-        yAxis: [
-          {
-            type: "value",
-            max: function(value) {
-              return Math.round(value.max);
-            }
-          }
-        ],
-        series: [
-          {
-            name: "新三板",
-            type: "line",
-            stack: "总量",
-            areaStyle: {},
-            data:this.neeqValue,
-            itemStyle: {
-              normal: {
-                color: "#1B91FF",
-                lineStyle: {
-                  color: "#1B91FF"
-                }
-              }
-            }
-          },
-          {
-            name: "港股通",
-            type: "line",
-            stack: "总量",
-            areaStyle: {},
-            data:this.hkwolunValue,
-            itemStyle: {
-              normal: {
-                color: "#2DBE67",
-                lineStyle: {
-                  color: "#2DBE67"
-                }
-              }
-            }
-          },
-          {
-            name: "个股期权",
-            type: "line",
-            stack: "总量",
-            areaStyle: {},
-            data:this.individualValue,
-            itemStyle: {
-              normal: {
-                color: "#FBDD60",
-                lineStyle: {
-                  color: "#FBDD60"
-                }
-              }
-            }
-          }
-        ]
-      };
-      brokerageChart.setOption(option);
-    }
+    // brokerageAction() {
+    //   var brokerageChart = echarts.init(document.getElementById("brokerage"));
+    //   var option = {
+    //     tooltip: {
+    //       trigger: "axis",
+    //       axisPointer: {
+    //         type: "cross",
+    //         label: {
+    //           backgroundColor: "#6a7985"
+    //         }
+    //       }
+    //     },
+    //     legend: {
+    //       data: ["新三板", "港股通", "个股期权"],
+    //       left: "center",
+    //       top: "bottom",
+    //       padding: [0, 100, 0, 0],
+    //       itemGap:30,
+    //       selected:{
+    //          "新三板":true,
+    //          "港股通":true,
+    //          "个股期权":false,
+    //       }
+    //     },
+    //     grid: {
+    //       top: "8%",
+    //       left: "3%",
+    //       right: "4%",
+    //       bottom: "10%",
+    //       containLabel: true
+    //     },
+    //     xAxis: [
+    //       {
+    //         type: "category",
+    //         boundaryGap: false,
+    //         data:this.newYearArr,
+    //          axisLabel:{
+    //              interval:Math.floor(this.yearArr.length/6),
+    //         },
+    //       }
+    //     ],
+    //     yAxis: [
+    //       {
+    //         type: "value",
+    //         max: function(value) {
+    //           return Math.round(value.max);
+    //         }
+    //       }
+    //     ],
+    //     series: [
+    //       {
+    //         name: "新三板",
+    //         type: "line",
+    //         stack: "总量",
+    //         areaStyle: {},
+    //         data:this.neeqValue,
+    //         itemStyle: {
+    //           normal: {
+    //             color: "#1B91FF",
+    //             lineStyle: {
+    //               color: "#1B91FF"
+    //             }
+    //           }
+    //         }
+    //       },
+    //       {
+    //         name: "港股通",
+    //         type: "line",
+    //         stack: "总量",
+    //         areaStyle: {},
+    //         data:this.hkwolunValue,
+    //         itemStyle: {
+    //           normal: {
+    //             color: "#2DBE67",
+    //             lineStyle: {
+    //               color: "#2DBE67"
+    //             }
+    //           }
+    //         }
+    //       },
+    //       {
+    //         name: "个股期权",
+    //         type: "line",
+    //         stack: "总量",
+    //         areaStyle: {},
+    //         data:this.individualValue,
+    //         itemStyle: {
+    //           normal: {
+    //             color: "#FBDD60",
+    //             lineStyle: {
+    //               color: "#FBDD60"
+    //             }
+    //           }
+    //         }
+    //       }
+    //     ]
+    //   };
+    //   brokerageChart.setOption(option);
+    // }
   }
 };
 </script>

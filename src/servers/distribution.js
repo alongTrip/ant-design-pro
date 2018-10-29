@@ -39,7 +39,6 @@ export function customerDetailsPieData(parameters = {}){
         })
         .then(response=>{
             resolve(response.data);
-            // console.log(response)
         })
         .catch(error => {
             console.log('失败')
@@ -48,14 +47,13 @@ export function customerDetailsPieData(parameters = {}){
 }
 
 // 请求客户分布首页职业分布的数据
-export function customerDetailsCloundData(parameters = {}){
+export function customerDetailsCloundData(){
     return new Promise((resolve,reject) => {
         axios.post(API.DISTRIBUTION_CLOUD_API,{
-                ...parameters 
+            
         })
         .then(response=>{
             resolve(response.data);
-            // console.log(response)
         })
         .catch(error => {
             console.log('失败')
@@ -71,7 +69,6 @@ export function customerDetailsBarData(parameters = {}){
         })
         .then(response=>{
             resolve(response.data);
-            // console.log(response)
         })
         .catch(error => {
             console.log('失败')
