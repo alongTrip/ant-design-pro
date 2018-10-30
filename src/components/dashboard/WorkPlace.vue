@@ -5,58 +5,84 @@
       <a-row style="margin: 0 -12px">
     <!-- 结构一 -->
         <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-          <chart-card title="当前总客户数" total="417,130">
+          <chart-card title="前日总客户数(户)" :total="amount">
             <a-tooltip title="指标说明" slot="action">
               <a-icon type="info-circle-o" />
             </a-tooltip>
-            <div>
-              <trend style="margin-right: 16px" term="较上日变化" :percent="19" :is-increase="false" :scale="0" />
-              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            <div class="chart-trend">
+                  日环比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_aa == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_aa == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(amountDaysFrom/10000) + '%'}}</span>
             </div>
           </chart-card>
         </a-col>
         <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-          <chart-card title="当前总有效户数" total="87,587">
+          <chart-card title="前日总有效户数(户)" :total="effective">
             <a-tooltip title="指标说明" slot="action">
               <a-icon type="info-circle-o" />
             </a-tooltip>
-            <div>
-              <trend style="margin-right: 16px" term="较上日变化" :percent="3.45" :is-increase="true" :scale="0" />
-              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+             <div class="chart-trend">
+                  日环比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_bb == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_bb == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(effectiveDaysFrom/10000) + '%'}}</span>
             </div>
           </chart-card>
         </a-col>
         <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-          <chart-card title="当年有效户增加数" total="1,123">
+          <chart-card title="当年新开客户数(户)" :total="newCustomers">
             <a-tooltip title="指标说明" slot="action">
               <a-icon type="info-circle-o" />
             </a-tooltip>
-            <div>
-              <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
-              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            <div class="chart-trend">
+                  年同比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_cc == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_cc == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(newCustomersDaysFrom/100) + '%'}}</span>
             </div>
           </chart-card>
         </a-col>
         <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
-          <chart-card title="当年有效户流失数" total="715">
+          <chart-card title="当年流失客户数(户)" total="715">
             <a-tooltip title="指标说明" slot="action">
               <a-icon type="info-circle-o" />
             </a-tooltip>
-            <div>
-              <trend style="margin-right: 16px" term="年同比" :percent="3.46" :is-increase="true" :scale="0" />
-              <!-- <trend term="涨跌" :target="100" :value="94" :scale="0" /> -->
+            <div class="chart-trend">
+                  年同比
+                  <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                     <a-icon v-if="icon_dd == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_dd == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(customerLoseDaysFrom/100) + '%'}}</span>
             </div>
           </chart-card>
         </a-col>
     <!-- 结构二 -->
         <a-col :sm="24" :md="12"  style="padding: 12px 12px 24px;width:50%;position:relative;">
-          <chart-card title="当年客户资产总额(亿元)" total="83,128">
+          <chart-card title="当月新开有效户(户)" :total="aNewEffective">
             <a-tooltip title="指标说明" slot="action">
               <a-icon type="info-circle-o" />
             </a-tooltip>
-            <div>
-              <trend style="margin-right: 16px" term="年同比" :percent="2" :is-increase="true" :scale="0" />
-              <trend term="日环比" :target="100" :value="89" :scale="0" />
+            <div class="chart-trend">
+                  年同比
+                  <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                     <a-icon v-if="icon_ee == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_ee == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span style="padding-right:10px;">{{Math.abs(nannualBasis_a/100) + '%'}}</span>
+                  月环比
+                  <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                     <a-icon v-if="icon_ff == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_ff == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(monthCompared_a/100) + '%'}}</span>
             </div>
           </chart-card>
           <div>
@@ -64,13 +90,23 @@
             </div>
         </a-col>
         <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;width:50%;position:relative;">
-          <chart-card title="有效户率" total="16.89%">
+          <chart-card title="有效户率" :total="openingEfficiency">
             <a-tooltip title="指标说明" slot="action">
               <a-icon type="info-circle-o" />
             </a-tooltip>
-            <div>
-              <trend style="margin-right: 16px" term="年同比" :percent="2" :is-increase="true" :scale="0" />
-              <trend term="日环比" :target="100" :value="89" :scale="0" />
+            <div class="chart-trend">
+                  年同比
+                  <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                     <a-icon v-if="icon_kk == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_kk == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span style="padding-right:10px;">{{Math.abs(nannualBasis_b/100) + '%'}}</span>
+                  月环比
+                  <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                     <a-icon v-if="icon_ii == true" style="color: #f5222d;" type="caret-up"/>
+                     <a-icon v-if="icon_ii == false" style="color: #52c41a;" type="caret-down"/>
+                  </span>
+                  <span>{{Math.abs(monthCompared_b/100) + '%'}}</span>
             </div>
           </chart-card>
           <div>
@@ -103,7 +139,7 @@
             <h2 style="float:left;padding-left:25px;font-size:18px;">新增客户情况</h2>
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
-         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
+         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%" @change="newCustomerAction">
           <div class="extra-wrap" slot="tabBarExtraContent">
                <a-range-picker style="float:right;margin-top:12px;margin-right:26px;width:230px;"
                :defaultValue="[moment('2017-10', monthFormat), moment('2018-09', monthFormat)]"
@@ -116,15 +152,12 @@
           </div>
           <a-tab-pane loading="true" tab="客户数" key="1">
             <a-row>
-             <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
-                <!-- <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div> -->
                 <div id="three" style="width:1100px;height:300px;float:left"></div>
-             <!--  </a-col> -->
             </a-row>
           </a-tab-pane>
           <a-tab-pane tab="客户资产" key="2">
             <a-row>
-              
+                <div id="equityCus" style="width:1100px;height:300px;float:left"></div>
             </a-row>
           </a-tab-pane>
         </a-tabs>
@@ -165,19 +198,52 @@ export default {
       mode1: 'time',
       mode2: ['month', 'month'],
       value: [],
+      // 前日总客户数
+      amount:null,
+      icon_aa:null,
+      amountDaysFrom:null,
+      // 前日总有效户数
+      effective:null,
+      icon_bb:null,
+      effectiveDaysFrom:null,
+      // 当年新开客户数
+      newCustomers:null,
+      icon_cc:null,
+      newCustomersDaysFrom:null,
+      // 当年流失客户数
+      customerLose:null,
+      icon_dd:null,
+      customerLoseDaysFrom:null,
+      // 当月新开有效户、
+      aNewEffective:null,
+      icon_ee:null,
+      nannualBasis_a:null,
+      icon_ff:null,
+      monthCompared_a:null,
+      // 有效户率
+      openingEfficiency:null,
+      icon_kk:null,
+      nannualBasis_b:null,
+      icon_ii:null,
+      monthCompared_b:null,
       // 新增和流失客户情况
       radioTime:'',
+      yAxisLength:null,
       inquireYears:[],
       activateCus:[],
       newOpenCus:[],
       recessiveLoss:[],
       dominantLoss:[],
       // 新增客户情况
-      addStartTime:'2017-01-01',
-      addEndTime:'2018-10-21',
+      addStartTime:'2017-10',
+      addEndTime:'2018-09',
+      type:0,
       addYearArr:[],
       validCusArr:[],
       customerArr:[],
+      // 新增客户资产、
+      assetsYearArr:[],
+      assetsValueArr:[],
     }
   },
   computed: {
@@ -186,41 +252,88 @@ export default {
      }
   },
   mounted(){
-    // 转化日期格式 2018年1月
-    var aa = '20180102'
-    var arr = aa.split('')
-    // arr.push('日')
-    // arr[4] = '年'
-    // arr[7] = '月'
-    // if(arr[5] == '0'){
-    //     arr[5] = ''
-    // }
-    // if(arr[8] == '0'){
-    //     arr[8] = ''
-    // }
-    arr.splice(4,0,'-')
-    arr.splice(7,0,'-')
-    var str = arr.join('')
-    // console.log(str)
-    // 数字每隔3位加上一个逗号
-    function toThousands(num) {
-      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-    }
-    // console.log(toThousands(1887561))
-
-
-    // this.statusCard();
-    this.addLostCustomer();
-    this.addCustomer();
-    // 客户现状卡片数据
+// 客户现状卡片数据
     distributionlCardData().then(result=>{
-          // console.log('客户分布卡片数据',result)
+          var dat = result.data.info
+          // CUST_NUM_DAY当前总客户数，
+          this.amount = this.toThousands(dat.CUST_NUM_DAY.value)
+          var num_a = dat.CUST_NUM_DAY.value_offset
+          if(num_a > 0){
+             this.icon_aa = true
+          }else if(num_a < 0){
+            this.icon_aa = false
+          }
+          this.amountDaysFrom = Math.round(num_a*10000)
+          // ACTIVE_CUST_NUM_DAY当前总有效客户数，
+          this.effective = this.toThousands(dat.ACTIVE_CUST_NUM_DAY.value)
+          var num_b = dat.ACTIVE_CUST_NUM_DAY.value_offset
+          if(num_b > 0){
+             this.icon_bb = true
+          }else if(num_b < 0){
+            this.icon_bb = false
+          }
+          this.effectiveDaysFrom = Math.round(num_b*10000)
+          //NEW_CUST_NUM_YEAR当年新开客户数，
+          this.newCustomers = this.toThousands(dat.NEW_CUST_NUM_YEAR.value)
+          var num_c = dat.NEW_CUST_NUM_YEAR.value_updown
+          if(num_c > 0){
+             this.icon_cc = true
+          }else if(num_c < 0){
+            this.icon_cc = false
+          }
+          this.newCustomersDaysFrom = Math.round(num_c*100)
+          //LOST_CUST_YEAR_ALL当年流失客户数，
+          this.customerLose = this.toThousands(dat.LOST_CUST_YEAR_ALL.value)
+          var num_d = dat.LOST_CUST_YEAR_ALL.value_updown
+          if(num_d > 0){
+             this.icon_dd = true
+          }else if(num_d < 0){
+             this.icon_dd = false
+          }
+          this.customerLoseDaysFrom = Math.round(num_d*100)
+          //NEW_ACTIVE_CUST_MONTH当月新开有效客户，
+          this.aNewEffective = this.toThousands(dat.NEW_ACTIVE_CUST_MONTH.value)
+          // 年
+          var  numYear_a = dat.NEW_ACTIVE_CUST_MONTH.value_updown
+          if(numYear_a > 0){
+             this.icon_ee = true
+          }else if(numYear_a < 0){
+             this.icon_ee = false
+          }
+          this.nannualBasis_a = Math.round(numYear_a*100)
+          // 月
+          var  numMonth_a = dat.NEW_ACTIVE_CUST_MONTH.value_offset
+          if(numMonth_a > 0){
+             this.icon_ff = true
+          }else if(numMonth_a < 0){
+             this.icon_ff = false
+          }
+          this.monthCompared_a = Math.round(numMonth_a*100)
+          //ACTIVE_CUST_RATE有效客户率
+          this.openingEfficiency = Math.round(dat.ACTIVE_CUST_RATE.value*100)/100 + '%'
+          // 年
+          var  numYear_b = dat.ACTIVE_CUST_RATE.value_updown
+          if(numYear_b > 0){
+             this.icon_kk = true
+          }else if(numYear_b < 0){
+             this.icon_kk = false
+          }
+          this.nannualBasis_b = Math.round(numYear_b*100)
+          // 月
+          var  numMonth_b = dat.ACTIVE_CUST_RATE.value_offset
+          if(numMonth_b > 0){
+             this.icon_ii = true
+          }else if(numMonth_b < 0){
+             this.icon_ii = false
+          }
+          this.monthCompared_b = Math.round(numMonth_b*100)
       })
 
 // 客户现状新增和流失客户数据 
     distributionlAddLostData({
-              time:'2018-05-15'
+              time:'2018-10-09'
           }).then(result=>{
+            console.log(result)
             var addLostData = Object.values(result.data.info) 
             let arr = []
             for(var i = 0; i < addLostData.length; i++){
@@ -230,7 +343,7 @@ export default {
                       this.newOpenCus.push(addLostData[i][j].value)
                   }else if(addLostData[i][j].type == 'REVALUED_DAY'){
                       this.activateCus.push(addLostData[i][j].value)
-                  }else if(addLostData[i][j].type == 'LOST_CUST_YEAR'){
+                  }else if(addLostData[i][j].type == 'LOST_CUST_NUM_DAY'){
                       this.recessiveLoss.push(addLostData[i][j].value)
                   }else if(addLostData[i][j].type == 'LOSS_CUST_NUM_YEAR'){
                       this.dominantLoss.push(addLostData[i][j].value)
@@ -243,22 +356,34 @@ export default {
             let yearArr = filterArr.map(item=>{
                 return item + '年'
             })
+            let sortArr = []
+            sortArr.push(Math.max.apply(null, this.newOpenCus))
+            sortArr.push(Math.max.apply(null, this.activateCus))
+            sortArr.push(Math.max.apply(null, this.recessiveLoss))
+            sortArr.push(Math.max.apply(null, this.dominantLoss))
+            var max2 = sortArr.sort(function(a,b){
+                return b-a;
+            });
+            console.log(this.newOpenCus)
+            console.log(this.activateCus)
+            console.log(this.recessiveLoss)
+            console.log(this.dominantLoss)
+            this.yAxisLength = max2
             this.inquireYears = yearArr      
             this.addLostCustomer();
             this.statusCard()
        })
 
-//NEW_CUST_MONTH当月新开客户数，NEW_ACTIVE_CUST_MONTH当月新开有效户
-      // 新增客户数据
+// 新增客户数据
     distributionlAddData({
-         start:'2017-01',
-         end:'2018-01'
+         start:this.addStartTime,
+         end:this.addEndTime,
+         type:0
       }).then(result=>{
-          console.log('新增客户情况',result)
           var newcusArr = Object.values(result.data.info.NEW_CUST_MONTH)
-          console.log('新增有效户',newcusArr)
+          // console.log('新增有效户',newcusArr)
           var newActiveCus = Object.values(result.data.info.NEW_ACTIVE_CUST_MONTH)
-          console.log('新增总客户数',newActiveCus)
+          // console.log('新增总客户数',newActiveCus)
           for(var i = 0; i<newcusArr.length ;i++){
                let yearsArr = newcusArr[i].day
                var arr = yearsArr.split('')
@@ -268,32 +393,121 @@ export default {
                this.validCusArr.push(newcusArr[i].value)
                this.customerArr.push(newActiveCus[i].value)
           }
+          // console.log(this.addYearArr)
+          // console.log(this.validCusArr)
+          // console.log(this.customerArr)
           this.addCustomer();
       })
   },
   watch:{
-     //选择日期后新增客户情况
+      // 新增和流失客户
+     radioTime(){
+          if(this.radioTime != ''){
+              distributionlAddLostData({
+                time:this.radioTime
+            }).then(result=>{
+              console.log(result)
+              var addLostData = Object.values(result.data.info) 
+              let arr = []
+              this.newOpenCus = []
+              this.activateCus = []
+              this.recessiveLoss = []
+              this.dominantLoss = []
+              for(var i = 0; i < addLostData.length; i++){
+                 for(var j = 0; j < addLostData[i].length; j++){
+                    arr.push(addLostData[i][j].date.substr(0,4))
+                    if(addLostData[i][j].type == 'ACTIVE_CUST_NUM_YEAR'){
+                        this.newOpenCus.push(addLostData[i][j].value)
+                    }else if(addLostData[i][j].type == 'REVALUED_DAY'){
+                        this.activateCus.push(addLostData[i][j].value)
+                    }else if(addLostData[i][j].type == 'LOST_CUST_YEAR'){
+                        this.recessiveLoss.push(addLostData[i][j].value)
+                    }else if(addLostData[i][j].type == 'LOSS_CUST_NUM_YEAR'){
+                        this.dominantLoss.push(addLostData[i][j].value)
+                    }
+                 }
+              }
+              var filterArr = arr.filter(function(element,index,self){
+                    return self.indexOf(element) === index;
+               })
+              let yearArr = filterArr.map(item=>{
+                  return item + '年'
+              })
+              let sortArr = []
+              sortArr.push(Math.max.apply(null, this.newOpenCus))
+              sortArr.push(Math.max.apply(null, this.activateCus))
+              sortArr.push(Math.max.apply(null, this.recessiveLoss))
+              sortArr.push(Math.max.apply(null, this.dominantLoss))
+              var max2 = sortArr.sort(function(a,b){
+                  return b-a;
+              });
+              this.yAxisLength = max2
+              this.inquireYears = yearArr
+              this.addLostCustomer();
+              this.statusCard()
+         })
+       }
+     },
+    //新增客户情况
      addStartTime(){ 
         if(this.addStartTime != ''){
-          distributionlAddData({
-             start:this.addStartTime,
-             end:this.addEndTime
-          }).then(result=>{
-              var addArr = Object.values(result.data.info)
-              for(var i = 0 ; i < addArr.length ; i++){
-                  this.addYearArr.push(addArr[i].date)
-                  this.validCusArr.push(addArr[i].v1)
-                  this.customerArr.push(addArr[i].v2)
+           
+        }
+      },
+    //新增客户情况
+    type(){
+      distributionlAddData({
+         start:'2017-01',
+         end:'2018-01',
+         type:this.type
+      }).then(result=>{
+        console.log(result)
+           if(this.type == 0){
+            this.addYearArr = []
+            this.validCusArr = []
+            this.customerArr = []
+                var newcusArr = Object.values(result.data.info.NEW_CUST_MONTH)
+                // console.log('新增有效户',newcusArr)
+                var newActiveCus = Object.values(result.data.info.NEW_ACTIVE_CUST_MONTH)
+                // console.log('新增总客户数',newActiveCus)
+                for(var i = 0; i<newcusArr.length ;i++){
+                   let yearsArr = newcusArr[i].day
+                   var arr = yearsArr.split('')
+                   arr.splice(4,0,'-')
+                   var str = arr.join('')
+                   this.addYearArr.push(str)
+                   this.validCusArr.push(newcusArr[i].value)
+                   this.customerArr.push(newActiveCus[i].value)
               }
               this.addCustomer();
-          })
-        }
-      }
-    },
+           }else if(this.type == 1){
+              this.assetsYearArr = []
+              this.assetsValueArr = []
+               var newlyAssets = Object.values(result.data.info.NEW_CUST_ASSET_MONTH)
+               for(var i = 0 ; i < newlyAssets.length ; i++){
+                    let yearsArr2 = newlyAssets[i].day
+                     var arr2 = yearsArr2.split('')
+                     arr2.splice(4,0,'-')
+                     var str2 = arr2.join('')
+                    this.assetsYearArr.push(str2)
+                    this.assetsValueArr.push(newlyAssets[i].value)
+               }
+            this.addEquityCus()
+          }
+          console.log(this.assetsYearArr)
+          console.log(this.assetsValueArr)
+      })
+    }
+  },
   methods: {
-    onChangeRadio(date, dateString){
-       this.radioTime = dateString
-    },
+      // 转化数字格式
+      toThousands(num) {
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+      },
+      onChangeRadio(date, dateString){
+         this.radioTime = dateString
+         console.log(this.radioTime)
+      },
       // 日期选择框
       moment,
       handleOpenChange1(open) {
@@ -311,15 +525,20 @@ export default {
           mode[0] === 'date' ? 'month' : mode[0],
           mode[1] === 'date' ? 'month' : mode[1],
         ]
-        // console.log(moment[moment(mode[0],format('YYYY-MM')),moment(mode[1],format('YYYY-MM'))])
-        // console.log(moment.format('YYYY-MM'))
       },
-      //  onChange(data,dateString) {
-      //     this.addStartTime = dateString[0]
-      //     this.addEndTime = dateString[1]
-      //     console.log(dateString)
-      //     console.log(1)
-      // },
+  // tab 切换
+  newCustomerAction(activeKey){
+       if(activeKey == 1){
+          this.type = 0
+       }else{
+          this.type = 1
+       }
+      console.log(this.type)
+      var _this = this
+      setTimeout(function(){
+         _this.addEquityCus()
+      },3000)
+    },
   // 增加和流失left
   addLostCustomer(){
      var aChart = echarts.init(document.getElementById('first'));  
@@ -339,7 +558,7 @@ export default {
                 itemGap:20
             },
             grid: {
-                left: '3%',
+                left: '5%',
                 top:'10%',
                 right: '0.8%',
                 bottom: '12%',
@@ -348,9 +567,7 @@ export default {
             xAxis:  {
                 type: 'value',
                 min:0,
-                max: function(value) {
-                  return value.max*2;
-                },
+                max:this.yAxisLength[0] + this.yAxisLength[1],
                 inverse:true,
                 axisLine:{
                     lineStyle:{
@@ -414,10 +631,10 @@ export default {
                 },
             ]
         }; 
-        aChart.setOption(option);
-      },
-      // 新增和流失 right
-     statusCard(){
+      aChart.setOption(option);
+    },
+  // 新增和流失 right
+  statusCard(){
        var myChart = echarts.init(document.getElementById('main'));
         var option = {
           tooltip : {
@@ -444,9 +661,7 @@ export default {
           xAxis:  {
               type: 'value',
               min:0,
-              max: function(value) {
-                  return value.max*2;
-              },
+              max:this.yAxisLength[0] + this.yAxisLength[1],
               axisLine:{
                   lineStyle:{
                       color:'#D9D9D9',
@@ -506,12 +721,12 @@ export default {
                   data:this.dominantLoss
                 }
               ]
-            }; 
-            myChart.setOption(option);  
-        },
-      // 新增客户情况
-      addCustomer(){
-          var cyChart = echarts.init(document.getElementById('three'));
+           }; 
+        myChart.setOption(option);  
+    },
+ // 新增客户情况
+  addCustomer(){
+      var cyChart = echarts.init(document.getElementById('three'));
             var option = {
                 tooltip: {
                     trigger: 'axis',
@@ -606,10 +821,98 @@ export default {
                         barGap:-0.5
                     }
                 ]
-            };
-            cyChart.setOption(option);
-        }
-    }
+           };
+        cyChart.setOption(option);
+    },
+   // 新增客户资产
+   addEquityCus(){
+      var eqChart = echarts.init(document.getElementById('equityCus'))
+      var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                legend: {
+                    data:['新增有效户','新增总客户数'],
+                    x:'center',
+                    y:'bottom',
+                    itemWidth:12,
+                    itemHeight:12,
+                    itemGap:50
+                },
+                 grid: {
+                    left: '1%',
+                    top:'5%',
+                    right: '0.8%',
+                    bottom: '12%',
+                    containLabel: true
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data:this.assetsYearArr,
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        axisLine:{
+                        lineStyle:{
+                            color:'#D9D9D9',
+                            width:0.5
+                        }
+                        },
+                        axisLabel:{
+                           color:'#333',
+                        },
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        max: function(value) {
+                          return value.max;
+                        },
+                        splitLine: {
+                        show: true,
+                        lineStyle:{
+                                width:0.5,
+                                type: 'dashed'
+                            }
+                        },
+                        axisLine:{
+                        lineStyle:{
+                            color:'#D9D9D9',
+                            width:0.5
+                        }
+                        },
+                        axisLabel:{
+                           color:'#333',
+                        },
+                    }
+                    
+                ],
+                series: [
+                    {
+                        name:'新增有效户',
+                        type:'bar',
+                        data:this.assetsValueArr,
+                        itemStyle:{
+                          normal:{
+                            color:'#40A9FF',
+                          },
+                        },
+                        barWidth: 25,
+                        barGap:-0.5
+                    }
+                ]
+           };
+        eqChart.setOption(option);
+   }
+  }
 }
 </script>
 
@@ -619,5 +922,19 @@ export default {
   display: block;
   clear: both;
   padding-left:30px;
+}
+.chart-trend{
+  display: inline-block;
+  font-size: 14px;
+  line-height: 22px;
+  .chart-trend-icon{
+    font-size: 12px;
+    &.up{
+      color: #f5222d;
+    }
+    &.down{
+      color: #52c41a;
+    }
+  }
 }
 </style>

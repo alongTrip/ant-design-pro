@@ -1,11 +1,11 @@
 /*
-  接口功能：传统详情页数据
+  接口功能：传统详情页数据(完成)
   接口参数：
 */
 const TRADITIONAL_DETAIL_API = '/api/passageway/oldoperate';
 
 /*
-  接口功能：新业务详情页数据
+  接口功能：新业务详情页数据(完成)
   接口参数：
 */
 const NEW_BUSINESS_DETAIL_API = '/api/passageway/newoperate';
@@ -35,19 +35,19 @@ const ACCOUNT_VALUE_API = '/api/passageway/account';
 const BUSINESS_OPERATION_API = '/api/passageway/newbs';
 
 /*
-  接口功能：客户现状首页卡片的图表数据
+  接口功能：客户现状首页卡片的图表数据(完成)
   接口参数：
 */
 const ACTUALITY_CARD_API = '/api/status/info';
 
 /*
-  接口功能：客户现状首页新增和流失客户的图表数据
+  接口功能：客户现状首页新增和流失客户的图表数据(完成)
   接口参数：
 */
 const ADD_LOST_API = '/api/status/analysis';
 
 /*
-  接口功能：客户现状首页新增客户的图表数据
+  接口功能：客户现状首页新增客户的图表数据(差日期没有关联)
   接口参数：
 */
 const ADD_CUSTOMER_API = '/api/status/addcus';
@@ -89,7 +89,7 @@ const DISTRIBUTION_CLOUD_API = '/api/distribute/occdis';
 const DISTRIBUTION_BAR_API = '/api/distribute/asset';
 
 /*
-  接口功能：客户分布详情页的数据
+  接口功能：客户分布详情页的数据(完成)
   接口参数：
 */
 const DISTRIBUTION_DETAIL_API = '/api/distribute/detail';

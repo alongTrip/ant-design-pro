@@ -92,6 +92,13 @@
           <div class="salesCard" style="height:450px;float:left;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:750px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">地域分布(不含前海分公司)</h2>
+                <!-- <div style="float:right;width:200px;height:60px;display: flex;box-sizing:border-box;justify-content: center;align-items: center;">
+                    <p style="background: #1890FF;border-radius: 50%;width:15px;height:15px;margin-top:12px;border:1px solid #1890FF;
+                    box-shadow: 0 0  2px  0 #1890FF"></p>
+                    <span style="padding:0 10px;">有效户</span>
+                    <p style="background: #1890FF;border-radius: 50%;width:15px;height:15px;margin-top:12px;"></p>
+                    <span style="padding:0 10px;">总客户</span>
+                </div> -->
             </div>
             <div id="center-map" style="width: 750px;height:390px;top:-9px;"></div>
           </div>
@@ -202,6 +209,8 @@ export default {
         icon_d:null,
         index_d:null,
         creditTotalChange:null,
+      // 地域分布
+        datas:[],
       //性别年龄
         ageArr:[],
         boyValue:null,
@@ -220,8 +229,9 @@ export default {
     };
   },
   mounted(){
+    // 地图
     
-    this.mapAction();
+    // 卡片
     customerDetailsCardData().then(result=>{
         let dat = result.data.info
         //前日总客户数，
@@ -297,11 +307,17 @@ export default {
     customerDetailsMapData({
         type:0
     }).then(result=>{
+      console.log(result)
+       this.datas = []
        let data = Object.values(result.data.info)
-           // console.log(data)
        for(var i = 0; i < data.length;i++){
-              
+           var obj = {
+               name: data[i].prov_code,
+               value: data[i].num
+           }
+           this.datas.push(obj)
        }
+        this.mapAction();
     })
     // 性别年龄分布
     customerDetailsPieData().then(result=>{
@@ -338,7 +354,7 @@ export default {
         time:'2018-01-10',
         type:0
     }).then(result=>{
-        console.log(result.data.info)
+      // console.log(result)
         let valueArr = Object.values(result.data.info)
         for(var i = 0; i < valueArr.length; i++){
              if(this.type == 0){
@@ -349,10 +365,6 @@ export default {
                  this.equityArr.push(valueArr[i].category_name)
              }            
         }
-        console.log(this.sectionArr)
-        console.log(this.numericalValue)
-        console.log(this.equityArr)
-        console.log(this.equityValue)
         if(this.type == 0){
            this.property();
         }else if(this.type == 1){
@@ -383,10 +395,6 @@ export default {
                  this.equityArr.push(valueArr[i].category_name)
                  }       
             }
-            console.log(this.sectionArr)
-            console.log(this.numericalValue)
-            console.log(this.equityArr)
-            console.log(this.equityValue)
             if(this.type == 0){
               this.property();
             }else if(this.type == 1){
@@ -415,10 +423,6 @@ export default {
                     this.equityArr.push(valueArr[i].category_name)
                  }    
             }
-            console.log(this.sectionArr)
-            console.log(this.numericalValue)
-             console.log(this.equityArr)
-            console.log(this.equityValue)
             if(this.type == 0){
                this.property();
             }else if(this.type == 1){
@@ -597,41 +601,42 @@ export default {
                             color: '#F06C00'
                         },
                     },
-                    data:[
-                        {name: '北京', value: 4594.730784 },
-                        {name: '天津', value: 35.770926},
-                        {name: '上海', value: 1570.620579},
-                        {name: '重庆', value: 1474.953973},
-                        {name: '河北', value: 433.444297},
-                        {name: '河南', value: 646.6282483},
-                        {name: '云南', value: 1046.380364},
-                        {name: '辽宁', value: 1936.106962},
-                        {name: '黑龙江', value: 73.354688},
-                        {name: '湖南', value: 1026.959545},
-                        {name: '安徽', value: 360.2924968},
-                        {name: '山东', value: 1343.395963},
-                        {name: '江苏', value: 2752.23661},
-                        {name: '浙江', value: 3630.057804},
-                        {name: '江西', value: 963.1307133},
-                        {name: '湖北', value: 2614.312957},
-                        {name: '广西', value: 1009.028248},
-                        {name: '甘肃', value: 42.816101},
-                        {name: '山西', value: 146.3208133},
-                        {name: '内蒙古', value: 173.3565988},
-                        {name: '陕西', value: 873.5180778},
-                        {name: '吉林', value: 96.61214},
-                        {name: '福建', value: 895.6569768},
-                        {name: '贵州', value: 199.765794},
-                        {name: '广东', value: 7401.97582},
-                        {name: '四川', value: 1060.069675},
-                        {name: '海南', value: 614.3891579},
-                        // {name: '台湾', value: },
-                        // {name: '香港', value: },
-                        // {name: '澳门', value: },
-                        // {name: '西藏', value: },
-                        // {name: '新疆', value: },
-                        // {name: '青海', value: }
-                    ]
+                    data:this.datas,
+                    // data:[
+                    //     {name: '北京', value: 4594.730784 },
+                    //     {name: '天津', value: 35.770926},
+                    //     {name: '上海', value: 1570.620579},
+                    //     {name: '重庆', value: 1474.953973},
+                    //     {name: '河北', value: 433.444297},
+                    //     {name: '河南', value: 646.6282483},
+                    //     {name: '云南', value: 1046.380364},
+                    //     {name: '辽宁', value: 1936.106962},
+                    //     {name: '黑龙江', value: 73.354688},
+                    //     {name: '湖南', value: 1026.959545},
+                    //     {name: '安徽', value: 360.2924968},
+                    //     {name: '山东', value: 1343.395963},
+                    //     {name: '江苏', value: 2752.23661},
+                    //     {name: '浙江', value: 3630.057804},
+                    //     {name: '江西', value: 963.1307133},
+                    //     {name: '湖北', value: 2614.312957},
+                    //     {name: '广西', value: 1009.028248},
+                    //     {name: '甘肃', value: 42.816101},
+                    //     {name: '山西', value: 146.3208133},
+                    //     {name: '内蒙古', value: 173.3565988},
+                    //     {name: '陕西', value: 873.5180778},
+                    //     {name: '吉林', value: 96.61214},
+                    //     {name: '福建', value: 895.6569768},
+                    //     {name: '贵州', value: 199.765794},
+                    //     {name: '广东', value: 7401.97582},
+                    //     {name: '四川', value: 1060.069675},
+                    //     {name: '海南', value: 614.3891579},
+                    //     // {name: '台湾', value: },
+                    //     // {name: '香港', value: },
+                    //     // {name: '澳门', value: },
+                    //     // {name: '西藏', value: },
+                    //     // {name: '新疆', value: },
+                    //     // {name: '青海', value: }
+                    // ]
                 }
             ]
         };
@@ -684,7 +689,8 @@ export default {
                   },
                   axisLabel:{
                     color:'#333',
-                    fontStyle:10
+                    fontStyle:8,
+                    rotate:45
                   },
               }
           ],
@@ -715,7 +721,7 @@ export default {
           ],
           series: [
               {
-                  name:'新增总客户数',
+                  name:'总客户数',
                   type:'bar',
                   data:this.numericalValue,
                   itemStyle:{

@@ -94,4 +94,7 @@ export default {
    padding-top:0 !important;
    margin-top:0 !important;
 }
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 13px 0px;
+}
 </style>
