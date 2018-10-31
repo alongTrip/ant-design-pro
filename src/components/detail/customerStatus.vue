@@ -203,6 +203,10 @@ export default {
   },
   methods: {
     moment,
+    // 转化数字格式
+    toThousands(num) {
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    },
     handleChange (pagination, filters, sorter) {
       const pager = { ...this.pagination };
       pager.current = pagination.current;
@@ -227,83 +231,9 @@ export default {
        }else{
            this.type = 1
        }
-     }
-  },
-  watch:{
-      startTime(){
-        if(this.startTime != ''){
-          this.loading = true
-          customerDetailsDetailData({
-             start:this.startTime,
-             end:this.endTime,
-             type:this.type
-          }).then(result=>{
-                this.loading = false
-                var datas = Object.values(result.data.info)
-                this.data = []
-                for(var i = 0; i < datas.length; i++){
-                      var aa = datas[i].date
-                      var arr = aa.split('')
-                      arr.splice(4,0,'-')
-                      arr.splice(7,0,'-')
-                      var str = arr.join('')
-                      var obj = {
-                         id:datas[i].id,
-                         date:str,
-                         value1:Math.round(datas[i].a1),
-                         value2:Math.round(datas[i].a2),
-                         value3:Math.round(datas[i].a3),
-                         value4:Math.round(datas[i].a4),
-                         value5:Math.round(datas[i].a5),
-                         value6:Math.round(datas[i].a6),
-                         value7:Math.round(datas[i].a7),
-                         value8:Math.round(datas[i].a8),
-                         value9:Math.round(datas[i].a9),
-                         value10:Math.round(datas[i].a10),
-                    }
-                    this.data.push(obj)
-                }
-                this.pagination.total = this.data.length
-           })
-        }
      },
-     type(){
-         this.loading = true
-         customerDetailsDetailData({
-             start:this.startTime,
-             end:this.endTime,
-             type:this.type
-          }).then(result=>{
-              this.loading = false
-              var datas = Object.values(result.data.info)
-              this.data = []
-              for(var i = 0; i < datas.length; i++){
-                    var aa = datas[i].date
-                    var arr = aa.split('')
-                    arr.splice(4,0,'-')
-                    arr.splice(7,0,'-')
-                    var str = arr.join('')
-                    var obj = {
-                         id:datas[i].id,
-                         date:str,
-                         value1:Math.round(datas[i].a1),
-                         value2:Math.round(datas[i].a2),
-                         value3:Math.round(datas[i].a3),
-                         value4:Math.round(datas[i].a4),
-                         value5:Math.round(datas[i].a5),
-                         value6:Math.round(datas[i].a6),
-                         value7:Math.round(datas[i].a7),
-                         value8:Math.round(datas[i].a8),
-                         value9:Math.round(datas[i].a9),
-                         value10:Math.round(datas[i].a10),
-                    }
-                  this.data.push(obj)
-              }
-              this.pagination.total = this.data.length
-         })
-     }
-  },
-  mounted(){
+    customersAction(){
+      this.loading = true
       customerDetailsDetailData({
          start:this.startTime,
          end:this.endTime,
@@ -311,31 +241,46 @@ export default {
       }).then(result=>{
             this.loading = false
             var datas = Object.values(result.data.info)
+            this.data = []
             for(var i = 0; i < datas.length; i++){
                   var aa = datas[i].date
                   var arr = aa.split('')
                   arr.splice(4,0,'-')
                   arr.splice(7,0,'-')
                   var str = arr.join('')
-                   var obj = {
-                         id:datas[i].id,
-                         date:str,
-                         value1:Math.round(datas[i].a1),
-                         value2:Math.round(datas[i].a2),
-                         value3:Math.round(datas[i].a3),
-                         value4:Math.round(datas[i].a4),
-                         value5:Math.round(datas[i].a5),
-                         value6:Math.round(datas[i].a6),
-                         value7:Math.round(datas[i].a7),
-                         value8:Math.round(datas[i].a8),
-                         value9:Math.round(datas[i].a9),
-                         value10:Math.round(datas[i].a10),
-                    }
+                  var obj = {
+                     id:datas[i].id,
+                     date:str,
+                     value1:this.toThousands(Math.round(datas[i].a1)),
+                     value2:this.toThousands(Math.round(datas[i].a2)),
+                     value3:this.toThousands(Math.round(datas[i].a3)),
+                     value4:this.toThousands(Math.round(datas[i].a4)),
+                     value5:this.toThousands(Math.round(datas[i].a5)),
+                     value6:this.toThousands(Math.round(datas[i].a6)),
+                     value7:this.toThousands(Math.round(datas[i].a7)),
+                     value8:this.toThousands(Math.round(datas[i].a8)),
+                     value9:this.toThousands(Math.round(datas[i].a9)),
+                     value10:this.toThousands(Math.round(datas[i].a10)),
+                }
                 this.data.push(obj)
             }
-             this.pagination.total = this.data.length
-		   })
+            this.pagination.total = this.data.length
+       })
     }
+  },
+  watch:{
+     startTime(){
+        if(this.startTime != ''){
+            this.customersAction()
+        }
+     },
+     type(){
+        this.customersAction()
+     }
+    },
+    mounted(){
+      this.customersAction()
+      }
 }
 </script>
 <style lang="less" scoped>

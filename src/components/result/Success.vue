@@ -1,4 +1,5 @@
 <template>
+  <!-- 客户分布页 -->
     <div class="customer">
       <a-row style="margin: 0 -12px">
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
@@ -92,13 +93,14 @@
           <div class="salesCard" style="height:450px;float:left;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:750px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">地域分布(不含前海分公司)</h2>
-                <!-- <div style="float:right;width:200px;height:60px;display: flex;box-sizing:border-box;justify-content: center;align-items: center;">
-                    <p style="background: #1890FF;border-radius: 50%;width:15px;height:15px;margin-top:12px;border:1px solid #1890FF;
-                    box-shadow: 0 0  2px  0 #1890FF"></p>
-                    <span style="padding:0 10px;">有效户</span>
-                    <p style="background: #1890FF;border-radius: 50%;width:15px;height:15px;margin-top:12px;"></p>
-                    <span style="padding:0 10px;">总客户</span>
-                </div> -->
+                <div style="float:right;width:200px;height:60px;display: flex;box-sizing:border-box;justify-content: center;align-items: center;">
+                      <p :class="{'active':index == 0}" style="border-radius: 50%;width:13px;height:13px;margin-top:15px;border:2px solid #fff;
+                      box-shadow: 0 0 0 1px #1890FF" @click="transformAction_a"></p>
+                      <span style="padding:0 10px;">有效户</span>
+                      <p :class="{'active':index == 1}" style="border-radius: 50%;width:13px;height:13px;margin-top:15px;border:2px solid #fff;
+                      box-shadow: 0 0 0 1px #1890FF" @click="transformAction_b"></p>
+                      <span style="padding:0 10px;">总客户</span>
+                </div>
             </div>
             <div id="center-map" style="width: 750px;height:390px;top:-9px;"></div>
           </div>
@@ -211,6 +213,11 @@ export default {
         creditTotalChange:null,
       // 地域分布
         datas:[],
+        index:0,
+        Between1:null,
+        Between2:null,
+        Between3:null,
+        Between4:null,
       //性别年龄
         ageArr:[],
         boyValue:null,
@@ -229,8 +236,6 @@ export default {
     };
   },
   mounted(){
-    // 地图
-    
     // 卡片
     customerDetailsCardData().then(result=>{
         let dat = result.data.info
@@ -304,21 +309,8 @@ export default {
     })
 
     // 客户分布地图
-    customerDetailsMapData({
-        type:0
-    }).then(result=>{
-      console.log(result)
-       this.datas = []
-       let data = Object.values(result.data.info)
-       for(var i = 0; i < data.length;i++){
-           var obj = {
-               name: data[i].prov_code,
-               value: data[i].num
-           }
-           this.datas.push(obj)
-       }
-        this.mapAction();
-    })
+    this.arealDistribution()
+
     // 性别年龄分布
     customerDetailsPieData().then(result=>{
         let datas = result.data.info
@@ -350,85 +342,13 @@ export default {
          this.distribution();
     })
     // 客户的资产分布
-    customerDetailsBarData({
-        time:'2018-01-10',
-        type:0
-    }).then(result=>{
-      // console.log(result)
-        let valueArr = Object.values(result.data.info)
-        for(var i = 0; i < valueArr.length; i++){
-             if(this.type == 0){
-                 this.numericalValue.push(valueArr[i].value)
-                 this.sectionArr.push(valueArr[i].category_name)
-             }else if(this.type == 1){
-                 this.equityValue.push(valueArr[i].value)
-                 this.equityArr.push(valueArr[i].category_name)
-             }            
-        }
-        if(this.type == 0){
-           this.property();
-        }else if(this.type == 1){
-          this.customerEquity()
-        }
-        
-    })
+    this.assetsDistribution();
   },
   watch:{
     startTime(){
       if(this.startTime != ''){
-        customerDetailsBarData({
-        time:this.startTime,
-        type:this.type
-        }).then(result=>{
-            console.log(result)
-            this.numericalValue = []
-            this.sectionArr = []
-            this.equityArr = []
-            this.equityValue = []
-            let valueArr = Object.values(result.data.info)
-            for(var i = 0; i < valueArr.length; i++){
-                 if(this.type == 0){
-                 this.numericalValue.push(valueArr[i].value)
-                 this.sectionArr.push(valueArr[i].category_name)
-                 }else if(this.type == 1){
-                     this.equityValue.push(valueArr[i].value)
-                 this.equityArr.push(valueArr[i].category_name)
-                 }       
-            }
-            if(this.type == 0){
-              this.property();
-            }else if(this.type == 1){
-              this.customerEquity()
-            }
-        })
+        this.assetsDistribution();
       }
-    },
-    type(){
-        customerDetailsBarData({
-        time:this.startTime,
-        type:this.type
-        }).then(result=>{
-            console.log(result)
-            this.numericalValue = []
-            this.sectionArr = []
-            this.equityArr = []
-            this.equityValue = []
-            let valueArr = Object.values(result.data.info)
-            for(var i = 0; i < valueArr.length; i++){
-                 if(this.type == 0){
-                 this.numericalValue.push(valueArr[i].value)
-                 this.sectionArr.push(valueArr[i].category_name)
-                 }else if(this.type == 1){
-                    this.equityValue.push(valueArr[i].value)
-                    this.equityArr.push(valueArr[i].category_name)
-                 }    
-            }
-            if(this.type == 0){
-               this.property();
-            }else if(this.type == 1){
-              this.customerEquity()
-            }
-        })
     }
   },
   methods: {
@@ -444,7 +364,6 @@ export default {
     // 获取时间区间
     onChangeRadio(date, dateString){
        this.startTime = dateString
-       console.log(this.startTime)
     },
     changeAction(activeKey){
        if(activeKey == 1){
@@ -452,6 +371,7 @@ export default {
        }else{
           this.type = 1
        }
+       this.assetsDistribution();
     },
     // 客户分布的职业分布
     distribution(){
@@ -502,11 +422,11 @@ export default {
             },
             dataRange: {
                   splitList: [
-                        {start: 4000, color: '#C75A4A'},
-                        {start: 3000, end: 4000,color: '#C99653'},
-                        {start: 2000, end: 3000,color: '#AEB369'},
-                        {start: 1000, end: 2000,color: '#73B691'},
-                        {start: 0, end: 1000,color: '#53C6D3'},
+                        {start: this.Between3, color: '#C75A4A'},
+                        // {start: 3000, end: 4000,color: '#C99653'},
+                        {start: this.Between2, end: this.Between3,color: '#AEB369'},
+                        {start: this.Between1, end: this.Between2,color: '#73B691'},
+                        {start: 0, end: this.Between1,color: '#53C6D3'},
                     ],
                   inRange: {
                      color: ['rgb(208, 106, 77)','rgb(53, 189, 208)']
@@ -602,57 +522,43 @@ export default {
                         },
                     },
                     data:this.datas,
-                    // data:[
-                    //     {name: '北京', value: 4594.730784 },
-                    //     {name: '天津', value: 35.770926},
-                    //     {name: '上海', value: 1570.620579},
-                    //     {name: '重庆', value: 1474.953973},
-                    //     {name: '河北', value: 433.444297},
-                    //     {name: '河南', value: 646.6282483},
-                    //     {name: '云南', value: 1046.380364},
-                    //     {name: '辽宁', value: 1936.106962},
-                    //     {name: '黑龙江', value: 73.354688},
-                    //     {name: '湖南', value: 1026.959545},
-                    //     {name: '安徽', value: 360.2924968},
-                    //     {name: '山东', value: 1343.395963},
-                    //     {name: '江苏', value: 2752.23661},
-                    //     {name: '浙江', value: 3630.057804},
-                    //     {name: '江西', value: 963.1307133},
-                    //     {name: '湖北', value: 2614.312957},
-                    //     {name: '广西', value: 1009.028248},
-                    //     {name: '甘肃', value: 42.816101},
-                    //     {name: '山西', value: 146.3208133},
-                    //     {name: '内蒙古', value: 173.3565988},
-                    //     {name: '陕西', value: 873.5180778},
-                    //     {name: '吉林', value: 96.61214},
-                    //     {name: '福建', value: 895.6569768},
-                    //     {name: '贵州', value: 199.765794},
-                    //     {name: '广东', value: 7401.97582},
-                    //     {name: '四川', value: 1060.069675},
-                    //     {name: '海南', value: 614.3891579},
-                    //     // {name: '台湾', value: },
-                    //     // {name: '香港', value: },
-                    //     // {name: '澳门', value: },
-                    //     // {name: '西藏', value: },
-                    //     // {name: '新疆', value: },
-                    //     // {name: '青海', value: }
-                    // ]
                 }
             ]
         };
         mapChart.setOption(option)
-        // var timer = setInterval(function(){
-        //     this.mapAction()
-        // },2000)
-        // mapChart.on('mousemove',function(){
-        //     clearInterval(timer)
-        // })
-        // mapChart.on('mouseout',function(){
-        //     clearInterval(timer)
-        //     timer = setInterval(function(){
-        //     this.mapAction()
-        //   },1500)
-        // }) 
+    },
+    transformAction_a(){
+       this.index = 0
+       this.arealDistribution()
+    },
+    transformAction_b(){
+       this.index = 1
+       this.arealDistribution()
+    },
+    arealDistribution(){
+        customerDetailsMapData({
+           type:this.index
+        }).then(result=>{
+           this.datas = []
+           let data = Object.values(result.data.info)
+           for(var i = 0; i < data.length;i++){
+               var obj = {
+                   name: data[i].prov_code,
+                   value: data[i].num
+               }
+               this.datas.push(obj)
+           }
+           if(this.index == 0){
+              this.Between1 = 20000
+              this.Between2 = 40000
+              this.Between3 = 80000
+           }else{
+              this.Between1 = 20000
+              this.Between2 = 40000
+              this.Between3 = 80000
+           }
+            this.mapAction();
+        })
     },
     // 客户的资产分布客户数
     property(){
@@ -677,7 +583,7 @@ export default {
           xAxis: [
               {
                   type: 'category',
-                  data:this.sectionArr,
+                  data:["[0,5千)", "[5千,2万)", "[2万,10万)", "[10万,30万)", "[30万,50万)", "[50万,1百万)", "[1百万,1千万)", "[1千万,2千万)", "[2千万,1亿)", "[1亿,+∞)"],
                   axisPointer: {
                       type: 'shadow'
                   },
@@ -758,7 +664,7 @@ export default {
           xAxis: [
               {
                   type: 'category',
-                  data:this.equityArr,
+                   data:["[0,5千)", "[5千,2万)", "[2万,10万)", "[10万,30万)", "[30万,50万)", "[50万,1百万)", "[1百万,1千万)", "[1千万,2千万)", "[2千万,1亿)", "[1亿,+∞)"],
                   axisPointer: {
                       type: 'shadow'
                   },
@@ -770,7 +676,8 @@ export default {
                   },
                   axisLabel:{
                     color:'#333',
-                    fontStyle:10
+                    fontStyle:8,
+                    rotate:45
                   },
               }
           ],
@@ -814,6 +721,32 @@ export default {
           ]
       };
       eqChart.setOption(option);
+    },
+    assetsDistribution(){
+      customerDetailsBarData({
+        time:this.startTime,
+        type:this.type
+     }).then(result=>{
+        this.numericalValue = []
+        this.sectionArr = []
+        this.equityValue = []
+        this.equityArr = []
+        let valueArr = Object.values(result.data.info)
+        for(var i = 0; i < valueArr.length; i++){
+             if(this.type == 0){
+                 this.numericalValue.push(valueArr[i].value)
+                 this.sectionArr.push(valueArr[i].category_name)
+             }else if(this.type == 1){
+                 this.equityValue.push(valueArr[i].value)
+                 this.equityArr.push(valueArr[i].category_name)
+             }            
+        }
+        if(this.type == 0){
+           this.property();
+        }else if(this.type == 1){
+          this.customerEquity()
+        }
+      })
     },
     // 性别年龄分布
     sexPieAction(){
@@ -863,7 +796,7 @@ export default {
               ]
           };
         pieChart.setOption(option);
-    }   
+    }
   } 
 };
   
@@ -894,5 +827,8 @@ export default {
       color: #52c41a;
     }
   }
+}
+.active{
+  background: #1890FF;
 }
 </style>

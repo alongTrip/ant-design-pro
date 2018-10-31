@@ -11,25 +11,25 @@ const TRADITIONAL_DETAIL_API = '/api/passageway/oldoperate';
 const NEW_BUSINESS_DETAIL_API = '/api/passageway/newoperate';
 
 /*
-  接口功能：通道业务卡片数据
+  接口功能：通道业务卡片数据(完成)
   接口参数：
 */
 const CHART_CARD_API = '/api/passageway/info';
 
 /*
-  接口功能：通道业务市场份额的图表数据
+  接口功能：通道业务市场份额的图表数据(完成)
   接口参数：
 */
 const MARKET_SHARES_API = '/api/passageway/market';
 
 /*
-  接口功能：通道业务主要业务经营情况的图表数据
+  接口功能：通道业务主要业务经营情况的图表数据(50%)
   接口参数：
 */
 const ACCOUNT_VALUE_API = '/api/passageway/account';
 
 /*
-  接口功能：通道业务新业务经营的图表数据
+  接口功能：通道业务新业务经营的图表数据(50%)
   接口参数：
 */
 const BUSINESS_OPERATION_API = '/api/passageway/newbs';
@@ -47,13 +47,13 @@ const ACTUALITY_CARD_API = '/api/status/info';
 const ADD_LOST_API = '/api/status/analysis';
 
 /*
-  接口功能：客户现状首页新增客户的图表数据(差日期没有关联)
+  接口功能：客户现状首页新增客户的图表数据(完成)
   接口参数：
 */
 const ADD_CUSTOMER_API = '/api/status/addcus';
 
 /*
-  接口功能：客户现状详情页数据
+  接口功能：客户现状详情页数据(完成)
   接口参数：
 */
 const CUSTOMER_DETAIL_API = '/api/status/detail';
@@ -65,7 +65,7 @@ const CUSTOMER_DETAIL_API = '/api/status/detail';
 const DISTRIBUTION_CARD_API = '/api/distribute/info';
 
 /*
-  接口功能：客户分布地域分布地图的数据
+  接口功能：客户分布地域分布地图的数据(完成)
   接口参数：
 */
 const DISTRIBUTION_MAP_API = '/api/distribute/regdis';

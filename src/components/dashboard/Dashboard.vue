@@ -7,8 +7,13 @@
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
-            <trend style="margin-right: 16px" term="日环比" :percent="stockChange" :is-increase="stockIcon" :scale="0" />
+          <div class="chart-trend">
+              日环比
+              <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                 <a-icon v-if="stockIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="stockIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span>{{Math.abs(stockChange/100) + '%'}}</span>
           </div>
         </chart-card>
       </a-col>
@@ -17,8 +22,13 @@
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
-            <trend style="margin-right: 16px" term="日环比" :percent="creditChange" :is-increase="creditIcon" :scale="0" />
+          <div class="chart-trend">
+              日环比
+              <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                 <a-icon v-if="creditIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="creditIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span>{{Math.abs(creditChange/100) + '%'}}</span>
           </div>
         </chart-card>
       </a-col>
@@ -27,8 +37,13 @@
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
-            <trend style="margin-right: 16px" term="日环比" :percent="marketChange" :is-increase="marketIcon" :scale="0" />
+          <div class="chart-trend">
+              日环比
+              <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                 <a-icon v-if="marketIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="marketIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span>{{Math.abs(marketChange/100) + '%'}}</span>
           </div>
         </chart-card>
       </a-col>
@@ -37,8 +52,13 @@
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
-            <trend style="margin-right: 16px" term="日环比" :percent="fundChange" :is-increase="fundIcon" :scale="0" />
+          <div class="chart-trend">
+              日环比
+              <span :class="['chart-trend-icon']" style="padding-left:20px;">
+                 <a-icon v-if="marketIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="marketIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span>{{Math.abs(fundChange/100) + '%'}}</span>
           </div>
         </chart-card>
       </a-col>
@@ -48,10 +68,20 @@
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
-            <trend style="margin-right: 16px" term="月环比" :percent="yearChange" :is-increase="stockFundIcon" />
-            <trend term="年同比" :percent="dateChange" :is-increase="stockDataIcon" />
-          </div>
+         <div class="chart-trend">
+              月环比
+              <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                 <a-icon v-if="stockFundIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="stockFundIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span style="padding-right:10px;">{{yearChange}}</span>
+              年同比
+              <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                 <a-icon v-if="stockDataIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="stockDataIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span>{{dateChange}}</span>
+        </div>
         </chart-card>
         <div>
             <mini-bar style="position: absolute;left:53%;top:138px;width:40%;"/>
@@ -63,10 +93,20 @@
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
-            <trend style="margin-right: 16px" term="月环比" :percent="meltYearChange" :is-increase="meltIcon" :scale="0" />
-            <trend term="年同比" :percent="meltDateChange" :is-increase="meltDataIcon" />
-          </div>
+           <div class="chart-trend">
+              月环比
+              <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                 <a-icon v-if="meltIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="meltIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span style="padding-right:10px;">{{meltYearChange}}</span>
+              年同比
+              <span :class="['chart-trend-icon']" style="padding-left:10px;">
+                 <a-icon v-if="meltDataIcon == true" style="color: #f5222d;" type="caret-up"/>
+                 <a-icon v-if="meltDataIcon == false" style="color: #52c41a;" type="caret-down"/>
+              </span>
+              <span>{{meltDateChange}}</span>
+        </div>
         </chart-card>
         <div>
             <mini-area style="position: absolute;left:53%;top:138px;width:40%;"/>
@@ -94,7 +134,7 @@
             <h2 style="float:left;padding-left:25px;font-size:18px;">主要业务经营情况</h2>
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
-         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%">
+         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%" @change="mainBusinessChange">
           <div class="extra-wrap" slot="tabBarExtraContent">
                <a-range-picker style="float:right;padding-top:12px;margin-right:40px;width:280px"  
                   @change="onChange_b" 
@@ -104,14 +144,12 @@
           </div>
           <a-tab-pane loading="true" tab="交易量" key="1">
             <a-row>
-             <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
-                <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
-             <!--  </a-col> -->
+               <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
             </a-row>
           </a-tab-pane>
           <a-tab-pane tab="净佣金收入" key="2">
             <a-row>
-              
+               <div id="commission" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
             </a-row>
           </a-tab-pane>
         </a-tabs>
@@ -127,22 +165,22 @@
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
             <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%"  @change="addChange"  >
               <div class="extra-wrap" slot="tabBarExtraContent">
-                  <a-range-picker style="float:right;padding-top:12px;margin-right:40px;width:280px" 
-                    @change="onChange_c" 
-                    :defaultValue="[moment('2017-10-11', dateFormat), moment('2018-10-10', dateFormat)]"
-                    :format="dateFormat"
-                  />
+              <a-range-picker style="float:right;margin-top:12px;margin-right:26px;width:230px;"
+                :placeholder="['2017-10', '2018-09']"
+                format="YYYY-MM"
+                :value="value"
+                :mode="mode2"
+                @panelChange="handlePanelChange2"
+              />
               </div>
               <a-tab-pane loading="true" tab="交易量" key="1">
                 <a-row>
-                <!--  <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24"> -->
                   <div id="business" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
-                  <!-- </a-col> -->
                 </a-row>
               </a-tab-pane>
               <a-tab-pane tab="净佣金" key="2">
                 <a-row>
-                  <!--  <div id="brokerage" style="height:350px;width:1124px;left:-22px;top:-18px;"></div> -->
+                   <div id="brokerage" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
                 </a-row>
               </a-tab-pane>
             </a-tabs>
@@ -166,6 +204,8 @@ export default {
   data() {
     return {
        dateFormat: 'YYYY-MM-DD',
+       mode2: ['month', 'month'],
+       value: [],
        // 结构一
        stockData:'',
        stockChange:null,
@@ -195,19 +235,29 @@ export default {
        marketEndTime:'',
        marketYearArr:[],
        marketValue:[],
-       // 新业务经营情况
+       // 主要业务经营情况
        accountStartTime:'2017-10-11',
        accountEndTime:'2018-10-10',
+       mainType:0,
        yearArr:[],
        creditArr:[],
        commonArr:[],
+       creditArr_b:[],
+       commonArr_b:[],
        // 新业务经营情况
-       newStartTime:'2017-10-11',
-       newEndTime:'2018-10-10',
+       newStartTime:'2017-10',
+       newEndTime:'2018-09',
        newYearArr:[],
        neeqValue:[],
        hkwolunValue:[],
        individualValue:[],
+       // 新业务经营情况净佣金
+       timeArr:[],
+       brokerageTimeArr:[],
+       brokerageType:0,
+       neeqValue_b:[],
+       hkwolunValue_b:[],
+       individualValue_b:[],
     };
   },
   components: {
@@ -229,7 +279,6 @@ export default {
         }else if(compare1 < 0){
            this.stockIcon = false
         }
-         // console.log(this.stockIcon)
         this.stockChange = Math.round(compare1*100)
         // 2
         this.creditData =  this.toThousands(Math.round(datas.FI_TRD_DAY.value)).toString()
@@ -266,14 +315,14 @@ export default {
         }else if(compare5 < 0){
            this.stockFundIcon = false
         }
-        this.yearChange = Math.round(compare5*100)
+        this.yearChange = Math.round(compare5*100) == 0 ? '--' :  Math.abs(Math.round(compare5*100)/100) + '%'
         var compare6 = datas.fi_netcom_mon.value_updown
         if(compare6 > 0){
            this.stockDataIcon = true
         }else if(compare6 < 0){
            this.stockDataIcon = false
         }
-        this.dateChange = Math.round(compare6*100)
+        this.dateChange = Math.round(compare6*100) == 0 ? '--' :  Math.abs(Math.round(compare6*100)/100) + '%'
         // 6
         this.meltData =  this.toThousands(Math.round(datas.netcom_mon.value)).toString()
         var compare7 = datas.netcom_mon.value_offset
@@ -282,34 +331,110 @@ export default {
         }else if(compare7 < 0){
            this.meltIcon = false
         }
-        this.meltYearChange = Math.round(compare7*100)
+        this.meltYearChange = Math.round(compare7*100) == 0 ? '--' :  Math.abs(Math.round(compare7*100)/100) + '%'
         var compare8 = datas.netcom_mon.value_updown
         if(compare8 > 0){
            this.meltDataIcon = true
         }else if(compare8 < 0){
            this.meltDataIcon = false
         }
-        this.meltDateChange = Math.round(compare8*100)
+        this.meltDateChange = Math.round(compare8*100) == 0 ? '--' : Math.abs(Math.round(compare8*100)/100) + '%'
       });
     // 市场份额
-    marketSharesData().then(result=>{
-          var marketData = result.data.data.info
-          for(var i = 0 ; i < marketData.length ; i++){
-              var aa = marketData[i].date
-              var arr = aa.split('')
-              arr.splice(4,0,'-')
-              arr.splice(7,0,'-')
-              var str = arr.join('')
-              this.marketYearArr.push(str)
-              this.marketValue.push(Math.round(marketData[i].value*100000)/100)
-          }
-        this.initMarketChart();
-     });
+    this.marketSharesAction()
     //账户价值量分析 
-    accountValueData({
-         start:'2017-10-11',
-         end:'2018-10-10',
-    }).then(result=>{
+    this.mainBusinessAction();
+    // 新业务经营情况
+    this.newBusinessAction()
+  },
+  watch: {
+     marketStartTime(){
+      if(this.marketStartTime != ""){
+          this.marketSharesAction()
+        }
+     },
+     accountStartTime(){
+       if(this.accountStartTime != ''){
+         this.mainBusinessAction()
+       }
+     },
+     mainType(){
+         this.mainBusinessAction()
+     },
+     brokerageType(){
+        this.newBusinessAction()
+     },
+     brokerageTimeArr(){
+        this.newBusinessAction()
+     }
+  },
+  methods: {
+    moment,
+    mainBusinessChange(activeKey){
+        if(activeKey == 1){
+           this.mainType = 0
+        }else{
+           this.mainType = 1
+        }
+    },
+    addChange(activeKey){
+       if(activeKey == 1){
+          this.brokerageType = 0
+       }else{
+          this.brokerageType = 1
+       }
+       this.newBusinessAction()
+    },
+    // 转化数字格式
+    toThousands(num) {
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    },
+    // 获取日期区间
+    onChange_a(date, dateString) {
+       this.marketStartTime = dateString[0]
+       this.marketEndTime = dateString[1]
+    },
+    onChange_b(date, dateString) {
+        this.accountStartTime = dateString[0]
+        this.accountEndTime = dateString[1]
+    },
+    handlePanelChange2 (value, mode) {
+        this.value = value
+        this.mode2 = [
+          mode[0] === 'date' ? 'month' : mode[0],
+          mode[1] === 'date' ? 'month' : mode[1],
+        ]
+       this.timeArr.push(value[0].format('YYYY-MM'))
+       this.timeArr.push(value[1].format('YYYY-MM'))
+       if(this.timeArr.length == 6 && this.timeArr[0] == this.timeArr[2]){
+           this.timeArr.splice(2,1)
+           this.timeArr.splice(2,1)
+        }
+        if(this.timeArr.length == 4 && this.timeArr[0] != this.timeArr[2]){
+           this.timeArr.splice(0,1)
+           this.timeArr.splice(0,1)
+        }
+        if(this.timeArr[1] == this.timeArr[3]){
+           this.timeArr.splice(0,1)
+           this.timeArr.splice(0,1)
+        }
+        if(this.timeArr.length == 4){
+            this.brokerageTimeArr = this.timeArr
+         }
+      },
+    // 主要业务
+    mainBusinessAction(){
+         accountValueData({
+         start:this.accountStartTime,
+         end:this.accountEndTime,
+         type:this.mainType
+      }).then(result=>{
+        this.yearArr = []
+        this.accountData = []
+        this.commonData = []
+        this.accountData_b = []
+        this.commonData_b = []
+        if(this.mainType == 0){
           // 信用账户
           var accountData = result.data.data.info.FI_TRD_DAY
           // 普通账户
@@ -326,85 +451,41 @@ export default {
           }
           // 主要业务情况
           this.initChart();
-     });
-    // 新业务经营情况
-    businessOperationData({
-        start:'2015-01',
-        end:'2018-10',
-    }).then(result=>{
-         console.log(result)
-         var newBusiness = result.data.data.info
-         var threeBoard =  newBusiness.NTB_TRD_AMT_MONTH
-         var hkwolun =  newBusiness.HKT_TRD_AMT_MONTH
-         var stockOptions =  newBusiness.SO_TRD_AMT_MONTH
-         for(var i = 0 ; i < threeBoard.length ; i++){
-              var cc = threeBoard[i].date
-              var arr3 = cc.split('')
-              arr3.splice(4,0,'-')
-              arr3.splice(7,0,'-')
-              var str3 = arr3.join('')
-              this.newYearArr.push(str3)
-              this.neeqValue.push(threeBoard[i].value)
-              this.hkwolunValue.push(hkwolun[i].value)
-              this.individualValue.push(stockOptions[i].value)
+         }else{
+            var accountData_b = result.data.data.info.netcom_day
+            // 普通账户
+            var commonData_b = result.data.data.info.fi_netcom_day
+            // 信用账户
+            for(var i = 0 ; i < accountData_b.length ; i++){
+                var bb = accountData_b[i].date
+                var arr2 = bb.split('')
+                arr2.splice(4,0,'-')
+                arr2.splice(7,0,'-')
+                var str2 = arr2.join('')
+                this.yearArr.push(str2)
+                this.creditArr_b.push(accountData_b[i].value)
+                this.commonArr_b.push(commonData_b[i].value)
+            }
+            // 主要业务情况
+            this.commissionAction()
          }
-         // 新业务经营情况
-       // console.log(this.newYearArr)
-       // console.log( this.neeqValue)
-       // console.log(this.hkwolunValue)
-       // console.log(this.individualValue)
-      this.initBusinessChart();
-      // this.brokerageAction()
-		 })
-  },
-  watch: {
-     marketStartTime(){
-      if(this.marketStartTime != ""){
-          // 市场份额
-          marketSharesData({
-               start:this.marketStartTime,
-               end:this.marketEndTime,
-            }).then(result=>{
-                var marketData = result.data.data.info
-                for(var i = 0 ; i < marketData.length ; i++){
-                    var aa = marketData[i].date
-                    var arr = aa.split('')
-                    arr.splice(4,0,'-')
-                    arr.splice(7,0,'-')
-                    var str = arr.join('')
-                    this.marketYearArr.push(str)
-                    this.marketValue.push(Math.round(marketData[i].value*100000)/100)
-                }
-              console.log(this.marketYearArr)
-              this.initMarketChart();
-           });
-        }
-     },
-  },
-  methods: {
-    moment,
-    addChange(activeKey){
-        this.initBusinessChart();
-        console.log(activeKey)
+      });
     },
-    // 转化数字格式
-    toThousands(num) {
-      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-    },
-    // 获取日期区间
-    onChange_a(date, dateString) {
-       this.marketStartTime = dateString[0]
-       this.marketEndTime = dateString[1]
-       console.log(this.marketStartTime)
-       console.log(this.marketEndTime)
-    },
-    onChange_b(date, dateString) {
-        this.accountStartTime = dateString[0]
-        this.accountEndTime = dateString[1]
-    },
-    onChange_c(date, dateString) {
-        this.newStartTime = dateString[0]
-        this.newEndTime = dateString[1]
+    // 市场份额请求
+    marketSharesAction(){
+         marketSharesData().then(result=>{
+          var marketData = result.data.data.info
+          for(var i = 0 ; i < marketData.length ; i++){
+              var aa = marketData[i].date
+              var arr = aa.split('')
+              arr.splice(4,0,'-')
+              arr.splice(7,0,'-')
+              var str = arr.join('')
+              this.marketYearArr.push(str)
+              this.marketValue.push(Math.round(marketData[i].value*100000)/100)
+          }
+        this.initMarketChart();
+       });
     },
     // 市场份额
     initMarketChart() {
@@ -579,6 +660,85 @@ export default {
       };
       this.chart.setOption(option);
     },
+    // 主要业务经营佣金收入
+    commissionAction(){
+      var commissionChart = echarts.init(document.getElementById("commission"));
+      var option = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985"
+            }
+          }
+        },
+        legend: {
+          data: ["信用账户", "普通账户"],
+          left: "center",
+          top: "bottom",
+          itemGap:30
+        },
+        grid: {
+          top: "8%",
+          left: "3%",
+          right: "4%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            axisLabel:{
+                 interval:Math.floor(this.yearArr.length/6),
+            },
+            data:this.yearArr
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            max: function(value) {
+              return Math.round(value.max) + 30000;
+            }
+          }
+        ],
+        series: [
+          {
+            name: "信用账户",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.creditArr_b,
+            itemStyle: {
+              normal: {
+                color: "#1B91FF",
+                lineStyle: {
+                  color: "#1B91FF"
+                }
+              }
+            }
+          },
+          {
+            name: "普通账户",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.commonArr_b,
+            itemStyle: {
+              normal: {
+                color: "#2DBE67",
+                lineStyle: {
+                  color: "#2DBE67"
+                }
+              }
+            }
+          }
+        ]
+      };
+     commissionChart.setOption(option);
+    },
     // 新业务经营情况
     initBusinessChart() {
       var businessChart = echarts.init(document.getElementById("business"));
@@ -679,111 +839,186 @@ export default {
       };
       businessChart.setOption(option);
     },
-    // brokerageAction() {
-    //   var brokerageChart = echarts.init(document.getElementById("brokerage"));
-    //   var option = {
-    //     tooltip: {
-    //       trigger: "axis",
-    //       axisPointer: {
-    //         type: "cross",
-    //         label: {
-    //           backgroundColor: "#6a7985"
-    //         }
-    //       }
-    //     },
-    //     legend: {
-    //       data: ["新三板", "港股通", "个股期权"],
-    //       left: "center",
-    //       top: "bottom",
-    //       padding: [0, 100, 0, 0],
-    //       itemGap:30,
-    //       selected:{
-    //          "新三板":true,
-    //          "港股通":true,
-    //          "个股期权":false,
-    //       }
-    //     },
-    //     grid: {
-    //       top: "8%",
-    //       left: "3%",
-    //       right: "4%",
-    //       bottom: "10%",
-    //       containLabel: true
-    //     },
-    //     xAxis: [
-    //       {
-    //         type: "category",
-    //         boundaryGap: false,
-    //         data:this.newYearArr,
-    //          axisLabel:{
-    //              interval:Math.floor(this.yearArr.length/6),
-    //         },
-    //       }
-    //     ],
-    //     yAxis: [
-    //       {
-    //         type: "value",
-    //         max: function(value) {
-    //           return Math.round(value.max);
-    //         }
-    //       }
-    //     ],
-    //     series: [
-    //       {
-    //         name: "新三板",
-    //         type: "line",
-    //         stack: "总量",
-    //         areaStyle: {},
-    //         data:this.neeqValue,
-    //         itemStyle: {
-    //           normal: {
-    //             color: "#1B91FF",
-    //             lineStyle: {
-    //               color: "#1B91FF"
-    //             }
-    //           }
-    //         }
-    //       },
-    //       {
-    //         name: "港股通",
-    //         type: "line",
-    //         stack: "总量",
-    //         areaStyle: {},
-    //         data:this.hkwolunValue,
-    //         itemStyle: {
-    //           normal: {
-    //             color: "#2DBE67",
-    //             lineStyle: {
-    //               color: "#2DBE67"
-    //             }
-    //           }
-    //         }
-    //       },
-    //       {
-    //         name: "个股期权",
-    //         type: "line",
-    //         stack: "总量",
-    //         areaStyle: {},
-    //         data:this.individualValue,
-    //         itemStyle: {
-    //           normal: {
-    //             color: "#FBDD60",
-    //             lineStyle: {
-    //               color: "#FBDD60"
-    //             }
-    //           }
-    //         }
-    //       }
-    //     ]
-    //   };
-    //   brokerageChart.setOption(option);
-    // }
+    // 新业务净佣金情况
+    brokerageAction() {
+      var brokerageChart = echarts.init(document.getElementById("brokerage"));
+      var option = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985"
+            }
+          }
+        },
+        legend: {
+          data: ["新三板", "港股通", "个股期权"],
+          left: "center",
+          top: "bottom",
+          padding: [0, 100, 0, 0],
+          itemGap:30,
+          selected:{
+             "新三板":true,
+             "港股通":true,
+             "个股期权":false,
+          }
+        },
+        grid: {
+          top: "8%",
+          left: "3%",
+          right: "4%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            data:this.newYearArr,
+             axisLabel:{
+                 interval:Math.floor(this.yearArr.length/6),
+            },
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            max: function(value) {
+              return Math.round(value.max);
+            }
+          }
+        ],
+        series: [
+          {
+            name: "新三板",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.neeqValue_b,
+            itemStyle: {
+              normal: {
+                color: "#1B91FF",
+                lineStyle: {
+                  color: "#1B91FF"
+                }
+              }
+            }
+          },
+          {
+            name: "港股通",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.hkwolunValue_b,
+            itemStyle: {
+              normal: {
+                color: "#2DBE67",
+                lineStyle: {
+                  color: "#2DBE67"
+                }
+              }
+            }
+          },
+          {
+            name: "个股期权",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.individualValue_b,
+            itemStyle: {
+              normal: {
+                color: "#FBDD60",
+                lineStyle: {
+                  color: "#FBDD60"
+                }
+              }
+            }
+          }
+        ]
+      };
+      brokerageChart.setOption(option);
+    },
+    // 新业务请求
+    newBusinessAction(){
+      if(this.brokerageTimeArr.length == 4){
+         this.newStartTime = this.brokerageTimeArr[0]
+         this.newEndTime = this.brokerageTimeArr[3]
+      }
+      businessOperationData({
+          start:this.newStartTime,
+          end:this.newEndTime,
+          type:this.brokerageType
+      }).then(result=>{
+        this.newYearArr = []
+        this.neeqValue = []
+        this.hkwolunValue = []
+        this.individualValue = []
+        this.neeqValue_b = []
+        this.hkwolunValue_b = []
+        this.individualValue_b = []
+        var newBusiness = result.data.data.info
+        if(this.brokerageType == 0){
+           var threeBoard =  newBusiness.NTB_TRD_AMT_MONTH
+           //NTB_TRD_AMT_MONTH新三板交易量
+           var hkwolun =  newBusiness.HKT_TRD_AMT_MONTH
+           //HKT_TRD_AMT_MONTH港股通交易量
+           var stockOptions =  newBusiness.SO_TRD_AMT_MONTH
+           //SO_TRD_AMT_MONTH个股交易量
+           for(var i = 0 ; i < threeBoard.length ; i++){
+                var cc = threeBoard[i].date
+                var arr3 = cc.split('')
+                arr3.splice(4,0,'-')
+                arr3.splice(7,0,'-')
+                var str3 = arr3.join('')
+                this.newYearArr.push(str3)
+                this.neeqValue.push(threeBoard[i].value)
+                this.hkwolunValue.push(hkwolun[i].value)
+                this.individualValue.push(stockOptions[i].value)
+           }
+          this.initBusinessChart();
+          }else{
+             var threeBoard_b =  newBusiness.NTB_NET_COMM_MONTH
+             //NTB_NET_COMM_MONTH新三板净佣金 
+             var hkwolun_b =  newBusiness.HKT_NET_COMM_MONTH
+             //HKT_NET_COMM_MONTH港股通净佣金
+             var stockOptions_b =  newBusiness.SO_NET_COMM_MONTH
+             //SO_NET_COMM_MONTH个股期权净佣金
+             for(var i = 0 ; i < threeBoard_b.length ; i++){
+                  var dd = threeBoard_b[i].date
+                  var arr4 = dd.split('')
+                  arr4.splice(4,0,'-')
+                  arr4.splice(7,0,'-')
+                  var str4 = arr4.join('')
+                  this.newYearArr.push(str4)
+                  this.neeqValue_b.push(threeBoard_b[i].value)
+                  this.hkwolunValue_b.push(hkwolun_b[i].value)
+                  this.individualValue_b.push(stockOptions_b[i].value)
+             }
+             this.brokerageAction()
+          }
+       })
+    }
   }
 };
 </script>
 <style lang="less" scoped>
 .footer {
   margin-top: 20px;
+}
+.chart-trend{
+  display: inline-block;
+  font-size: 14px;
+  line-height: 22px;
+  .chart-trend-icon{
+    font-size: 12px;
+    &.up{
+      color: #f5222d;
+    }
+    &.down{
+      color: #52c41a;
+    }
+  }
 }
 </style>
 

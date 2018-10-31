@@ -142,8 +142,7 @@
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%" @change="newCustomerAction">
           <div class="extra-wrap" slot="tabBarExtraContent">
                <a-range-picker style="float:right;margin-top:12px;margin-right:26px;width:230px;"
-               :defaultValue="[moment('2017-10', monthFormat), moment('2018-09', monthFormat)]"
-               :format="monthFormat"
+               :placeholder="['2017-10', '2018-09']"
                 format="YYYY-MM"
                 :value="value"
                 :mode="mode2"
@@ -227,7 +226,7 @@ export default {
       icon_ii:null,
       monthCompared_b:null,
       // 新增和流失客户情况
-      radioTime:'',
+      radioTime:'2018-10-09',
       yAxisLength:null,
       inquireYears:[],
       activateCus:[],
@@ -238,6 +237,9 @@ export default {
       addStartTime:'2017-10',
       addEndTime:'2018-09',
       type:0,
+      arr:[],
+      timeArr:[],
+      echartBarWidth:25,
       addYearArr:[],
       validCusArr:[],
       customerArr:[],
@@ -328,175 +330,27 @@ export default {
           }
           this.monthCompared_b = Math.round(numMonth_b*100)
       })
-
 // 客户现状新增和流失客户数据 
-    distributionlAddLostData({
-              time:'2018-10-09'
-          }).then(result=>{
-            console.log(result)
-            var addLostData = Object.values(result.data.info) 
-            let arr = []
-            for(var i = 0; i < addLostData.length; i++){
-               for(var j = 0; j < addLostData[i].length; j++){
-                  arr.push(addLostData[i][j].date.substr(0,4))
-                  if(addLostData[i][j].type == 'ACTIVE_CUST_NUM_YEAR'){
-                      this.newOpenCus.push(addLostData[i][j].value)
-                  }else if(addLostData[i][j].type == 'REVALUED_DAY'){
-                      this.activateCus.push(addLostData[i][j].value)
-                  }else if(addLostData[i][j].type == 'LOST_CUST_NUM_DAY'){
-                      this.recessiveLoss.push(addLostData[i][j].value)
-                  }else if(addLostData[i][j].type == 'LOSS_CUST_NUM_YEAR'){
-                      this.dominantLoss.push(addLostData[i][j].value)
-                  }
-               }
-            }
-            var filterArr = arr.filter(function(element,index,self){
-                  return self.indexOf(element) === index;
-             })
-            let yearArr = filterArr.map(item=>{
-                return item + '年'
-            })
-            let sortArr = []
-            sortArr.push(Math.max.apply(null, this.newOpenCus))
-            sortArr.push(Math.max.apply(null, this.activateCus))
-            sortArr.push(Math.max.apply(null, this.recessiveLoss))
-            sortArr.push(Math.max.apply(null, this.dominantLoss))
-            var max2 = sortArr.sort(function(a,b){
-                return b-a;
-            });
-            console.log(this.newOpenCus)
-            console.log(this.activateCus)
-            console.log(this.recessiveLoss)
-            console.log(this.dominantLoss)
-            this.yAxisLength = max2
-            this.inquireYears = yearArr      
-            this.addLostCustomer();
-            this.statusCard()
-       })
-
+    this.addLostCustomerAction();
 // 新增客户数据
-    distributionlAddData({
-         start:this.addStartTime,
-         end:this.addEndTime,
-         type:0
-      }).then(result=>{
-          var newcusArr = Object.values(result.data.info.NEW_CUST_MONTH)
-          // console.log('新增有效户',newcusArr)
-          var newActiveCus = Object.values(result.data.info.NEW_ACTIVE_CUST_MONTH)
-          // console.log('新增总客户数',newActiveCus)
-          for(var i = 0; i<newcusArr.length ;i++){
-               let yearsArr = newcusArr[i].day
-               var arr = yearsArr.split('')
-               arr.splice(4,0,'-')
-               var str = arr.join('')
-               this.addYearArr.push(str)
-               this.validCusArr.push(newcusArr[i].value)
-               this.customerArr.push(newActiveCus[i].value)
-          }
-          // console.log(this.addYearArr)
-          // console.log(this.validCusArr)
-          // console.log(this.customerArr)
-          this.addCustomer();
-      })
+    this.newCustomersAction();
   },
   watch:{
-      // 新增和流失客户
+    // 新增和流失客户
      radioTime(){
           if(this.radioTime != ''){
-              distributionlAddLostData({
-                time:this.radioTime
-            }).then(result=>{
-              console.log(result)
-              var addLostData = Object.values(result.data.info) 
-              let arr = []
-              this.newOpenCus = []
-              this.activateCus = []
-              this.recessiveLoss = []
-              this.dominantLoss = []
-              for(var i = 0; i < addLostData.length; i++){
-                 for(var j = 0; j < addLostData[i].length; j++){
-                    arr.push(addLostData[i][j].date.substr(0,4))
-                    if(addLostData[i][j].type == 'ACTIVE_CUST_NUM_YEAR'){
-                        this.newOpenCus.push(addLostData[i][j].value)
-                    }else if(addLostData[i][j].type == 'REVALUED_DAY'){
-                        this.activateCus.push(addLostData[i][j].value)
-                    }else if(addLostData[i][j].type == 'LOST_CUST_YEAR'){
-                        this.recessiveLoss.push(addLostData[i][j].value)
-                    }else if(addLostData[i][j].type == 'LOSS_CUST_NUM_YEAR'){
-                        this.dominantLoss.push(addLostData[i][j].value)
-                    }
-                 }
-              }
-              var filterArr = arr.filter(function(element,index,self){
-                    return self.indexOf(element) === index;
-               })
-              let yearArr = filterArr.map(item=>{
-                  return item + '年'
-              })
-              let sortArr = []
-              sortArr.push(Math.max.apply(null, this.newOpenCus))
-              sortArr.push(Math.max.apply(null, this.activateCus))
-              sortArr.push(Math.max.apply(null, this.recessiveLoss))
-              sortArr.push(Math.max.apply(null, this.dominantLoss))
-              var max2 = sortArr.sort(function(a,b){
-                  return b-a;
-              });
-              this.yAxisLength = max2
-              this.inquireYears = yearArr
-              this.addLostCustomer();
-              this.statusCard()
-         })
+            this.addLostCustomerAction()
        }
      },
     //新增客户情况
-     addStartTime(){ 
-        if(this.addStartTime != ''){
-           
+     timeArr(){ 
+        if(this.timeArr.length == 4){
+            this.newCustomersAction()
         }
       },
     //新增客户情况
     type(){
-      distributionlAddData({
-         start:'2017-01',
-         end:'2018-01',
-         type:this.type
-      }).then(result=>{
-        console.log(result)
-           if(this.type == 0){
-            this.addYearArr = []
-            this.validCusArr = []
-            this.customerArr = []
-                var newcusArr = Object.values(result.data.info.NEW_CUST_MONTH)
-                // console.log('新增有效户',newcusArr)
-                var newActiveCus = Object.values(result.data.info.NEW_ACTIVE_CUST_MONTH)
-                // console.log('新增总客户数',newActiveCus)
-                for(var i = 0; i<newcusArr.length ;i++){
-                   let yearsArr = newcusArr[i].day
-                   var arr = yearsArr.split('')
-                   arr.splice(4,0,'-')
-                   var str = arr.join('')
-                   this.addYearArr.push(str)
-                   this.validCusArr.push(newcusArr[i].value)
-                   this.customerArr.push(newActiveCus[i].value)
-              }
-              this.addCustomer();
-           }else if(this.type == 1){
-              this.assetsYearArr = []
-              this.assetsValueArr = []
-               var newlyAssets = Object.values(result.data.info.NEW_CUST_ASSET_MONTH)
-               for(var i = 0 ; i < newlyAssets.length ; i++){
-                    let yearsArr2 = newlyAssets[i].day
-                     var arr2 = yearsArr2.split('')
-                     arr2.splice(4,0,'-')
-                     var str2 = arr2.join('')
-                    this.assetsYearArr.push(str2)
-                    this.assetsValueArr.push(newlyAssets[i].value)
-               }
-            this.addEquityCus()
-          }
-          console.log(this.assetsYearArr)
-          console.log(this.assetsValueArr)
-      })
+        this.newCustomersAction()
     }
   },
   methods: {
@@ -506,7 +360,6 @@ export default {
       },
       onChangeRadio(date, dateString){
          this.radioTime = dateString
-         console.log(this.radioTime)
       },
       // 日期选择框
       moment,
@@ -517,15 +370,140 @@ export default {
       },
       handlePanelChange1(value, mode) {
         this.mode1 = mode
-        console.log(this.mode1)
       },
+    // 获取年月时间
       handlePanelChange2 (value, mode) {
         this.value = value
         this.mode2 = [
           mode[0] === 'date' ? 'month' : mode[0],
           mode[1] === 'date' ? 'month' : mode[1],
         ]
+       this.arr.push(value[0].format('YYYY-MM'))
+       this.arr.push(value[1].format('YYYY-MM'))
+       if(this.arr.length == 6 && this.arr[0] == this.arr[2]){
+           this.arr.splice(2,1)
+           this.arr.splice(2,1)
+        }
+        if(this.arr.length == 4 && this.arr[0] != this.arr[2]){
+           this.arr.splice(0,1)
+           this.arr.splice(0,1)
+        }
+        if(this.arr[1] == this.arr[3]){
+           this.arr.splice(0,1)
+           this.arr.splice(0,1)
+        }
+        if(this.arr.length == 4){
+            this.timeArr = this.arr
+         }
       },
+  // 新增客户事件
+   newCustomersAction(){
+      if(this.timeArr.length == 4){
+         this.addStartTime = this.timeArr[0];
+         this.addEndTime = this.timeArr[3]
+      }
+      distributionlAddData({
+       start:this.addStartTime,
+       end:this.addEndTime,
+       type:this.type
+    }).then(result=>{
+         if(this.type == 0){
+          this.addYearArr = []
+          this.validCusArr = []
+          this.customerArr = []
+              var newcusArr = Object.values(result.data.info.NEW_CUST_MONTH)
+              // console.log('新增有效户',newcusArr)
+              var newActiveCus = Object.values(result.data.info.NEW_ACTIVE_CUST_MONTH)
+              // console.log('新增总客户数',newActiveCus)
+              for(var i = 0; i<newcusArr.length ;i++){
+                 let yearsArr = newcusArr[i].day
+                 var arr = yearsArr.split('')
+                 arr.splice(4,0,'-')
+                 var str = arr.join('')
+                 this.addYearArr.push(str)
+                 this.validCusArr.push(newcusArr[i].value)
+                 this.customerArr.push(newActiveCus[i].value)
+            }
+            if(20 > this.validCusArr.length > 15){
+                this.echartBarWidth = 20
+            }else if(30 > this.validCusArr.length > 20){
+                this.echartBarWidth = 17
+            }else if(30 < this.validCusArr.length){
+                this.echartBarWidth = 14
+            }else{
+                this.echartBarWidth = 25
+            }
+            this.addCustomer();
+         }else if(this.type == 1){
+            this.assetsYearArr = []
+            this.assetsValueArr = []
+             var newlyAssets = Object.values(result.data.info.NEW_CUST_ASSET_MONTH)
+             for(var i = 0 ; i < newlyAssets.length ; i++){
+                  let yearsArr2 = newlyAssets[i].day
+                   var arr2 = yearsArr2.split('')
+                   arr2.splice(4,0,'-')
+                   var str2 = arr2.join('')
+                  this.assetsYearArr.push(str2)
+                  this.assetsValueArr.push(newlyAssets[i].value)
+             }
+            if(20 > this.assetsValueArr.length > 15){
+              this.echartBarWidth = 20
+            }else if(30 > this.assetsValueArr.length > 20){
+                 this.echartBarWidth = 17
+            }else if(30 < this.assetsValueArr.length){
+                  this.echartBarWidth = 14
+            }else{
+                this.echartBarWidth = 25
+            }
+          this.addEquityCus()
+        }
+    })
+   },
+  //新增客户和流失情况
+   addLostCustomerAction(){
+       distributionlAddLostData({
+            time:this.radioTime
+       }).then(result=>{
+          var addLostData = Object.values(result.data.info) 
+          let arr = []
+          this.newOpenCus = []
+          this.activateCus = []
+          this.recessiveLoss = []
+          this.dominantLoss = []
+          for(var i = 0; i < addLostData.length; i++){
+             for(var j = 0; j < addLostData[i].length; j++){
+                arr.push(addLostData[i][j].date.substr(0,4))
+                if(addLostData[i][j].type == 'ACTIVE_CUST_NUM_YEAR'){
+                    this.newOpenCus.push(addLostData[i][j].value)
+                }else if(addLostData[i][j].type == 'REVALUED_DAY'){
+                    this.activateCus.push(addLostData[i][j].value)
+                }else if(addLostData[i][j].type == 'LOST_CUST_NUM_DAY'){
+                    this.recessiveLoss.push(addLostData[i][j].value)
+                }else if(addLostData[i][j].type == 'LOSS_CUST_NUM_YEAR'){
+                    this.dominantLoss.push(addLostData[i][j].value)
+                }
+             }
+          }
+          var filterArr = arr.filter(function(element,index,self){
+                return self.indexOf(element) === index;
+           })
+          let yearArr = filterArr.map(item=>{
+              return item + '年'
+          })
+          let sortArr = []
+          sortArr.push(Math.max.apply(null, this.newOpenCus))
+          sortArr.push(Math.max.apply(null, this.activateCus))
+          sortArr.push(Math.max.apply(null, this.recessiveLoss))
+          sortArr.push(Math.max.apply(null, this.dominantLoss))
+          var max2 = sortArr.sort(function(a,b){
+              return b-a;
+          });
+          this.yAxisLength = max2
+          this.inquireYears = yearArr
+          this.addLostCustomer();
+          this.statusCard()
+     })
+   }, 
   // tab 切换
   newCustomerAction(activeKey){
        if(activeKey == 1){
@@ -533,7 +511,6 @@ export default {
        }else{
           this.type = 1
        }
-      console.log(this.type)
       var _this = this
       setTimeout(function(){
          _this.addEquityCus()
@@ -545,8 +522,8 @@ export default {
         var option = {
             tooltip : {
                 trigger: 'axis',
-                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                axisPointer : {            
+                    type : 'shadow'       
                 }
             },
             legend: {
@@ -613,7 +590,6 @@ export default {
                         },
                       },
                       barWidth: 25,
-                      // data: [2000, 3300, 2500]
                       data:this.newOpenCus
                   },
                   {
@@ -626,7 +602,6 @@ export default {
                       },
                     },
                     barWidth: 25,
-                    // data: [1000, 600, 800]
                     data:this.activateCus
                 },
             ]
@@ -639,8 +614,8 @@ export default {
         var option = {
           tooltip : {
               trigger: 'axis',
-              axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                  type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+              axisPointer : {           
+                  type : 'shadow'        
               }
           },
           legend: {
@@ -681,7 +656,6 @@ export default {
           },
           yAxis: {
               type: 'category',
-              // data: ['2016年','2017年','2018年'],
               data:this.inquireYears,
                axisLine:{
                   lineStyle:{
@@ -704,7 +678,6 @@ export default {
                     },
                   },
                   barWidth: 25,
-                  // data: [1200, 1500, 1200]
                   data:this.recessiveLoss
               },
               {
@@ -717,7 +690,6 @@ export default {
                     },
                   },
                   barWidth: 25,
-                  // data: [2000, 1000, 1200]
                   data:this.dominantLoss
                 }
               ]
@@ -799,25 +771,25 @@ export default {
                      {
                         name:'新增总客户数',
                         type:'bar',
-                        data:this.customerArr,
+                        data:this.validCusArr,
                         itemStyle:{
                           normal:{
                             color:'#91D5FF',
                           },
                         },
-                         barWidth: 25,
+                         barWidth:this.echartBarWidth,
                          barGap:-0.5
                     },
                     {
                         name:'新增有效户',
                         type:'bar',
-                        data:this.validCusArr,
+                        data:this.customerArr,
                         itemStyle:{
                           normal:{
                             color:'#40A9FF',
                           },
                         },
-                        barWidth: 25,
+                        barWidth:this.echartBarWidth,
                         barGap:-0.5
                     }
                 ]
@@ -846,7 +818,7 @@ export default {
                     itemGap:50
                 },
                  grid: {
-                    left: '1%',
+                    left: '0.5%',
                     top:'5%',
                     right: '0.8%',
                     bottom: '12%',
@@ -905,17 +877,16 @@ export default {
                             color:'#40A9FF',
                           },
                         },
-                        barWidth: 25,
+                        barWidth:this.echartBarWidth,
                         barGap:-0.5
                     }
                 ]
            };
         eqChart.setOption(option);
-   }
+    }
   }
 }
 </script>
-
 <style lang="less" scoped>
 #market{
   content: '';

@@ -54,7 +54,6 @@ export function distributionlDetailData(parameters = {}){
         })
         .then(response=>{
             resolve(response.data);
-            // console.log(response)
         })
         .catch(error => {
             console.log('失败')

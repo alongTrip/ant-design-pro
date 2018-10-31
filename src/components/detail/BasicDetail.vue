@@ -121,63 +121,43 @@ export default {
       this.startTime = dateString[0]
       this.endTime = dateString[1]
     },
+    newBusinessAction(){
+      this.loading = true
+      newBusinessDetailData({
+         start:this.startTime,
+         end:this.endTime
+      }).then(result=>{
+          this.loading = false
+          var datas = result.data.info
+          var dat = Object.values(datas)
+          for(var i = 0; i < dat.length; i++){
+                var aa = dat[i].date
+                var arr = aa.split('')
+                arr.splice(4,0,'-')
+                arr.splice(7,0,'-')
+                var str = arr.join('')
+                dat[i].date = str
+                dat[i].value1 = this.toThousands(Math.round(dat[i].value1))
+                dat[i].value2 = this.toThousands(Math.round(dat[i].value2)) 
+                dat[i].value3 = this.toThousands(Math.round(dat[i].value3))
+                dat[i].v1 =  Math.round(dat[i].v1*10000)/10000
+                dat[i].v2 =  Math.round(dat[i].v2*10000)/10000
+                dat[i].v3 =  Math.round(dat[i].v3*10000)/10000
+          }
+          this.data = dat
+          this.pagination.total = this.data.length
+       })
+    }
   },
   watch:{
      startTime(){
       if(this.startTime != ''){
-          this.loading = true
-          newBusinessDetailData({
-             start:this.startTime,
-             end:this.endTime
-          }).then(result=>{
-              this.loading = false
-              var datas = result.data.info
-              var dat = Object.values(datas)
-              for(var i = 0; i < dat.length; i++){
-                    var aa = dat[i].date
-                    var arr = aa.split('')
-                    arr.splice(4,0,'-')
-                    arr.splice(7,0,'-')
-                    var str = arr.join('')
-                    dat[i].date = str
-                    dat[i].value1 = this.toThousands(Math.round(dat[i].value1))
-                    dat[i].value2 = this.toThousands(Math.round(dat[i].value2)) 
-                    dat[i].value3 = this.toThousands(Math.round(dat[i].value3))
-                    dat[i].v1 =  Math.round(dat[i].v1*10000)/10000
-                    dat[i].v2 =  Math.round(dat[i].v2*10000)/10000
-                    dat[i].v3 =  Math.round(dat[i].v3*10000)/10000
-              }
-              this.data = dat
-              this.pagination.total = this.data.length
-           })
+          this.newBusinessAction()
         }
       }
    },
   mounted(){
-    newBusinessDetailData({
-         start:'2017-01-01',
-         end:'2018-10-08'
-      }).then(result=>{
-            this.loading = false
-            var datas = result.data.info
-            var dat = Object.values(datas)
-            for(var i = 0; i < dat.length; i++){
-                  var aa = dat[i].date
-                  var arr = aa.split('')
-                  arr.splice(4,0,'-')
-                  arr.splice(7,0,'-')
-                  var str = arr.join('')
-                  dat[i].date = str
-                  dat[i].value1 = this.toThousands(Math.round(dat[i].value1))
-                  dat[i].value2 = this.toThousands(Math.round(dat[i].value2)) 
-                  dat[i].value3 = this.toThousands(Math.round(dat[i].value3))
-                  dat[i].v1 =  Math.round(dat[i].v1*10000)/10000
-                  dat[i].v2 =  Math.round(dat[i].v2*10000)/10000
-                  dat[i].v3 =  Math.round(dat[i].v3*10000)/10000
-            }
-            this.data = dat
-            this.pagination.total = this.data.length
-		   })
+       this.newBusinessAction()
     }
  }
 </script>
