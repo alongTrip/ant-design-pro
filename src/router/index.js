@@ -28,6 +28,9 @@ import CustomerStatus from '@/components/detail/customerStatus'
 import TaskCard from '@/components/task/Index'
 import ColorBox from '@/components/check/Index'
 
+import Dashboard2 from '@/components/dashboard/Dashboard2'
+import Dashboard3 from '@/components/dashboard/Dashboard3'
+
 Vue.use(Router)
 
 export default new Router({
@@ -52,16 +55,28 @@ export default new Router({
           component: RouteView,
           icon: 'dashboard',
           children: [
-            {
-              path: '/dashboard/workplace',
-              name: '客户现状',
-              component: WorkPlace,
-              icon: 'none'
-            },
+            // {
+            //   path: '/dashboard/workplace',
+            //   name: '客户现状',
+            //   component: WorkPlace,
+            //   icon: 'none'
+            // },
             {
               path: '/dashboard/analysis',
               name: '业务通道',
               component: Dashboard,
+              icon: 'none'
+            },
+            {
+              path: '/dashboard/analy',
+              name: '客户现状',
+              component: Dashboard2,
+              icon: 'none'
+            },
+            {
+              path: '/dashboard/anay',
+              name: '客户现状',
+              component: Dashboard3,
               icon: 'none'
             }
           ]

@@ -1,8 +1,6 @@
 <template>
-  <!-- 客户现状 -->
-  <page-layout :avatar="currUser.avatar">
-    <div>
-      <a-row style="margin: 0 -12px">
+  <div>
+        <a-row style="margin: 0 -12px">
     <!-- 结构一 -->
         <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
           <chart-card title="前日总客户数(户)" :total="amount">
@@ -173,8 +171,7 @@
         </div>
       </div>
      </a-card>
-    </div>
-  </page-layout>
+  </div>
 </template>
 
 <script>
@@ -187,7 +184,6 @@ import echarts from "echarts";
 import PageLayout from '../layout/PageLayout'
 import {distributionlCardData,distributionlAddLostData,distributionlAddData} from '@/servers/customerDetails.js'
 import moment from 'moment'
-
 export default {
   name: 'WorkPlace',
   components: {
@@ -934,5 +930,6 @@ export default {
     }
   }
 }
-
 </style>
+
+

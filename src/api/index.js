@@ -23,13 +23,13 @@ const CHART_CARD_API = '/api/passageway/info';
 const MARKET_SHARES_API = '/api/passageway/market';
 
 /*
-  接口功能：通道业务主要业务经营情况的图表数据(50%)
+  接口功能：通道业务主要业务经营情况的图表数据(完成)
   接口参数：
 */
 const ACCOUNT_VALUE_API = '/api/passageway/account';
 
 /*
-  接口功能：通道业务新业务经营的图表数据(50%)
+  接口功能：通道业务新业务经营的图表数据(完成)
   接口参数：
 */
 const BUSINESS_OPERATION_API = '/api/passageway/newbs';

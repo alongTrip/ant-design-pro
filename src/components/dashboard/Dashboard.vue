@@ -4,7 +4,7 @@
     <!-- 结构一 -->
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日股基交易量(万元)" :total="stockData">
-          <a-tooltip title="指标说明" slot="action">
+          <a-tooltip title="股基交易量统计范畴包括：A股、B股、基金（含ETF、黄金ETF、LOF、上证LOF、财务分级LOF、多空分级LOF，不含债券ETF、货币ETF）等交易量，包含两融数据，即为普通账户交易+信用账户交易（担保品交易+信用交易）" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div class="chart-trend">
@@ -19,7 +19,7 @@
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日信用账户交易量(万元)" :total="creditData">
-          <a-tooltip title="指标说明" slot="action">
+          <a-tooltip title="融资融券担保品、信用交易为信用帐户交易量，与普通账户交易量不存在包含关系" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div class="chart-trend">
@@ -34,7 +34,7 @@
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日市场份额" :total="marketData">
-          <a-tooltip title="指标说明" slot="action">
+          <a-tooltip title="统计的市场包含深A、沪A、深B、沪B，不包含三板市场及场外（开放式基金）；市场份额为普通账户与信用账户的市场份额之和，计算方法为截止时点的股基（含融资融券）交易量/市场股基交易量（单向）/2" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div class="chart-trend">
@@ -49,7 +49,7 @@
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日股基净佣金率" :total="fundData">
-          <a-tooltip title="指标说明" slot="action">
+          <a-tooltip title="指统计期间客户进行股票、基金（含ETF、LOF）交易由证券公司收取和代缴的相关费用，是扣除证券公司代缴的经手费、证管费余额，不含权证；股基净佣金率=股基净佣金收入总额/股基交易量" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div class="chart-trend">
@@ -65,7 +65,7 @@
       <!-- 结构二 -->
        <a-col :sm="24" :md="12"  style="padding: 12px 12px 24px;width:50%;position:relative;">
         <chart-card title="当月股基净佣金收入(万元)" :total="stockFundData">
-          <a-tooltip title="指标说明" slot="action">
+          <a-tooltip title="普通帐户统计A股、B股、基金交易" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
          <div class="chart-trend">
@@ -84,13 +84,12 @@
         </div>
         </chart-card>
         <div>
-            <mini-bar style="position: absolute;left:53%;top:138px;width:40%;"/>
+            <mini-bar style="position: absolute;left:53%;top:138px;width:252px;"/>
         </div>
       </a-col>
-
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;width:50%;position:relative;">
         <chart-card title="当月两融净佣金收入(万元)" :total="meltData">
-          <a-tooltip title="指标说明" slot="action">
+          <a-tooltip title="信用帐户交易统计融资融券担保品、信用交易" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
            <div class="chart-trend">
@@ -109,7 +108,7 @@
         </div>
         </chart-card>
         <div>
-            <mini-area style="position: absolute;left:53%;top:138px;width:40%;"/>
+            <mini-area style="position: absolute;left:53%;top:138px;width:252px;"/>
         </div>
       </a-col>
     </a-row>
@@ -117,7 +116,12 @@
     <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;">
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
-            <h2 style="float:left;padding-left:25px;font-size:18px;">市场份额</h2>
+            <h2 style="float:left;padding-left:25px;font-size:18px;">
+               市场份额
+              <a-tooltip title="市场份额为普通账户与信用账户的市场份额之和，计算方法为截止时点的股基（含融资融券）交易量/市场股基交易量（单向）/2" slot="action">
+                <a-icon type="info-circle-o" style="font-size:13px"/>
+              </a-tooltip>
+            </h2>
             <a-range-picker   style="float:right;padding-top:20px;margin-right:40px;width:280px"
                @change="onChange_a"
                :defaultValue="[moment('2017-10-11', dateFormat), moment('2018-10-10', dateFormat)]"
@@ -131,7 +135,12 @@
     <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:20px;">
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
-            <h2 style="float:left;padding-left:25px;font-size:18px;">主要业务经营情况</h2>
+            <h2 style="float:left;padding-left:25px;font-size:18px;">
+               主要业务经营情况
+              <a-tooltip title="普通帐户统计A股、B股、基金交易，信用帐户交易统计融资融券担保品、信用交易，相互不存在包含关系" slot="action">
+                <a-icon type="info-circle-o" style="font-size:13px"/>
+              </a-tooltip>
+            </h2>
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
          <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%" @change="mainBusinessChange">
@@ -160,7 +169,12 @@
    <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:20px;">
       <div class="salesCard" style="height:500px;">
          <div style="border-bottom:1px solid rgb(232, 232, 232);height:70px;line-height:70px;">
-            <h2 style="float:left;padding-left:25px;font-size:18px;">新业务经营情况</h2>
+            <h2 style="float:left;padding-left:25px;font-size:18px;">
+               新业务经营情况
+              <a-tooltip title="个股期权数据来源于股票期权系统；港股通数据包含深港通和沪港通市场交易数据；新三板数据包含新三板A和新三板B市场交易数据；净佣金指截止统计时点客户进行股票期权、港股通、新三板等交易，由证券公司收取和代缴的相关费用，是扣除证券公司代缴的经手费、证管费等费用后的余额；交易量、净佣金折合人民币，单位：万元" slot="action">
+                <a-icon type="info-circle-o" style="font-size:13px"/>
+              </a-tooltip>
+            </h2>
          </div>
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
             <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%"  @change="addChange"  >
@@ -315,14 +329,14 @@ export default {
         }else if(compare5 < 0){
            this.stockFundIcon = false
         }
-        this.yearChange = Math.round(compare5*100) == 0 ? '--' :  Math.abs(Math.round(compare5*100)/100) + '%'
+        this.yearChange = Math.round(compare5*100) == 0 ? '-' :  Math.abs(Math.round(compare5*100)/100) + '%'
         var compare6 = datas.fi_netcom_mon.value_updown
         if(compare6 > 0){
            this.stockDataIcon = true
         }else if(compare6 < 0){
            this.stockDataIcon = false
         }
-        this.dateChange = Math.round(compare6*100) == 0 ? '--' :  Math.abs(Math.round(compare6*100)/100) + '%'
+        this.dateChange = Math.round(compare6*100) == 0 ? '-' :  Math.abs(Math.round(compare6*100)/100) + '%'
         // 6
         this.meltData =  this.toThousands(Math.round(datas.netcom_mon.value)).toString()
         var compare7 = datas.netcom_mon.value_offset
@@ -331,31 +345,26 @@ export default {
         }else if(compare7 < 0){
            this.meltIcon = false
         }
-        this.meltYearChange = Math.round(compare7*100) == 0 ? '--' :  Math.abs(Math.round(compare7*100)/100) + '%'
+        this.meltYearChange = Math.round(compare7*100) == 0 ? '-' :  Math.abs(Math.round(compare7*100)/100) + '%'
         var compare8 = datas.netcom_mon.value_updown
         if(compare8 > 0){
            this.meltDataIcon = true
         }else if(compare8 < 0){
            this.meltDataIcon = false
         }
-        this.meltDateChange = Math.round(compare8*100) == 0 ? '--' : Math.abs(Math.round(compare8*100)/100) + '%'
+        this.meltDateChange = Math.round(compare8*100) == 0 ? '-' : Math.abs(Math.round(compare8*100)/100) + '%'
       });
     // 市场份额
     this.marketSharesAction()
-    //账户价值量分析 
+    //主要经营业务分析 
     this.mainBusinessAction();
     // 新业务经营情况
     this.newBusinessAction()
   },
   watch: {
-     marketStartTime(){
-      if(this.marketStartTime != ""){
-          this.marketSharesAction()
-        }
-     },
      accountStartTime(){
        if(this.accountStartTime != ''){
-         this.mainBusinessAction()
+          this.mainBusinessAction()
        }
      },
      mainType(){
@@ -366,7 +375,7 @@ export default {
      },
      brokerageTimeArr(){
         this.newBusinessAction()
-     }
+     },
   },
   methods: {
     moment,
@@ -393,6 +402,9 @@ export default {
     onChange_a(date, dateString) {
        this.marketStartTime = dateString[0]
        this.marketEndTime = dateString[1]
+       if(this.marketStartTime != ""){
+          this.marketSharesAction()
+        }
     },
     onChange_b(date, dateString) {
         this.accountStartTime = dateString[0]
@@ -424,7 +436,7 @@ export default {
       },
     // 主要业务
     mainBusinessAction(){
-         accountValueData({
+      accountValueData({
          start:this.accountStartTime,
          end:this.accountEndTime,
          type:this.mainType
@@ -474,6 +486,8 @@ export default {
     // 市场份额请求
     marketSharesAction(){
          marketSharesData().then(result=>{
+          this.marketYearArr = []
+          this.marketValue = []
           var marketData = result.data.data.info
           for(var i = 0 ; i < marketData.length ; i++){
               var aa = marketData[i].date
@@ -506,12 +520,19 @@ export default {
           },
           max: function(value) {
             return value.max;
-          }
+          },
+          splitLine: {
+              show: true,
+              lineStyle:{
+                width:0.5,
+                type: 'dashed'
+              }
+           },
         },
         grid: {
           top: "8%",
           left: "4%",
-          right: "10%",
+          right: "4%",
           bottom: "10%",
           containLabel: true
         },
@@ -523,60 +544,10 @@ export default {
             type: "inside"
           }
         ],
-        visualMap: {
-          top: 10,
-          right: 10,
-          pieces: [
-            {
-              gt: 0,
-              lte: 7,
-              color: "#096"
-            },
-            {
-              gt: 7,
-              lte: 7.5,
-              color: "#ffde33"
-            },
-            {
-              gt: 7.5,
-              lte: 8,
-              color: "#ff9933"
-            },
-            {
-              gt: 8,
-              lte: 8.5,
-              color: "#cc0033"
-            },
-            {
-              gt: 8.5,
-              color: "#660099"
-            }
-          ],
-          outOfRange: {
-            color: "#999"
-          }
-        },
         series: {
           name: "score",
           type: "line",
           data: this.marketValue,
-          markLine: {
-            silent: true,
-            data: [
-              {
-                yAxis: 7
-              },
-              {
-                yAxis: 7.5
-              },
-              {
-                yAxis: 8
-              },
-              {
-                yAxis: 8.5
-              }         
-            ]
-          }
         }
       };
       this.myChart.setOption(option);
@@ -622,7 +593,14 @@ export default {
             type: "value",
             max: function(value) {
               return Math.round(value.max) + 30000;
-            }
+            },
+            splitLine: {
+                show: true,
+                lineStyle:{
+                  width:0.5,
+                  type: 'dashed'
+                }
+             },
           }
         ],
         series: [
@@ -684,15 +662,12 @@ export default {
           left: "3%",
           right: "4%",
           bottom: "10%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: [
           {
             type: "category",
             boundaryGap: false,
-            axisLabel:{
-                 interval:Math.floor(this.yearArr.length/6),
-            },
             data:this.yearArr
           }
         ],
@@ -701,7 +676,14 @@ export default {
             type: "value",
             max: function(value) {
               return Math.round(value.max) + 30000;
-            }
+            },
+            splitLine: {
+                show: true,
+                lineStyle:{
+                  width:0.5,
+                  type: 'dashed'
+                }
+             },
           }
         ],
         series: [
@@ -738,6 +720,9 @@ export default {
         ]
       };
      commissionChart.setOption(option);
+     // commissionChart.on('click', function(params){
+     //      console.log(params);
+     //  });
     },
     // 新业务经营情况
     initBusinessChart() {
@@ -776,9 +761,9 @@ export default {
             type: "category",
             boundaryGap: false,
             data:this.newYearArr,
-             axisLabel:{
-                 interval:Math.floor(this.yearArr.length/6),
-            },
+            // axisLabel:{
+            //      interval:Math.floor(this.newYearArr.length/6),
+            // },
           }
         ],
         yAxis: [
@@ -786,7 +771,14 @@ export default {
             type: "value",
             max: function(value) {
               return Math.round(value.max);
-            }
+            },
+            splitLine: {
+                show: true,
+                lineStyle:{
+                  width:0.5,
+                  type: 'dashed'
+                }
+             },
           }
         ],
         series: [
@@ -838,6 +830,19 @@ export default {
         ]
       };
       businessChart.setOption(option);
+      // var _this = this
+      // businessChart.on('legendselectchanged', function (params) {
+      //     console.log(params);
+      //     this.confirm = 1 
+      //     console.log(this.confirm)
+      //     _this.initBusinessChart()
+      //     // setTimeout(function(){
+      //     //   _this.newBusinessAction()
+      //     // },1000)
+      // })
+      // businessChart.on('click', function (params) {
+      //     console.log(params);
+      //  });
     },
     // 新业务净佣金情况
     brokerageAction() {
@@ -876,8 +881,8 @@ export default {
             type: "category",
             boundaryGap: false,
             data:this.newYearArr,
-             axisLabel:{
-                 interval:Math.floor(this.yearArr.length/6),
+            axisLabel:{
+                 interval:Math.floor(this.newYearArr.length/6),
             },
           }
         ],
@@ -886,7 +891,14 @@ export default {
             type: "value",
             max: function(value) {
               return Math.round(value.max);
-            }
+            },
+            splitLine: {
+                show: true,
+                lineStyle:{
+                  width:0.5,
+                  type: 'dashed'
+                }
+             },
           }
         ],
         series: [

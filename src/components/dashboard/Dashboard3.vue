@@ -1,7 +1,6 @@
 <template>
-  <!-- 客户分布页 -->
-    <div class="customer">
-      <a-row style="margin: 0 -12px">
+  <div>
+       <a-row style="margin: 0 -12px">
           <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
             <chart-card title="前日总客户数(按身份证)" :total="totalCus">
               <a-tooltip title="客户总数指在公司开立证券账户、基金账户的客户总数，包含不合规账户、小额休眠账户等不规范账户,不包含销户客户数(由于营业部升级，520原宝安服务部和220原机场服务部客户分别已转入500深一和200北一营业部，故不再重复统计)" slot="action">
@@ -179,9 +178,11 @@
           </div>
         </a-card>
       </div>
-    </div>
+  </div>
 </template>
+
 <script>
+
 import ACard from "ant-design-vue/es/card/Card";
 import AIcon from 'ant-design-vue/es/icon/icon'
 import ChartCard from "../dashboard/ChartCard";
@@ -194,6 +195,7 @@ import 'echarts-wordcloud'
 import  'echarts/lib/chart/map';
 import 'echarts/map/js/china.js';
 import {customerDetailsCardData,customerDetailsMapData,customerDetailsPieData,customerDetailsCloundData,customerDetailsBarData,customerDetailsDetailData} from '@/servers/distribution.js'
+
 export default {
   name: "Success",
    components: {
@@ -819,10 +821,8 @@ export default {
     }
   } 
 };
-  
 </script>
-
-<style scoped>
+<style lang="less" scoped>
 .card-footer{
     border-top: 1px solid #e8e8e8;
     padding-top: 9px;
@@ -852,3 +852,5 @@ export default {
   background: #1890FF;
 }
 </style>
+
+

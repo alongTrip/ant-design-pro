@@ -42,12 +42,18 @@ export default new Router({
               component: () => import('@/components/dashboard/Dashboard'),
               icon: 'none'
             },
-            // {
-            //   path: '/dashboard/analysis',
-            //   name: '金融产品',
-            //   component: () => import('@/components/dashboard/Dashboard'),
-            //   icon: 'none'
-            // }
+            {
+              path: '/dashboard/analy',
+              name: '客户现状',
+              component: () => import('@/components/dashboard/Dashboard2'),
+              icon: 'none'
+            },
+            {
+              path: '/dashboard/anay',
+              name: '客户分布',
+              component: () => import('@/components/dashboard/Dashboard3'),
+              icon: 'none'
+            }
           ]
         },
         // {
@@ -162,13 +168,13 @@ export default new Router({
         },
         {
           path: '/result',
-          name: '客户分析',
+          name: '客户分析(附件)',
           icon: 'check-circle-o',
           component: PageView,
           children: [
             {
               path: '/result/success',
-              name: '客户分布',
+              name: '客户分布(附件)',
               icon: 'none',
               component: () => import('@/components/result/Success')
             },
@@ -180,7 +186,7 @@ export default new Router({
             // },
             {
               path: '/dashboard/workplace',
-              name: '客户现状',
+              name: '客户现状(附件)',
               component: () => import('@/components/dashboard/WorkPlace'),
               icon: 'none'
             },
