@@ -19,6 +19,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.$message = message
 Vue.prototype.$chart = echarts
 Vue.config.productionTip = false
+Vue.prototype.$center = new Vue()
 Vue.use(Viser)
 Vue.use(Antd)
 

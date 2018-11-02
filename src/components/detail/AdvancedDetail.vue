@@ -2,7 +2,7 @@
     <page-layout title="传统业务详情页" >
       <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:20px;">
       <div class="salesCard">
-        <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" 
+        <a-tabs :default-active-key="defaultActiveKey"  size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" 
           @change="brokerageAction">
           <a-tab-pane loading="true" tab="交易量" key="1">
             <a-row>
@@ -51,7 +51,7 @@
               </a-col>
             </a-row>
           </a-tab-pane>
-          <a-tab-pane loading="true" tab="佣金收入" key="2">
+          <a-tab-pane loading="true" tab="佣金收入" key="2" >
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
                 <div>
@@ -111,6 +111,7 @@ export default {
       data:[],
       startTime:'2017-10-11',
       endTime:'2018-10-10',
+      defaultActiveKey:'1',
       type:0,
       pagination: {
         total: 12,
@@ -121,6 +122,16 @@ export default {
         showQuickJumper: true,
       },
     }
+  },
+  created(){
+     if(this.$route.query.type == 0 && this.$route.query.type == 1){
+        this.startTime  = this.$route.query.start;
+        this.endTime = this.$route.query.end;
+        this.type = this.$route.query.type
+     }
+     if(this.$route.query.type==1){
+          this.defaultActiveKey = '2'
+      }
   },
   methods: {
     moment,
@@ -138,7 +149,7 @@ export default {
       };
       this.pagination = fetch
     },
-    onChange(data,dateString){
+    onChange(data,dateString){ 
       this.startTime = dateString[0]
       this.endTime = dateString[1]
     },
@@ -168,7 +179,7 @@ export default {
               dat[i].date = str
               if(this.type == 0){
                   dat[i].value1 = this.toThousands(Math.round(dat[i].value1*100)/100)
-                  dat[i].value2 = Math.round(dat[i].value2*100000)/100 + '‰'
+                  dat[i].value2 = Math.round(dat[i].value2*100)/100 + '‰'
                   dat[i].value3 = this.toThousands(Math.round(dat[i].value3*100)/100)
                   dat[i].value4 = this.toThousands(Math.round(dat[i].value4*100)/100)
               }else if(this.type == 1){
@@ -185,7 +196,7 @@ export default {
   watch:{
       startTime(){
         if(this.startTime != ''){
-            this.traditionalDetailService()
+             this.traditionalDetailService()
           }
        },
       type(){

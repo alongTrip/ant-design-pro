@@ -166,32 +166,32 @@ export default new Router({
             }
           ]
         },
-        {
-          path: '/result',
-          name: '客户分析(附件)',
-          icon: 'check-circle-o',
-          component: PageView,
-          children: [
-            {
-              path: '/result/success',
-              name: '客户分布(附件)',
-              icon: 'none',
-              component: () => import('@/components/result/Success')
-            },
-            // {
-            //   path: '/result/error',
-            //   name: '失败',
-            //   icon: 'none',
-            //   component: () => import('@/components/result/Error')
-            // },
-            {
-              path: '/dashboard/workplace',
-              name: '客户现状(附件)',
-              component: () => import('@/components/dashboard/WorkPlace'),
-              icon: 'none'
-            },
-          ]
-        },
+        // {
+        //   path: '/result',
+        //   name: '客户分析(附件)',
+        //   icon: 'check-circle-o',
+        //   component: PageView,
+        //   children: [
+        //     {
+        //       path: '/result/success',
+        //       name: '客户分布(附件)',
+        //       icon: 'none',
+        //       component: () => import('@/components/result/Success')
+        //     },
+        //     // {
+        //     //   path: '/result/error',
+        //     //   name: '失败',
+        //     //   icon: 'none',
+        //     //   component: () => import('@/components/result/Error')
+        //     // },
+        //     {
+        //       path: '/dashboard/workplace',
+        //       name: '客户现状(附件)',
+        //       component: () => import('@/components/dashboard/WorkPlace'),
+        //       icon: 'none'
+        //     },
+        //   ]
+        // },
         // {
         //   path: '/exception',
         //   name: '异常页',

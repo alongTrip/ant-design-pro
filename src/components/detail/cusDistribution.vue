@@ -2,7 +2,7 @@
     <page-layout title="客户现状的详情" >
       <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:20px;">
       <div class="salesCard">
-        <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}"
+        <a-tabs :default-active-key="defaultActiveKey" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}"
           @change="analysisAction">
           <a-tab-pane loading="true" tab="新增流失客户分析" key="1">
             <a-row>
@@ -142,6 +142,7 @@ export default {
       endTime:'2018-10-08',
       addStartTime:'2017-10',
       addEndTime:'2018-09',
+      defaultActiveKey:"1",
       pagination: {
         total: 12,
         defaultCurrent: 1,
@@ -151,6 +152,19 @@ export default {
         showQuickJumper: true,
       },
     }
+  },
+  created(){
+     if(this.$route.query.type == 0){
+        this.startTime  = this.$route.query.start;
+        this.endTime = this.$route.query.end;
+        this.type = this.$route.query.type
+     }
+     if(this.$route.query.type == 1){
+        this.addStartTime = this.$route.query.start;
+        this.addEndTime = this.$route.query.end;
+        this.type = this.$route.query.type
+        this.defaultActiveKey = "2"
+     }
   },
   methods: {
     moment,

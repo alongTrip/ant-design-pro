@@ -129,8 +129,8 @@
             />
          </div>
          <div id="market" style="display:flex">
-             <div id="first" style="width:535px;height:240px;"></div>
-             <div id="main" style="width:535px;height:240px;"></div>
+             <div id="first" style="width:590px;height:240px;"></div>
+             <div id="main" style="width:590px;height:240px;"></div>
          </div>
          
       </div>
@@ -159,12 +159,12 @@
           </div>
           <a-tab-pane loading="true" tab="客户数" key="1">
             <a-row>
-                <div id="three" style="width:1100px;height:300px;float:left"></div>
+                <div id="three" style="width:1200px;height:300px;float:left"></div>
             </a-row>
           </a-tab-pane>
           <a-tab-pane tab="客户资产" key="2">
             <a-row>
-                <div id="equityCus" style="width:1100px;height:300px;float:left;left:-40px;"></div>
+                <div id="equityCus" style="width:1200px;height:300px;float:left;left:-40px;"></div>
             </a-row>
           </a-tab-pane>
         </a-tabs>
@@ -471,12 +471,14 @@ export default {
        distributionlAddLostData({
             time:this.radioTime
        }).then(result=>{
+        console.log(result)
           var addLostData = Object.values(result.data.info) 
           let arr = []
           this.newOpenCus = []
           this.activateCus = []
           this.recessiveLoss = []
           this.dominantLoss = []
+          this.shallowLoss = []
           for(var i = 0; i < addLostData.length; i++){
              for(var j = 0; j < addLostData[i].length; j++){
                 arr.push(addLostData[i][j].date.substr(0,4))
@@ -531,10 +533,10 @@ export default {
      var aChart = echarts.init(document.getElementById('first'));  
         var option = {
             tooltip : {
-                trigger: 'axis',
-                axisPointer : {            
-                    type : 'shadow'       
-                }
+              trigger: 'axis',
+              axisPointer : {           
+                  type : 'shadow'        
+              }
             },
             legend: {
                 data: ['当年新开有效户', '当年存量激活有效户'],
@@ -575,6 +577,7 @@ export default {
             },
             yAxis: {
                 type: 'category',
+                data:this.inquireYears,
                 axisLine:{
                     lineStyle:{
                         color:'#D9D9D9',
@@ -617,6 +620,10 @@ export default {
             ]
         }; 
       aChart.setOption(option);
+      var _this = this
+      aChart.on('click',function(params){
+           _this.$router.push({path:'/detail/cusDistribution',query:{start:_this.marketStartTime,end:_this.marketEndTime,type:0}})
+      })
     },
   // 新增和流失 right
   statusCard(){
@@ -716,7 +723,11 @@ export default {
                 }
               ]
            }; 
-        myChart.setOption(option);  
+        myChart.setOption(option); 
+        var _this = this
+        myChart.on('click',function(params){
+           _this.$router.push({path:'/detail/cusDistribution',query:{start:_this.marketStartTime,end:_this.marketEndTime,type:0}})
+        }) 
     },
  // 新增客户情况
   addCustomer(){
@@ -817,6 +828,11 @@ export default {
                 ]
            };
         cyChart.setOption(option);
+        var _this = this
+        cyChart.on('click',function(params){
+           _this.$router.push({path:'/detail/cusDistribution',query:{start:_this.addStartTime,end:_this.addEndTime,type:1}})
+        }) 
+
     },
    // 新增客户资产
    addEquityCus(){
@@ -905,6 +921,10 @@ export default {
                 ]
            };
         eqChart.setOption(option);
+        var _this = this
+        eqChart.on('click',function(params){
+           _this.$router.push({path:'/detail/cusDistribution',query:{start:_this.addStartTime,end:_this.addEndTime,type:1}})
+       }) 
     }
   }
 }
@@ -915,6 +935,7 @@ export default {
   display: block;
   clear: both;
   padding-left:30px;
+  width:100%;
 }
 .chart-trend{
   display: inline-block;

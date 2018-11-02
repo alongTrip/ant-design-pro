@@ -107,6 +107,12 @@ export default {
       },
     }
   },
+  created(){
+    if(this.$route.query.type == 0 && this.$route.query.type == 1){
+        this.startTime  = this.$route.query.start;
+        this.endTime = this.$route.query.end;
+     }
+  },
   methods: {
      moment,
     // 转化数字格式

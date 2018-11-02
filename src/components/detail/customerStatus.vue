@@ -2,7 +2,7 @@
     <page-layout title="客户分布详情" >
       <a-card :bordered="false" :body-style="{padding: '24px'}" style="margin-top:20px;">
       <div class="salesCard">
-        <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" @change="detailAction">
+        <a-tabs :default-active-key="defaultActiveKey" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" @change="detailAction">
           <a-tab-pane loading="true" tab="客户数" key="1">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24" style="width:100%;">
@@ -190,6 +190,7 @@ export default {
       type:0,
       startTime:'2017-10-01',
       endTime:'2018-10-08',
+      defaultActiveKey:"1",
       pagination: {
         total: 12,
         defaultCurrent: 1,
@@ -200,6 +201,15 @@ export default {
       },
 
     }
+  },
+  created(){
+      if(this.$route.query.type == 0 && this.$route.query.type == 1){
+        this.startTime  = this.$route.query.time;
+        this.type = this.$route.query.type
+     }
+     if(this.$route.query.type == 1){
+        this.defaultActiveKey = "2"
+     }
   },
   methods: {
     moment,

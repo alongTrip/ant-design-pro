@@ -50,7 +50,7 @@
       <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 24px;">
         <chart-card title="前日股基净佣金率" :total="fundData">
           <a-tooltip title="指统计期间客户进行股票、基金（含ETF、LOF）交易由证券公司收取和代缴的相关费用，是扣除证券公司代缴的经手费、证管费余额，不含权证；股基净佣金率=股基净佣金收入总额/股基交易量" slot="action">
-            <a-icon type="info-circle-o" />
+             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div class="chart-trend">
               日环比
@@ -128,7 +128,7 @@
                :format="dateFormat"
             />
          </div>
-         <div id="market" style="height:400px;width:1124px;"></div>
+         <div id="market" style="height:400px;width:1254px;"></div>
       </div>
     </a-card>
     <!-- 结构四 -->
@@ -153,12 +153,12 @@
           </div>
           <a-tab-pane loading="true" tab="交易量" key="1">
             <a-row>
-               <div id="accoun" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+               <div id="accoun" style="height:350px;width:1254px;left:-22px;top:-18px;"></div>
             </a-row>
           </a-tab-pane>
           <a-tab-pane tab="净佣金收入" key="2">
             <a-row>
-               <div id="commission" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+               <div id="commission" style="height:350px;width:1254px;left:-22px;top:-18px;"></div>
             </a-row>
           </a-tab-pane>
         </a-tabs>
@@ -179,7 +179,7 @@
          <div style="position:relative;padding:0 20px;box-sizing: border-box;width:100%;">
             <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}" style="position:absolute;width:96%"  @change="addChange"  >
               <div class="extra-wrap" slot="tabBarExtraContent">
-              <a-range-picker style="float:right;margin-top:12px;margin-right:26px;width:230px;"
+              <a-range-picker style="float:right;margin-top:12px;margin-right:30px;width:250px;"
                 :placeholder="['2017-10', '2018-09']"
                 format="YYYY-MM"
                 :value="value"
@@ -189,12 +189,12 @@
               </div>
               <a-tab-pane loading="true" tab="交易量" key="1">
                 <a-row>
-                  <div id="business" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+                  <div id="business" style="height:350px;width:1254px;left:-22px;top:-18px;"></div>
                 </a-row>
               </a-tab-pane>
               <a-tab-pane tab="净佣金" key="2">
                 <a-row>
-                   <div id="brokerage" style="height:350px;width:1124px;left:-22px;top:-18px;"></div>
+                   <div id="brokerage" style="height:350px;width:1254px;left:-22px;top:-18px;"></div>
                 </a-row>
               </a-tab-pane>
             </a-tabs>
@@ -213,6 +213,7 @@ import Trend from "../chart/Trend";
 import echarts from "echarts";
 import moment from 'moment'
 import {chartCardData,marketSharesData,accountValueData,businessOperationData} from '@/servers/channelBusiness.js'
+import {marketSharesAction} from '@/pageConfig/index.js'
 export default {
   name: "dashboard",
   data() {
@@ -245,8 +246,8 @@ export default {
        meltIcon:null,
        meltDataIcon:null,
        // 市场份额
-       marketStartTime:'',
-       marketEndTime:'',
+       marketStartTime:'2017-10-11',
+       marketEndTime:'2018-10-10',
        marketYearArr:[],
        marketValue:[],
        // 主要业务经营情况
@@ -304,7 +305,7 @@ export default {
         }
         this.creditChange = Math.round(compare2*100)
         // 3
-        this.marketData =  Math.round(datas.TRD_RATE_DAY.value*100000)/100 + datas.TRD_RATE_DAY.unit
+        this.marketData =  Math.round(datas.TRD_RATE_DAY.value*100)/100 + datas.TRD_RATE_DAY.unit
         var compare3 = datas.TRD_RATE_DAY.value_offset
         if(compare3 > 0){
            this.marketIcon = true
@@ -313,7 +314,7 @@ export default {
         }
         this.marketChange = Math.round(compare3*100)
         // 4
-        this.fundData =  this.toThousands(Math.round(datas.SECU_NET_COMM_TRD_RATE.value)).toString()
+        this.fundData =  Math.round(datas.SECU_NET_COMM_TRD_RATE.value*100)/100 + datas.SECU_NET_COMM_TRD_RATE.unit
         var compare4 = datas.SECU_NET_COMM_TRD_RATE.value_offset
         if(compare4 > 0){
            this.fundIcon = true
@@ -485,7 +486,10 @@ export default {
     },
     // 市场份额请求
     marketSharesAction(){
-         marketSharesData().then(result=>{
+     marketSharesData({
+          start:this.marketStartTime,
+          end:this.marketEndTime
+     }).then(result=>{
           this.marketYearArr = []
           this.marketValue = []
           var marketData = result.data.data.info
@@ -493,7 +497,7 @@ export default {
               var aa = marketData[i].date
               var arr = aa.split('')
               arr.splice(4,0,'-')
-              arr.splice(7,0,'-')
+              arr.splice(7,0,'-')              
               var str = arr.join('')
               this.marketYearArr.push(str)
               this.marketValue.push(Math.round(marketData[i].value*100000)/100)
@@ -509,7 +513,10 @@ export default {
           trigger: "axis"
         },
         xAxis: {
-          data: this.marketYearArr
+          data: this.marketYearArr,
+          // axisLabel:{
+          //     interval: Math.floor(this.marketYearArr.length/9),
+          //  },
         },
         yAxis: {
           splitLine: {
@@ -551,6 +558,10 @@ export default {
         }
       };
       this.myChart.setOption(option);
+      var _this = this
+      this.myChart.on('click',function(params){
+           _this.$router.push({path:'/detail/advanced',query:{start:_this.marketStartTime,end:_this.marketEndTime,type:0}})
+      })
     },
     // 主要业务经营情况
     initChart() {
@@ -583,7 +594,7 @@ export default {
             type: "category",
             boundaryGap: false,
             axisLabel:{
-                 interval:Math.floor(this.yearArr.length/6),
+                 interval: this.yearArr.length > 9 ? Math.floor(this.yearArr.length/9) : 1,
             },
             data:this.yearArr
           }
@@ -637,6 +648,10 @@ export default {
         ]
       };
       this.chart.setOption(option);
+      var _this = this
+      this.chart.on('click',function(params){
+           _this.$router.push({path:'/detail/advanced',query:{start:_this.accountStartTime,end:_this.accountEndTime,type:0}})
+      })
     },
     // 主要业务经营佣金收入
     commissionAction(){
@@ -720,9 +735,10 @@ export default {
         ]
       };
      commissionChart.setOption(option);
-     // commissionChart.on('click', function(params){
-     //      console.log(params);
-     //  });
+     var _this = this
+     commissionChart.on('click',function(params){
+           _this.$router.push({path:'/detail/advanced',query:{start:_this.newStartTime,end:_this.newEndTime,type:1}})
+      })
     },
     // 新业务经营情况
     initBusinessChart() {
@@ -738,7 +754,118 @@ export default {
           }
         },
         legend: {
-          data: ["新三板", "港股通", "个股期权"],
+          data: ["个股期权","新三板", "港股通"],
+          left: "center",
+          top: "bottom",
+          padding: [0, 100, 0, 0],
+          itemGap:30,
+          selected:{
+             "新三板":true,
+             "港股通":true,
+             "个股期权":false,
+          }
+        },
+        grid: {
+          top: "8%",
+          left: "3%",
+          right: "4%",
+          bottom: "10%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            data:this.newYearArr,
+            // axisLabel:{
+            //      interval: this.newYearArr > 9 ? Math.floor(this.newYearArr.length/9) : 1,
+            // },
+          }
+        ],
+        yAxis: [
+          {
+            type: "value",
+            max: function(value) {
+              return Math.round(value.max);
+            },
+            splitLine: {
+                show: true,
+                lineStyle:{
+                  width:0.5,
+                  type: 'dashed'
+                }
+             },
+          }
+        ],
+        series: [
+          {
+            name: "个股期权",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.individualValue,
+            itemStyle: {
+              normal: {
+                color: "#FBDD60",
+                lineStyle: {
+                  color: "#FBDD60"
+                }
+              }
+            }
+          },
+          {
+            name: "新三板",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.neeqValue,
+            itemStyle: {
+              normal: {
+                color: "#1B91FF",
+                lineStyle: {
+                  color: "#1B91FF"
+                }
+              }
+            }
+          },
+          {
+            name: "港股通",
+            type: "line",
+            stack: "总量",
+            areaStyle: {},
+            data:this.hkwolunValue,
+            itemStyle: {
+              normal: {
+                color: "#2DBE67",
+                lineStyle: {
+                  color: "#2DBE67"
+                }
+              }
+            }
+          }
+        ]
+      };
+      businessChart.setOption(option);
+      var _this = this
+      businessChart.on('click',function(params){
+           _this.$router.push({path:'/detail/basic',query:{start:_this.newStartTime,end:_this.newEndTime}})
+      })
+    },
+    // 新业务净佣金情况
+    brokerageAction() {
+      var brokerageChart = echarts.init(document.getElementById("brokerage"));
+      var option = {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985"
+            }
+          }
+        },
+        legend: {
+          data: ["个股期权","新三板", "港股通"],
           left: "center",
           top: "bottom",
           padding: [0, 100, 0, 0],
@@ -782,42 +909,12 @@ export default {
           }
         ],
         series: [
-          {
-            name: "新三板",
-            type: "line",
-            stack: "总量",
-            areaStyle: {},
-            data:this.neeqValue,
-            itemStyle: {
-              normal: {
-                color: "#1B91FF",
-                lineStyle: {
-                  color: "#1B91FF"
-                }
-              }
-            }
-          },
-          {
-            name: "港股通",
-            type: "line",
-            stack: "总量",
-            areaStyle: {},
-            data:this.hkwolunValue,
-            itemStyle: {
-              normal: {
-                color: "#2DBE67",
-                lineStyle: {
-                  color: "#2DBE67"
-                }
-              }
-            }
-          },
-          {
+         {
             name: "个股期权",
             type: "line",
             stack: "总量",
             areaStyle: {},
-            data:this.individualValue,
+            data:this.individualValue_b,
             itemStyle: {
               normal: {
                 color: "#FBDD60",
@@ -826,82 +923,7 @@ export default {
                 }
               }
             }
-          }
-        ]
-      };
-      businessChart.setOption(option);
-      // var _this = this
-      // businessChart.on('legendselectchanged', function (params) {
-      //     console.log(params);
-      //     this.confirm = 1 
-      //     console.log(this.confirm)
-      //     _this.initBusinessChart()
-      //     // setTimeout(function(){
-      //     //   _this.newBusinessAction()
-      //     // },1000)
-      // })
-      // businessChart.on('click', function (params) {
-      //     console.log(params);
-      //  });
-    },
-    // 新业务净佣金情况
-    brokerageAction() {
-      var brokerageChart = echarts.init(document.getElementById("brokerage"));
-      var option = {
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "cross",
-            label: {
-              backgroundColor: "#6a7985"
-            }
-          }
-        },
-        legend: {
-          data: ["新三板", "港股通", "个股期权"],
-          left: "center",
-          top: "bottom",
-          padding: [0, 100, 0, 0],
-          itemGap:30,
-          selected:{
-             "新三板":true,
-             "港股通":true,
-             "个股期权":false,
-          }
-        },
-        grid: {
-          top: "8%",
-          left: "3%",
-          right: "4%",
-          bottom: "10%",
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: "category",
-            boundaryGap: false,
-            data:this.newYearArr,
-            axisLabel:{
-                 interval:Math.floor(this.newYearArr.length/6),
-            },
-          }
-        ],
-        yAxis: [
-          {
-            type: "value",
-            max: function(value) {
-              return Math.round(value.max);
-            },
-            splitLine: {
-                show: true,
-                lineStyle:{
-                  width:0.5,
-                  type: 'dashed'
-                }
-             },
-          }
-        ],
-        series: [
+          },
           {
             name: "新三板",
             type: "line",
@@ -931,25 +953,14 @@ export default {
                 }
               }
             }
-          },
-          {
-            name: "个股期权",
-            type: "line",
-            stack: "总量",
-            areaStyle: {},
-            data:this.individualValue_b,
-            itemStyle: {
-              normal: {
-                color: "#FBDD60",
-                lineStyle: {
-                  color: "#FBDD60"
-                }
-              }
-            }
           }
         ]
       };
       brokerageChart.setOption(option);
+      var _this = this
+      brokerageChart.on('click',function(params){
+           _this.$router.push({path:'/detail/basic',query:{start:_this.accountStartTime,end:_this.accountEndTime}})
+      })
     },
     // 新业务请求
     newBusinessAction(){

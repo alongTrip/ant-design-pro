@@ -88,7 +88,7 @@
       </a-row>
       <!-- 地图的结构 -->
       <div style="display:flex">
-        <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:750px;margin-right:25px;">
+        <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:850px;margin-right:25px;">
           <div class="salesCard" style="height:450px;float:left;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:750px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">
@@ -106,13 +106,13 @@
                       <span style="padding:0 10px;">总客户</span>
                 </div>
             </div>
-            <div id="center-map" style="width: 750px;height:390px;top:-9px;"></div>
+            <div id="center-map" style="width: 850px;height:390px;top:-9px;"></div>
           </div>
         </a-card>
         <!-- 年龄性别 -->
-        <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:362px;position:relative;">
+        <a-card :bordered="false" :body-style="{padding: '0'}" style="margin-top:0px;width:410px;position:relative;">
           <div class="salesCard" style="height:450px;float:left;">
-            <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:362px;line-height:60px;">
+            <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:410px;line-height:60px;z-index:99;position:absolute;top:0;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">
                    性别年龄分布
                     <a-tooltip title="显示总客户数的年龄、性别分布" slot="action">
@@ -120,7 +120,7 @@
                     </a-tooltip>
                 </h2>
             </div>
-            <div id="sexPie" style="height:390px;width:362px;top:-89px;"></div>
+            <div id="sexPie" style="height:500px;width:362px;top:-86px;"></div>
             <div style="width:117px;height:112px;position:absolute;top:158px;left:123px;background:url('./static/img/sex.jpg') no-repeat;background-size:100% 88%;display: flex;align-items: end;">
                <span style="padding-top: 98px;margin-left:17px;display:block;font-size:15px;">{{boyValue}}</span>
                <span style="padding-top: 98px;margin-left:32px;display: block;font-size:15px;">{{grilValue}}</span>
@@ -130,9 +130,9 @@
       </div>
     <!-- 职业分布 -->
       <div style="display:flex;margin-top:25px">
-         <a-card :bordered="false" :body-style="{padding: '0'}" style="width:362px;margin-right:25px;">
+         <a-card :bordered="false" :body-style="{padding: '0'}" style="width:410px;margin-right:25px;">
           <div class="salesCard" style="height:430px;float:left;">
-            <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:362px;line-height:60px;">
+            <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;width:410px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">
                    职业分布
                    <a-tooltip title="显示总客户数的职业分布，剔除职业为其他的数据" slot="action">
@@ -144,7 +144,7 @@
           </div>
         </a-card>
     <!-- 资产分布 -->
-        <a-card :bordered="false" :body-style="{padding: '0'}" style="width:750px;">
+        <a-card :bordered="false" :body-style="{padding: '0'}" style="width:850px;">
           <div class="salesCard" style="height:430px;">
             <div style="border-bottom:1px solid rgb(232, 232, 232);height:60px;line-height:60px;">
                 <h2 style="float:left;padding-left:25px;font-size:18px;">
@@ -165,12 +165,12 @@
                   </div>
                   <a-tab-pane loading="true" tab="客户数" key="1">
                     <a-row>
-                        <div id="three"  style="width:710px;height:290px;float:left"></div>
+                        <div id="three"  style="width:810px;height:290px;float:left"></div>
                     </a-row>
                   </a-tab-pane>
                   <a-tab-pane tab="客户资产" key="2">
                     <a-row>
-                        <div id="customerEquity"  style="width:710px;height:290px;float:left;left:-10px;"></div>
+                        <div id="customerEquity"  style="width:810px;height:290px;float:left;left:-10px;"></div>
                     </a-row>
                   </a-tab-pane>
                 </a-tabs>
@@ -596,7 +596,7 @@ export default {
               }
           },
           grid: {
-              left: '0.1%',
+              left: '0.5%',
               top: '2%',
               right: '0.8%',
               bottom: '1%',
@@ -626,7 +626,7 @@ export default {
               {
                   type: 'value',
                   max:function(value){
-                    return value.max
+                    return Math.round(value.max)
                   },
                   splitLine: {
                       show: true,
@@ -662,6 +662,10 @@ export default {
           ]
       };
       cyChart.setOption(option);
+      var _this = this
+      cyChart.on('click',function(params){
+         _this.$router.push({path:'/detail/customerStatus',query:{time:_this.startTime,type:0}})
+      }) 
     },
     // 客户资产
     customerEquity(){
@@ -677,7 +681,7 @@ export default {
               }
           },
           grid: {
-              left: '0.1%',
+              left: '1.5%',
               top: '2%',
               right: '0.8%',
               bottom: '1%',
@@ -707,7 +711,7 @@ export default {
               {
                   type: 'value',
                   max:function(value){
-                    return value.max
+                    return  Math.round(value.max)
                   },
                   splitLine: {
                   show: true,
@@ -743,6 +747,10 @@ export default {
           ]
       };
       eqChart.setOption(option);
+      var _this = this
+      eqChart.on('click',function(params){
+         _this.$router.push({path:'/detail/customerStatus',query:{time:_this.startTime,type:1}})
+      }) 
     },
     assetsDistribution(){
       customerDetailsBarData({
@@ -783,7 +791,7 @@ export default {
               },
                grid: {
                   // left: '1%',
-                  // top: '2%',
+                  top: '0.1%',
                   // right: '0.8%',
                   bottom: '20%',
                   containLabel: true

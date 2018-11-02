@@ -50,6 +50,9 @@ export default {
       tooltip,
       height: 100
     }
+  },
+  mounted(){
+     console.log()
   }
 }
 </script>
