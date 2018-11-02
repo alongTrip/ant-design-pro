@@ -130,7 +130,7 @@
          </div>
          <div id="market" style="display:flex">
              <div id="first" style="width:590px;height:240px;"></div>
-             <div id="main" style="width:590px;height:240px;"></div>
+             <div id="main" style="width:610px;height:240px;"></div>
          </div>
          
       </div>
@@ -848,7 +848,7 @@ export default {
                     }
                 },
                 legend: {
-                    data:['新增有效户','新增总客户数'],
+                    data:['新增客户资产'],
                     x:'center',
                     y:'bottom',
                     itemWidth:12,
@@ -907,7 +907,7 @@ export default {
                 ],
                 series: [
                     {
-                        name:'新增有效户',
+                        name:'新增客户资产',
                         type:'bar',
                         data:this.assetsValueArr,
                         itemStyle:{
